@@ -2,6 +2,30 @@
 ### Do not make changes to this file directly
 
 
+type Event {
+  """which library this event is related"""
+  library_id: String!
+
+  """The name of ths user"""
+  name: String!
+
+  """which user this event is related"""
+  user_id: String!
+}
+
 type Query {
-  yourage(age: String): String!
+  allevents: [Event!]!
+  allusers: [User!]!
+  eventsbyuserid(user_id: String!): [Event!]!
+}
+
+type User {
+  """when did the user got created"""
+  created_at: String!
+
+  """The email address of the user"""
+  email: String!
+
+  """The username of this user"""
+  username: String!
 }
