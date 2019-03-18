@@ -17,16 +17,9 @@ export interface NexusGenEnums {
 }
 
 export interface NexusGenRootTypes {
-  Event: { // root type
-    library_id: string; // String!
-    name: string; // String!
-    user_id: string; // String!
-  }
   Query: {};
-  User: { // root type
-    created_at: string; // String!
-    email: string; // String!
-    username: string; // String!
+  Segment: { // root type
+    cle_seg?: string | null; // String
   }
   String: string;
   Int: number;
@@ -39,29 +32,15 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
 }
 
 export interface NexusGenFieldTypes {
-  Event: { // field return type
-    library_id: string; // String!
-    name: string; // String!
-    user_id: string; // String!
-  }
   Query: { // field return type
-    allevents: NexusGenRootTypes['Event'][]; // [Event!]!
-    allusers: NexusGenRootTypes['User'][]; // [User!]!
-    eventsbyuserid: NexusGenRootTypes['Event'][]; // [Event!]!
+    allsegments: NexusGenRootTypes['Segment'][]; // [Segment!]!
   }
-  User: { // field return type
-    created_at: string; // String!
-    email: string; // String!
-    username: string; // String!
+  Segment: { // field return type
+    cle_seg: string | null; // String
   }
 }
 
 export interface NexusGenArgTypes {
-  Query: {
-    eventsbyuserid: { // args
-      user_id: string; // String!
-    }
-  }
 }
 
 export interface NexusGenAbstractResolveReturnTypes {
@@ -69,7 +48,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Event" | "Query" | "User";
+export type NexusGenObjectNames = "Query" | "Segment";
 
 export type NexusGenInputNames = never;
 
