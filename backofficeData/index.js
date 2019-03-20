@@ -1,5 +1,5 @@
 const {GraphQLServer} = require('graphql-yoga');
-const { queryType, stringArg, makeSchema,objectType} = require('nexus');
+const { queryType, stringArg, makeSchema,	objectType} = require('nexus');
 const { pg } = require('pg');
 const knex = require('knex');
 
@@ -7,12 +7,10 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(`./config/${env}`)
 const db = config.DB;
 const Segment = require(`./types/segments.js`);
-const Client = require(`./types/clients.js`);
-const CarteComm = require(`./types/cartecomm.js`);
-const Abofrequences = require(`./types/abofrequences.js`);
-const Abotgvmax = require(`./types/abotgvmax.js`);
+const Client = require(`./types/clients.js`)
+const CarteComm = require(`./types/cartecomm.js`)
 
-Abotgvmax
+
 
 
 const Query = queryType({
@@ -29,7 +27,7 @@ const Query = queryType({
 
 
 const schema = makeSchema({
-	types: [Query, Segment, Client, CarteComm, Abofrequences, Abotgvmax],
+	types: [Query, Segment, Client, CarteComm],
 	outputs: {
 		schema: __dirname + "/generated/schema.graphql",
 		typegen: __dirname + "/generated/typings.ts",
