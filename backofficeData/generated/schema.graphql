@@ -2,6 +2,73 @@
 ### Do not make changes to this file directly
 
 
+type Abofrequences {
+  """clé du client"""
+  cle_abo_fq: Int!
+
+  """clé du client"""
+  cle_client: Int!
+
+  """clé du client"""
+  fq_ca: Boolean!
+
+  """clé du client"""
+  fq_cod_iata_gare_arr: String!
+
+  """clé du client"""
+  fq_cod_iata_gare_dep: String!
+
+  """clé du client"""
+  fq_cod_ss_tarif: String!
+
+  """clé du client"""
+  fq_cod_tarif: String!
+
+  """clé du client"""
+  fq_dt_cmd: String!
+
+  """clé du client"""
+  fq_dt_deb_val: String!
+
+  """clé du client"""
+  fq_dt_fin_val: String!
+
+  """clé du client"""
+  fq_lib_iata_gare_arr: String!
+
+  """clé du client"""
+  fq_lib_iata_gare_dep: String!
+
+  """clé du client"""
+  fq_statut: String!
+
+  """clé du client"""
+  fq_type_abo: String!
+
+  """clé du client"""
+  fq_type_freq: String!
+
+  """clé du client"""
+  fq_type_ren: String!
+}
+
+type Abotgvmax {
+  """clé du client"""
+  cle_abo: Int!
+
+  """clé du client"""
+  cle_client: Int!
+
+  """clé du client"""
+  compte_personnel_date_expiration: String!
+
+  """clé du client"""
+  compte_personnel_statut: String!
+
+  """clé du client"""
+  dt_souscription_max: String!
+}
+
 type CarteComm {
   """clé du client"""
   cle_client: Int!

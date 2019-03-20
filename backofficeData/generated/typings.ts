@@ -17,6 +17,31 @@ export interface NexusGenEnums {
 }
 
 export interface NexusGenRootTypes {
+  Abofrequences: { // root type
+    cle_abo_fq: number; // Int!
+    cle_client: number; // Int!
+    fq_ca: boolean; // Boolean!
+    fq_cod_iata_gare_arr: string; // String!
+    fq_cod_iata_gare_dep: string; // String!
+    fq_cod_ss_tarif: string; // String!
+    fq_cod_tarif: string; // String!
+    fq_dt_cmd: string; // String!
+    fq_dt_deb_val: string; // String!
+    fq_dt_fin_val: string; // String!
+    fq_lib_iata_gare_arr: string; // String!
+    fq_lib_iata_gare_dep: string; // String!
+    fq_statut: string; // String!
+    fq_type_abo: string; // String!
+    fq_type_freq: string; // String!
+    fq_type_ren: string; // String!
+  }
+  Abotgvmax: { // root type
+    cle_abo: number; // Int!
+    cle_client: number; // Int!
+    compte_personnel_date_expiration: string; // String!
+    compte_personnel_statut: string; // String!
+    dt_souscription_max: string; // String!
+  }
   CarteComm: { // root type
     cle_client: number; // Int!
     cle_cmd: string; // String!
@@ -84,6 +109,31 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
 }
 
 export interface NexusGenFieldTypes {
+  Abofrequences: { // field return type
+    cle_abo_fq: number; // Int!
+    cle_client: number; // Int!
+    fq_ca: boolean; // Boolean!
+    fq_cod_iata_gare_arr: string; // String!
+    fq_cod_iata_gare_dep: string; // String!
+    fq_cod_ss_tarif: string; // String!
+    fq_cod_tarif: string; // String!
+    fq_dt_cmd: string; // String!
+    fq_dt_deb_val: string; // String!
+    fq_dt_fin_val: string; // String!
+    fq_lib_iata_gare_arr: string; // String!
+    fq_lib_iata_gare_dep: string; // String!
+    fq_statut: string; // String!
+    fq_type_abo: string; // String!
+    fq_type_freq: string; // String!
+    fq_type_ren: string; // String!
+  }
+  Abotgvmax: { // field return type
+    cle_abo: number; // Int!
+    cle_client: number; // Int!
+    compte_personnel_date_expiration: string; // String!
+    compte_personnel_statut: string; // String!
+    dt_souscription_max: string; // String!
+  }
   CarteComm: { // field return type
     cle_client: number; // Int!
     cle_cmd: string; // String!
@@ -152,7 +202,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "CarteComm" | "Client" | "Query" | "Segment";
+export type NexusGenObjectNames = "Abofrequences" | "Abotgvmax" | "CarteComm" | "Client" | "Query" | "Segment";
 
 export type NexusGenInputNames = never;
 
