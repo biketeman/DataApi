@@ -6,18 +6,12 @@ const knex = require('knex');
 const env = process.env.NODE_ENV || 'development';
 const config = require(`./config/${env}`)
 const db = config.DB;
+const Segment = require(`./types/segments.js`);
+const Client = require(`./types/clients.js`)
+const CarteComm = require(`./types/cartecomm.js`)
 
 
-const Segment = objectType({
-	name: 'Segment',
-	description: '',
-	definition(t) {
-		t.string('cle_seg', {
-				description: 'clé du segment',
-				nullable: true
-			})
-	}
-})
+
 
 const Query = queryType({
 	definition(t) {
@@ -33,7 +27,7 @@ const Query = queryType({
 
 
 const schema = makeSchema({
-	types: [Query, Segment],
+	types: [Query, Segment, Client, CarteComm],
 	outputs: {
 		schema: __dirname + "/generated/schema.graphql",
 		typegen: __dirname + "/generated/typings.ts",

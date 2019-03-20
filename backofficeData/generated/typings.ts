@@ -17,9 +17,61 @@ export interface NexusGenEnums {
 }
 
 export interface NexusGenRootTypes {
+  CarteComm: { // root type
+    cle_client: number; // Int!
+    cle_cmd: string; // String!
+    cle_cr: number; // Int!
+    cr_ca: boolean; // Boolean!
+    cr_cod_ss_tarif: number; // Int!
+    cr_cod_tarif: string; // String!
+    cr_dt_deb_val: string; // String!
+    cr_dt_fin_val: string; // String!
+    cr_status: string; // String!
+    cr_type_cr: string; // String!
+    cr_type_ren: string; // String!
+  }
+  Client: { // root type
+    cle_client: number; // Int!
+    in_age?: number | null; // Int
+    in_sexe: string; // String!
+    in_top_fid: boolean; // Boolean!
+    in_top_nsd: boolean; // Boolean!
+    in_top_sncf_connect: boolean; // Boolean!
+  }
   Query: {};
   Segment: { // root type
-    cle_seg?: string | null; // String
+    cle_client: number; // Int!
+    cle_dv: number; // Int!
+    cle_seg: string; // String!
+    cle_titre: number; // Int!
+    sg_axe: string; // String!
+    sg_ca: number; // Int!
+    sg_cod_canal_cmd: string; // String!
+    sg_cod_cl_voy: string; // String!
+    sg_cod_mon_pay: string; // String!
+    sg_cod_ss_canal_cmd: string; // String!
+    sg_cod_ss_tarif: string; // String!
+    sg_cod_tarif: string; // String!
+    sg_code_iata_gare_arr: string; // String!
+    sg_code_iata_gare_dep: string; // String!
+    sg_dist: string; // String!
+    sg_dom_int: string; // String!
+    sg_dt_arr_voy: string; // String!
+    sg_dt_cmd: string; // String!
+    sg_dt_dep_voy: string; // String!
+    sg_ebillet: boolean; // Boolean!
+    sg_entite: string; // String!
+    sg_lib_iata_gare_arr: string; // String!
+    sg_lib_iata_gare_dep: string; // String!
+    sg_lib_mon_pay: string; // String!
+    sg_lib_ss_tarif: string; // String!
+    sg_lib_tarif: string; // String!
+    sg_num_train: number; // Int!
+    sg_route: string; // String!
+    sg_secteur: string; // String!
+    sg_statut: string; // String!
+    sg_transp_d1: string; // String!
+    sg_typ_ligne: string; // String!
   }
   String: string;
   Int: number;
@@ -32,11 +84,63 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
 }
 
 export interface NexusGenFieldTypes {
+  CarteComm: { // field return type
+    cle_client: number; // Int!
+    cle_cmd: string; // String!
+    cle_cr: number; // Int!
+    cr_ca: boolean; // Boolean!
+    cr_cod_ss_tarif: number; // Int!
+    cr_cod_tarif: string; // String!
+    cr_dt_deb_val: string; // String!
+    cr_dt_fin_val: string; // String!
+    cr_status: string; // String!
+    cr_type_cr: string; // String!
+    cr_type_ren: string; // String!
+  }
+  Client: { // field return type
+    cle_client: number; // Int!
+    in_age: number | null; // Int
+    in_sexe: string; // String!
+    in_top_fid: boolean; // Boolean!
+    in_top_nsd: boolean; // Boolean!
+    in_top_sncf_connect: boolean; // Boolean!
+  }
   Query: { // field return type
     allsegments: NexusGenRootTypes['Segment'][]; // [Segment!]!
   }
   Segment: { // field return type
-    cle_seg: string | null; // String
+    cle_client: number; // Int!
+    cle_dv: number; // Int!
+    cle_seg: string; // String!
+    cle_titre: number; // Int!
+    sg_axe: string; // String!
+    sg_ca: number; // Int!
+    sg_cod_canal_cmd: string; // String!
+    sg_cod_cl_voy: string; // String!
+    sg_cod_mon_pay: string; // String!
+    sg_cod_ss_canal_cmd: string; // String!
+    sg_cod_ss_tarif: string; // String!
+    sg_cod_tarif: string; // String!
+    sg_code_iata_gare_arr: string; // String!
+    sg_code_iata_gare_dep: string; // String!
+    sg_dist: string; // String!
+    sg_dom_int: string; // String!
+    sg_dt_arr_voy: string; // String!
+    sg_dt_cmd: string; // String!
+    sg_dt_dep_voy: string; // String!
+    sg_ebillet: boolean; // Boolean!
+    sg_entite: string; // String!
+    sg_lib_iata_gare_arr: string; // String!
+    sg_lib_iata_gare_dep: string; // String!
+    sg_lib_mon_pay: string; // String!
+    sg_lib_ss_tarif: string; // String!
+    sg_lib_tarif: string; // String!
+    sg_num_train: number; // Int!
+    sg_route: string; // String!
+    sg_secteur: string; // String!
+    sg_statut: string; // String!
+    sg_transp_d1: string; // String!
+    sg_typ_ligne: string; // String!
   }
 }
 
@@ -48,7 +152,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Query" | "Segment";
+export type NexusGenObjectNames = "CarteComm" | "Client" | "Query" | "Segment";
 
 export type NexusGenInputNames = never;
 
