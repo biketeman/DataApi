@@ -12,7 +12,6 @@ const CarteComm = require(`./types/cartecomm.js`);
 const Abofrequences = require(`./types/abofrequences.js`);
 const Abotgvmax = require(`./types/abotgvmax.js`);
 
-Abotgvmax
 
 
 const Query = queryType({
@@ -20,10 +19,10 @@ const Query = queryType({
 		t.list.field("allsegments", {
 			type: Segment,
 			resolve: (parent, args) => {
-				const allsegments = db.select('cle_seg').from('segment')
+				const allsegments = db.select('*').from('segment').limit(20)
 				return allsegments
 			}
-    });
+    });	
 	},
 });
 
