@@ -1,7 +1,5 @@
 const {GraphQLServer} = require('graphql-yoga');
-const { queryType, stringArg, makeSchema,objectType} = require('nexus');
-const { pg } = require('pg');
-const knex = require('knex');
+const { queryType, stringArg, makeSchema, objectType} = require('nexus');
 
 const env = process.env.NODE_ENV || 'development';
 const config = require(`./config/${env}`)
@@ -18,11 +16,27 @@ const Query = queryType({
 	definition(t) {
 		t.list.field("allsegments", {
 			type: Segment,
-			resolve: (parent, args) => {
-				const allsegments = db.select('*').from('segment').limit(20)
+			resolve: async (parent, args) => {
+				const allsegments = await db.select('*').from('segment').limit(200)
 				return allsegments
 			}
-    });	
+		});
+		t.float("pourcentageAboGlobal", {
+			resolve: async (parent, args) => {
+				const total = await db('client').count('*')
+				const abo = await db('client').count('*').where('in_top_fid', true)
+				const pourcentageAbo = abo[0].count/ total[0].count * 100
+				return pourcentageAbo
+			}	
+		});
+		t.float("pourcentageAbo", {
+			resolve: async (parent, args) => {
+				const total = await db('client').count('*')
+				const abo = await db('client').countDistinct('client').fullOuterJoin('segment', 'client.cle_client', 'segment.cle_client').where('client.in_top_fid', true)
+				const pourcentageAbo = abo[0].count/ total[0].count * 100
+				return pourcentageAbo
+			}	
+    	});		
 	},
 });
 

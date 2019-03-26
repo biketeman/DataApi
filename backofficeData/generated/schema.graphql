@@ -126,6 +126,8 @@ type Client {
 
 type Query {
   allsegments: [Segment!]!
+  pourcentageAbo: Float!
+  pourcentageAboGlobal: Float!
 }
 
 type Segment {
