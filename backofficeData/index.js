@@ -1,5 +1,5 @@
 const {GraphQLServer} = require('graphql-yoga');
-const { queryType, stringArg, makeSchema, objectType} = require('nexus');
+const { queryType, stringArg, intArg, makeSchema} = require('nexus');
 
 const env = process.env.NODE_ENV || 'development';
 const config = require(`./config/${env}`)
@@ -21,7 +21,7 @@ const Query = queryType({
 				return allsegments
 			}
 		});
-		t.float("pourcentageAboGlobal", {
+		t.float("pourcentageFideliteGlobal", {
 			resolve: async (parent, args) => {
 				const total = await db('client').count('*')
 				const abo = await db('client').count('*').where('in_top_fid', true)
@@ -29,7 +29,30 @@ const Query = queryType({
 				return pourcentageAbo
 			}	
 		});
+		t.float("pourcentageCarteComm", {
+			args: {
+				type: stringArg({
+				  nullable: true,
+				  default: 'Jeune'
+				}),
+				age: intArg({
+					nullable: true,
+					default: 25
+				  })
+			},
+			resolve: async (parent, args) => {
+				const total = await db('carte_comm').count('*')
+				const abo = await db('carte_comm').countDistinct('carte_comm').fullOuterJoin('client', 'client.cle_client', 'carte_comm.cle_client').where({'carte_comm.cr_type_cr': args.type, 'client.in_age': args.age})
+				const pourcentageAbo = abo[0].count/ total[0].count * 100
+				return (pourcentageAbo)
+			}	
+		});
 		t.float("pourcentageAbo", {
+			args: {
+				stationdepart: stringArg({
+				  nullable: true
+				})
+			},
 			resolve: async (parent, args) => {
 				const total = await db('client').count('*')
 				const abo = await db('client').countDistinct('client').fullOuterJoin('segment', 'client.cle_client', 'segment.cle_client').where('client.in_top_fid', true)

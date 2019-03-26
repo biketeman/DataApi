@@ -126,8 +126,9 @@ type Client {
 
 type Query {
   allsegments: [Segment!]!
-  pourcentageAbo: Float!
-  pourcentageAboGlobal: Float!
+  pourcentageAbo(stationdepart: String): Float!
+  pourcentageCarteComm(age: Int = 25, type: String = "Jeune"): Float!
+  pourcentageFideliteGlobal: Float!
 }
 
 type Segment {

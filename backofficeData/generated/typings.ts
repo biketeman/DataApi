@@ -158,7 +158,8 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     allsegments: NexusGenRootTypes['Segment'][]; // [Segment!]!
     pourcentageAbo: number; // Float!
-    pourcentageAboGlobal: number; // Float!
+    pourcentageCarteComm: number; // Float!
+    pourcentageFideliteGlobal: number; // Float!
   }
   Segment: { // field return type
     cle_client: number; // Int!
@@ -197,6 +198,15 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenArgTypes {
+  Query: {
+    pourcentageAbo: { // args
+      stationdepart?: string | null; // String
+    }
+    pourcentageCarteComm: { // args
+      age?: number | null; // Int
+      type?: string | null; // String
+    }
+  }
 }
 
 export interface NexusGenAbstractResolveReturnTypes {
