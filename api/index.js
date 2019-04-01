@@ -31,23 +31,36 @@ const Query = queryType({
 		});
 		t.float("pourcentageCarteComm", {
 			args: {
-				type: stringArg({
+				cr_type_cr: stringArg({
 				  nullable: true,
-				  default: 'Jeune'
 				}),
 				age: intArg({
 					nullable: true,
-					default: 25
-				  })
+				}),
+				cr_cod_tarif: stringArg({
+					nullable: true,
+				}),
+				cr_status: stringArg({
+					nullable: true,
+				}),
 			},
 			resolve: async (parent, args) => {
+
+				const where = {}
+				for(argument in args){
+				 	if(argument != "" && argument && argument != null && argument != undefined){
+						where[argument] = args[argument]
+				 	}
+				}	
 				const total = await db('carte_comm').count('*')
-				const abo = await db('carte_comm').countDistinct('carte_comm').fullOuterJoin('client', 'client.cle_client', 'carte_comm.cle_client').where({'carte_comm.cr_type_cr': args.type, 'client.in_age': args.age})
+				const abo = await db('carte_comm').countDistinct('carte_comm').fullOuterJoin('client', 'client.cle_client', 'carte_comm.cle_client')
+				.where(where)
 				const pourcentageAbo = abo[0].count/ total[0].count * 100
 				return (pourcentageAbo)
 			}	
 		});
-		t.float("pourcentageAbo", {
+
+		t.float("pourcentageFid", {
 			args: {
 				stationdepart: stringArg({
 				  nullable: true
