@@ -1,26 +1,17 @@
 <template>
     <div class="container-without-left-bar">
-        <canvas width="500" height="500" id="myChart" ref="myChart">
-
-        </canvas>
+		<lineChart/>
     </div>
 </template>
 
 <script>
-import { Line, mixins } from 'vue-chartjs'
-const { reactiveProp } = mixins
-
+import LineChart from '@/components/LineChart.vue'
 export default {
-	extends: Line,
-	mixins: [reactiveProp],
-	props: ['options', 'chartData'],
-	mounted () {
-		// this.chartData is created in the mixin.
-		// If you want to pass options please create a local options object
-		this.renderChart(this.chartData, this.options)
+	name: 'container',
+	components: {
+		LineChart
 	}
 }
-
 </script>
 
 <style lang="scss">
