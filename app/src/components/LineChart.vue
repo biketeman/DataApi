@@ -24,22 +24,19 @@ export default {
 	methods: {
 		fillData () {
 			this.datacollection = {
-				labels: [this.getRandomInt(), this.getRandomInt()],
+				labels: ['0 - 3', '4 - 6', '7 - 9', '10 +'],
 				datasets: [
 					{
-						label: 'Data One',
+						label: 'Abonnés',
 						backgroundColor: '#f87979',
-						data: [this.getRandomInt(), this.getRandomInt()]
+						data: [15, 35, 25, 25]
 					}, {
-						label: 'Data One',
-						backgroundColor: '#f87979',
-						data: [this.getRandomInt(), this.getRandomInt()]
-					}
+						label: 'Non-Abonnés',
+						backgroundColor: '#41aff4',
+						data: [40, 30, 18, 12]
+                    }
 				]
 			}
-		},
-		getRandomInt () {
-			return Math.floor(Math.random() * (50 - 5 + 1)) + 5
 		}
 	}
 }
@@ -72,7 +69,7 @@ export default {
 
 <style>
   .small {
-    max-width: 600px;
+    max-width: 750px;
     margin:  150px auto;
   }
 </style>
