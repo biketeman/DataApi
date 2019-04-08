@@ -26,12 +26,12 @@ export default {
 				labels: [this.getRandomInt(), this.getRandomInt()],
 				datasets: [
 					{
-						label: 'Data One',
-						backgroundColor: '#f87979',
+						label: 'Quentin',
+						backgroundColor: 'orange',
 						data: [this.getRandomInt(), this.getRandomInt()]
 					}, {
-						label: 'Data One',
-						backgroundColor: '#f87979',
+						label: 'Pierre',
+						backgroundColor: 'deepskyblue',
 						data: [this.getRandomInt(), this.getRandomInt()]
 					}
 				]
