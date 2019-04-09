@@ -1,15 +1,15 @@
 <template>
     <div class="container-without-left-bar">
-		<lineChart/>
+			<AboBarChart v-show="$route.path === '/dashboard'"></AboBarChart>
     </div>
 </template>
 
 <script>
-import LineChart from '@/components/LineChart.vue'
+import AboBarChart from '@/components/AboBarChart.vue'
 export default {
 	name: 'container',
 	components: {
-		LineChart
+		AboBarChart
 	}
 }
 </script>
@@ -18,8 +18,8 @@ export default {
 .container-without-left-bar{
 	position: absolute;
 	top: 65px;
-	left: 200px;
-	width: calc(100% - 200px);
+	left: 100px;
+	width: calc(100% - 100px);
 	overflow-x: hidden;
 }
 </style>

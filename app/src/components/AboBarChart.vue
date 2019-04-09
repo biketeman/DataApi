@@ -1,7 +1,6 @@
 <template>
   <div class="small">
     <bar-chart :chart-data="datacollection"></bar-chart>
-    <button @click="fillData()">Randomize</button>
   </div>
 </template>
 
@@ -14,7 +13,27 @@ export default {
 	},
 	data () {
 		return {
-			datacollection: null
+			datacollection: null,
+			options: {
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Month',
+							fontColor: 'red',
+							fontSize: 12
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Value'
+						}
+					}]
+				}
+			}
 		}
 	},
 	mounted () {
@@ -22,6 +41,7 @@ export default {
 	},
 	methods: {
 		fillData () {
+			console.log(this.options)
 			this.datacollection = {
 				labels: ['0 - 3', '4 - 6', '7 - 9', '10 +'],
 				datasets: [
@@ -69,6 +89,6 @@ export default {
 <style>
   .small {
     max-width: 750px;
-    margin:  150px auto;
+    margin:  75px auto;
   }
 </style>

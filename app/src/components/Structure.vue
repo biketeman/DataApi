@@ -1,6 +1,12 @@
 <template>
     <div class="structure">
-        <div id="left-bar"></div>
+        <div id="left-bar">
+			<div class="icon-container">
+				<router-link to="/"> <img class="left-icon" src="../assets/icons/bell.svg" alt="icon"></router-link>
+				<router-link to="/"> <img class="left-icon" src="../assets/icons/bell.svg" alt="icon"></router-link>
+				<router-link to="/"> <img class="left-icon" src="../assets/icons/bell.svg" alt="icon"></router-link>
+			</div>
+		</div>
         <div id="top-bar"></div>
     </div>
 </template>
@@ -31,7 +37,7 @@ html {
 }
 
 #top-bar {
-	left: 200px;
+	left: 100px;
 	position: fixed;
 	top: 0;
 	z-index: 150;
@@ -44,9 +50,22 @@ html {
 
 #left-bar {
 	z-index: 2;
-	width: 200px;
+	width: 100px;
 	position: fixed;
+	display: flex;
 	height: 100vh!important;
-	background-color: #3d474f;
+	background-color: #3c3c3c;
+}
+.icon-container{
+	width:100%;
+	margin:auto;
+	display: flex;
+	flex-direction: column
+}
+.left-icon{
+	width: 40px;
+	margin-left: auto;
+	margin-right:auto;
+	margin-top:40px
 }
 </style>
