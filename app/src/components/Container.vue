@@ -1,15 +1,19 @@
 <template>
     <div class="container-without-left-bar">
 			<AboBarChart v-show="$route.path === '/dashboard'"></AboBarChart>
+			<AboLineChart v-show="$route.path === '/line'"></AboLineChart>
     </div>
 </template>
 
 <script>
 import AboBarChart from '@/components/AboBarChart.vue'
+import AboLineChart from '@/components/AboLineChart.vue'
+
 export default {
 	name: 'container',
 	components: {
-		AboBarChart
+		AboBarChart,
+		AboLineChart
 	}
 }
 </script>
