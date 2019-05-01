@@ -33,16 +33,14 @@ export default {
 						display: true,
 						scaleLabel: {
 							display: true,
-							labelString: 'Month',
-							fontColor: 'red',
-							fontSize: 12
+							labelString: 'Nombre de voyages'
 						}
 					}],
 					yAxes: [{
 						display: true,
 						scaleLabel: {
 							display: true,
-							labelString: 'Value'
+							labelString: '% de la population'
 						}
 					}]
 				}
