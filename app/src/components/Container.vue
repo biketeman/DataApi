@@ -1,5 +1,5 @@
 <template>
-    <div class="container-without-left-bar">
+    <div class="container-test">
 			<AboBarChart v-show="$route.path === '/dashboard'"></AboBarChart>
 			<AboLineChart v-show="$route.path === '/line'"></AboLineChart>
     </div>
@@ -18,8 +18,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.container-without-left-bar{
+<style lang="scss" scoped>
+.container-test{
 	position: absolute;
 	top: 65px;
 	left: 100px;

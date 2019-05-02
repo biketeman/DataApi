@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+$white: #ffffff;
+$purple: #4710A3;
+
+body {
+	-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
+	max-width: 100vw!important;
+	padding: 0;
+	margin: 0;
+    background-color: #F7F7F7;
+    font-family: 'Roboto'
+}
+html {
+	-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
+	max-width: 100vw!important;
+	padding: 0;
+	margin: 0;
+	background-color: #F7F7F7;
+}
+h2{
+    font-size: 18px;
+    color: $purple;
+    text-transform: uppercase;
+    margin:0;
+    font-weight: 600
+}
+.flex{
+    display: flex
+}
+.small-icon{
+    height: 25px;
+    width: 25px;
+    fill: $purple
+}
