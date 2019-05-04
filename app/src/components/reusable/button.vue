@@ -16,11 +16,12 @@ export default {
 
 <style lang="scss" scoped>
 .button{
+    max-height: 30px;
     font-size: 14px;
     padding-top: 0.5%;
     padding-bottom: 0.5%;
-    padding-left: 35px;
-    padding-right: 35px;
+    padding-left: 30px;
+    padding-right: 30px;
     text-align: center;
     text-decoration: none;
     line-height: 30px;
@@ -37,6 +38,6 @@ export default {
 .white{
 	background-color: $white;
     color: $purple;
-    font-weight: 600
+    font-weight: 600;
 }
 </style>

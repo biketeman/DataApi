@@ -10,14 +10,13 @@
             <Button color="white" message="30 derniers jours"/>
           </div>
         </div>
-        <div class="cards-container">
-          <EvolutionCard title="Abonement Week-end" :image="require('@/assets/logo.png')" number="6"/>
-          <EvolutionCard title="Abonnement Senior+" :image="require('@/assets/logo.png')" number="6"/>
-          <EvolutionCard title="Abonnement Enfant +" :image="require('@/assets/logo.png')" number="6"/>
-          <EvolutionCard title="Carte jeune" :image="require('@/assets/logo.png')" number="6"/>
-          <EvolutionCard title="Evolution du nombre d'abonnés" :image="require('@/assets/logo.png')" number="6"/>
+        <EvolutionCards/>
+        <div class="flex settings">
+          <h2 class="margin">Segmentation par type de carte ou d'abonement</h2>
+          <Button class="centered" color="purple" message="+ Ajouter un type de voyageur"/>
         </div>
-        <Button color="purple" message="hello"/>
+        <ProfileCards/>
+        <!--lol-->
       </div>
     </div>
 </template>
@@ -25,27 +24,22 @@
 <script>
 import Structure from '@/components/Structure.vue'
 import Button from '@/components/reusable/button.vue'
-import EvolutionCard from '@/components/reusable/evolutionCard.vue'
-
+import EvolutionCards from '@/components/EvolutionCards.vue'
+import ProfileCards from '@/components/profileCards.vue'
 
 export default {
 	name: 'dashboard',
 	components: {
 		Structure,
-    Button,
-    EvolutionCard
+		Button,
+		EvolutionCards,
+		ProfileCards
 	}
 }
 </script>
 
 <style lang="scss" scoped>
-.cards-container{
-  justify-content: space-between;
-  display: flex;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  width: 100%
-}
+
 .container-content {
   margin-top: 65px;
 	padding-left: 5%;
@@ -60,11 +54,18 @@ export default {
     margin-right: 0;
     display: flex;
     justify-content: center;
+
     img{
       margin-right: 20px;
       padding-top: auto;
       padding-bottom: auto
     }
 }
+}
+.centered{
+  margin-bottom: auto;
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: 0;
 }
 </style>

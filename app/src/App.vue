@@ -5,4 +5,3 @@
     <router-view/>
   </div>
 </template>
-

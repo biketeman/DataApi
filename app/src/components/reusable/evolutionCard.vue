@@ -1,7 +1,7 @@
 <template>
-	<div class="card flex" :class="color">
+	<div class="card flex">
         <div class="card-container">
-            <img v-bind:src="image">
+            <img v-bind:src="image" alt="evolution-image">
             <h5>{{number}}</h5>
 		    <h4>{{title}}</h4>
         </div>
@@ -13,8 +13,8 @@ export default {
 	name: 'evolution-card',
 	props: {
 		number: Number,
-        image: String,
-        title: String
+		image: String,
+		title: String
 	}
 }
 </script>
@@ -31,7 +31,7 @@ export default {
         width: unset
     }
     h4{
-        font-size: 12px;
+        font-size: 14px;
         margin: 0;
         width: unset
     }
