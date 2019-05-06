@@ -156,7 +156,7 @@ export interface NexusGenFieldTypes {
     in_top_sncf_connect: boolean; // Boolean!
   }
   Query: { // field return type
-    aboEvolution: NexusGenRootTypes['CarteComm'][]; // [CarteComm!]!
+    aboEvolution: number; // Float!
     allsegments: NexusGenRootTypes['Segment'][]; // [Segment!]!
     pourcentageCarteComm: number; // Float!
     pourcentageFid: number; // Float!

@@ -17,9 +17,8 @@
 </template>
 <script>
 import profileCard from '@/components/reusable/profileCard.vue'
-
 export default {
-	name: 'dashboard',
+	name: 'profileCards',
 	components: {
 		profileCard
 	}

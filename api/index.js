@@ -73,8 +73,7 @@ const Query = queryType({
 				return pourcentageAbo
 			}	
 		});
-		t.list.field("aboEvolution", {
-			type: CarteComm,
+		t.float("aboEvolution", {
 			args: {
 				subscriptionDateActual: stringArg({
 					nullable: true,
@@ -86,7 +85,7 @@ const Query = queryType({
 				}),
 			},
 			resolve: async (parent, args) => {
-				const aboevolution = await db.select('*').from('carte_comm').where('cr_dt_deb_val','<', args.subscriptionDateActual).andWhere('cr_dt_deb_val','>', args.subscriptionDateRequest)
+				const aboevolution = await db('carte_comm').count('cr_type_cr').where('cr_dt_deb_val','<', args.subscriptionDateActual).andWhere('cr_dt_deb_val','>', args.subscriptionDateRequest).groupBy('cr_type_cr')
 				return aboevolution
 			}
 		});		
