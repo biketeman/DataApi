@@ -156,6 +156,7 @@ export interface NexusGenFieldTypes {
     in_top_sncf_connect: boolean; // Boolean!
   }
   Query: { // field return type
+    aboEvolution: NexusGenRootTypes['CarteComm'][]; // [CarteComm!]!
     allsegments: NexusGenRootTypes['Segment'][]; // [Segment!]!
     pourcentageCarteComm: number; // Float!
     pourcentageFid: number; // Float!
@@ -199,6 +200,10 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenArgTypes {
   Query: {
+    aboEvolution: { // args
+      subscriptionDateActual?: string | null; // String
+      subscriptionDateRequest?: string | null; // String
+    }
     pourcentageCarteComm: { // args
       age?: number | null; // Int
       cr_cod_tarif?: string | null; // String

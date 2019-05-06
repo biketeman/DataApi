@@ -72,11 +72,26 @@ const Query = queryType({
 				const pourcentageAbo = abo[0].count/ total[0].count * 100
 				return pourcentageAbo
 			}	
-    	});		
+		});
+		t.list.field("aboEvolution", {
+			type: CarteComm,
+			args: {
+				subscriptionDateActual: stringArg({
+					nullable: true,
+					default: '2019-06-17'
+				}),
+				subscriptionDateRequest: stringArg({
+					nullable: true,
+					default: '2018-05-17'
+				}),
+			},
+			resolve: async (parent, args) => {
+				const aboevolution = await db.select('*').from('carte_comm').where('cr_dt_deb_val','<', args.subscriptionDateActual).andWhere('cr_dt_deb_val','>', args.subscriptionDateRequest)
+				return aboevolution
+			}
+		});		
 	},
 });
-
-
 const schema = makeSchema({
 	types: [Query, Segment, Client, CarteComm, Abofrequences, Abotgvmax],
 	outputs: {

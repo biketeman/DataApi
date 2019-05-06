@@ -11,6 +11,7 @@
     "bootstrap": "^4.3.1",
     "chart.js": "^2.8.0",
     "vue": "^2.6.6",
+    "vue-apollo": "^3.0.0-beta.11",
     "vue-chartjs": "^3.4.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
@@ -24,9 +25,11 @@
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "fibers": "^3.1.1",
+    "graphql-tag": "^2.9.0",
     "nodemon": "^1.18.10",
     "sass": "^1.17.2",
     "sass-loader": "^7.1.0",
+    "vue-cli-plugin-apollo": "^0.20.0",
     "vue-template-compiler": "^2.5.21"
   }
 }

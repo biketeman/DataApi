@@ -1,10 +1,10 @@
 <template>
-  <div class="cards-container">
-    <EvolutionCard title="Abonement Week-end" :image="require('@/assets/logo.png')" number="6"/>
-    <EvolutionCard title="Abonnement Senior+" :image="require('@/assets/logo.png')" number="6"/>
-    <EvolutionCard title="Abonnement Enfant +" :image="require('@/assets/logo.png')" number="6"/>
-    <EvolutionCard title="Carte jeune" :image="require('@/assets/logo.png')" number="6"/>
-    <EvolutionCard title="Evolution du nombre d'abonnés" :image="require('@/assets/logo.png')" number="6"/>
+  <div>
+    <ul class="cards-container">
+      <li v-for="card in cards" :key="card.title">
+        <EvolutionCard :title="card.title" :image="card.img" :number="card.number"/>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -14,6 +14,38 @@ export default {
 	name: 'dashboard',
 	components: {
 		EvolutionCard
+	},
+	data () {
+		return {
+			cards: [
+				{
+					title: 'Abonnement Week-END',
+					number: 0,
+					img: require('@/assets/logo.png')
+				},
+				{
+					title: 'Abonnement Senior+',
+					number: 0,
+					img: require('@/assets/logo.png')
+				},
+				{
+					title: 'Abonnement Enfant +',
+					number: 0,
+					img: require('@/assets/logo.png')
+				},
+				{
+					title: 'Carte jeune',
+					number: 0,
+					img: require('@/assets/logo.png')
+				},
+				{
+					title: 'Evolution du nombre d abonnés',
+					number: 0,
+					img: require('@/assets/logo.png')
+				}
+			]
+
+		}
 	}
 }
 </script>
