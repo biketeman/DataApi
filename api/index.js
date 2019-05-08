@@ -9,6 +9,7 @@ const Client = require(`./types/clients.js`);
 const CarteComm = require(`./types/cartecomm.js`);
 const Abofrequences = require(`./types/abofrequences.js`);
 const Abotgvmax = require(`./types/abotgvmax.js`);
+const aboEvolution = require(`./types/aboEvolution.js`);
 
 
 
@@ -73,7 +74,8 @@ const Query = queryType({
 				return pourcentageAbo
 			}	
 		});
-		t.float("aboEvolution", {
+		t.list.field("aboEvolution", {
+			type: aboEvolution,
 			args: {
 				subscriptionDateActual: stringArg({
 					nullable: true,
@@ -85,14 +87,15 @@ const Query = queryType({
 				}),
 			},
 			resolve: async (parent, args) => {
-				const aboevolution = await db('carte_comm').count('cr_type_cr').where('cr_dt_deb_val','<', args.subscriptionDateActual).andWhere('cr_dt_deb_val','>', args.subscriptionDateRequest).groupBy('cr_type_cr')
-				return aboevolution
+				const result = await db.select('cr_type_cr').count('*').from('carte_comm').where('cr_dt_deb_val','<', args.subscriptionDateActual).andWhere('cr_dt_deb_val','>', args.subscriptionDateRequest).groupBy('cr_type_cr')
+				//const test = await db.raw(' select  cr_type_cr, count(*) from carte_comm  group by cr_type_cr ')
+				return result
 			}
 		});		
 	},
 });
 const schema = makeSchema({
-	types: [Query, Segment, Client, CarteComm, Abofrequences, Abotgvmax],
+	types: [Query, Segment, Client, CarteComm, Abofrequences, Abotgvmax, aboEvolution],
 	outputs: {
 		schema: __dirname + "/generated/schema.graphql",
 		typegen: __dirname + "/generated/typings.ts",

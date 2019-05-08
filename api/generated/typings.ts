@@ -98,6 +98,10 @@ export interface NexusGenRootTypes {
     sg_transp_d1: string; // String!
     sg_typ_ligne: string; // String!
   }
+  aboEvolution: { // root type
+    count?: number | null; // Int
+    cr_type_cr: string; // String!
+  }
   String: string;
   Int: number;
   Float: number;
@@ -156,7 +160,7 @@ export interface NexusGenFieldTypes {
     in_top_sncf_connect: boolean; // Boolean!
   }
   Query: { // field return type
-    aboEvolution: number; // Float!
+    aboEvolution: NexusGenRootTypes['aboEvolution'][]; // [aboEvolution!]!
     allsegments: NexusGenRootTypes['Segment'][]; // [Segment!]!
     pourcentageCarteComm: number; // Float!
     pourcentageFid: number; // Float!
@@ -196,6 +200,10 @@ export interface NexusGenFieldTypes {
     sg_transp_d1: string; // String!
     sg_typ_ligne: string; // String!
   }
+  aboEvolution: { // field return type
+    count: number | null; // Int
+    cr_type_cr: string; // String!
+  }
 }
 
 export interface NexusGenArgTypes {
@@ -221,7 +229,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Abofrequences" | "Abotgvmax" | "CarteComm" | "Client" | "Query" | "Segment";
+export type NexusGenObjectNames = "Abofrequences" | "Abotgvmax" | "CarteComm" | "Client" | "Query" | "Segment" | "aboEvolution";
 
 export type NexusGenInputNames = never;
 

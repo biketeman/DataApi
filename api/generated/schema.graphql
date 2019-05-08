@@ -2,6 +2,12 @@
 ### Do not make changes to this file directly
 
 
+type aboEvolution {
+  """clé du client"""
+  count: Int
+  cr_type_cr: String!
+}
+
 type Abofrequences {
   """clé du client"""
   cle_abo_fq: Int!
@@ -125,7 +131,7 @@ type Client {
 }
 
 type Query {
-  aboEvolution(subscriptionDateActual: String = "2019-06-17", subscriptionDateRequest: String = "2018-05-17"): Float!
+  aboEvolution(subscriptionDateActual: String = "2019-06-17", subscriptionDateRequest: String = "2018-05-17"): [aboEvolution!]!
   allsegments: [Segment!]!
   pourcentageCarteComm(age: Int, cr_cod_tarif: String, cr_status: String, cr_type_cr: String): Float!
   pourcentageFid(stationdepart: String): Float!
