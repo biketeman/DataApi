@@ -3,6 +3,9 @@ $white: #ffffff;
 $purple: #4710A3;
 $grey: grey;
 
+$border: 1px solid $grey;
+
+
 body {
 	-webkit-font-smoothing: antialiased;
 	overflow-x: hidden;
@@ -10,7 +13,7 @@ body {
 	padding: 0;
 	margin: 0;
     background-color: #F7F7F7;
-    font-family: 'Roboto';
+    font-family: 'Roboto'!important;
 }
 html {
 	-webkit-font-smoothing: antialiased;
@@ -26,6 +29,9 @@ h2{
     text-transform: uppercase;
     margin:0;
     font-weight: 600;
+}
+p, h3{
+    margin: 0;
 }
 .flex{
     display: flex;

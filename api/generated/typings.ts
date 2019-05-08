@@ -161,10 +161,6 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     aboEvolution: NexusGenRootTypes['aboEvolution'][]; // [aboEvolution!]!
-    allsegments: NexusGenRootTypes['Segment'][]; // [Segment!]!
-    pourcentageCarteComm: number; // Float!
-    pourcentageFid: number; // Float!
-    pourcentageFideliteGlobal: number; // Float!
   }
   Segment: { // field return type
     cle_client: number; // Int!
@@ -210,16 +206,9 @@ export interface NexusGenArgTypes {
   Query: {
     aboEvolution: { // args
       subscriptionDateActual?: string | null; // String
+      subscriptionDateActualCompare?: string | null; // String
       subscriptionDateRequest?: string | null; // String
-    }
-    pourcentageCarteComm: { // args
-      age?: number | null; // Int
-      cr_cod_tarif?: string | null; // String
-      cr_status?: string | null; // String
-      cr_type_cr?: string | null; // String
-    }
-    pourcentageFid: { // args
-      stationdepart?: string | null; // String
+      subscriptionDateRequestCompare?: string | null; // String
     }
   }
 }

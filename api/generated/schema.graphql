@@ -131,11 +131,7 @@ type Client {
 }
 
 type Query {
-  aboEvolution(subscriptionDateActual: String = "2019-06-17", subscriptionDateRequest: String = "2018-05-17"): [aboEvolution!]!
-  allsegments: [Segment!]!
-  pourcentageCarteComm(age: Int, cr_cod_tarif: String, cr_status: String, cr_type_cr: String): Float!
-  pourcentageFid(stationdepart: String): Float!
-  pourcentageFideliteGlobal: Float!
+  aboEvolution(subscriptionDateActual: String = "2019-06-17", subscriptionDateActualCompare: String = "2019-05-17", subscriptionDateRequest: String = "2018-05-17", subscriptionDateRequestCompare: String = "2019-02-17"): [aboEvolution!]!
 }
 
 type Segment {

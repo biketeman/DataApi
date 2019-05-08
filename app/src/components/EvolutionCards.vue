@@ -61,7 +61,7 @@ export default {
 		console.log('sexe')
 		axios.post(url, { query: query })
 			.then((resp) => {
-				console.log(resp.data) 
+				console.log(resp.data)
 			})
 	}
 }
