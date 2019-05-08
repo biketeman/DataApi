@@ -75,8 +75,8 @@ export default {
     justify-content: space-between;
   }
   img {
-    height: 125px;
-    width: 125px;
+    height: 95px;
+    width: 95px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -109,12 +109,11 @@ export default {
   }
   h5 {
     margin-top: 0px;
-
+    color: $purple;
   }
   .bottom{
     padding-top: 20px;
     border-top: 1px solid $grey;
-    color: $purple;
   }
 }
 .card-left,
@@ -130,7 +129,13 @@ export default {
     font-weight: 600;
   }
   .bottom{
-      display: flex;
+    display: flex;
+    height: 50%;
+    justify-content: space-around;
+    *{
+        margin-top: auto;
+        margin-bottom: auto;
+    }
   }
   img {
     height: 50px;
