@@ -76,4 +76,31 @@ t.float("pourcentageFid", {
 		// 		// return profile[0]
 		// 		const test = await db.raw('SELECT * FROM CLIENT')
 		// 	}
-		// });
+        // });
+        t.list.field("aboEvolution", {
+			type: aboEvolution,
+			args: {
+				subscriptionDateActual: stringArg({
+					nullable: true,
+					default: '2019-06-17'
+				}),
+				subscriptionDateRequest: stringArg({
+					nullable: true,
+					default: '2018-05-17'
+				}),
+				subscriptionDateActualCompare: stringArg({
+					nullable: true,
+					default: '2019-05-17'
+				}),
+				subscriptionDateRequestCompare: stringArg({
+					nullable: true,
+					default: '2019-02-17'
+				}),
+			},
+			resolve: async (parent, args) => {
+				const result = await db.select('cr_type_cr').count('*').from('carte_comm').where('cr_dt_deb_val', '<', args.subscriptionDateActual).andWhere('cr_dt_deb_val', '>', args.subscriptionDateRequest).groupBy('cr_type_cr')
+				const test = await db.select('cr_type_cr').count('*').from('carte_comm').where('cr_dt_deb_val', '<', args.subscriptionDateActualCompare).andWhere('cr_dt_deb_val', '>', args.subscriptionDateRequestCompare).groupBy('cr_type_cr')
+				//const test = await db.raw(' select  cr_type_cr, count(*) from carte_comm  group by cr_type_cr ')
+				return test
+			}
+		});	

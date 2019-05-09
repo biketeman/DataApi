@@ -131,6 +131,8 @@ type Client {
 }
 
 type profileAndData {
+  """profile description"""
+  description: String
   percentageCardOwner: Float!
   percentageInTotal: Float!
   percentageNoneRenewed: Int!
@@ -140,7 +142,6 @@ type profileAndData {
 }
 
 type Query {
-  aboEvolution(subscriptionDateActual: String = "2019-06-17", subscriptionDateActualCompare: String = "2019-05-17", subscriptionDateRequest: String = "2018-05-17", subscriptionDateRequestCompare: String = "2019-02-17"): [aboEvolution!]!
   getProfileListAndData: [profileAndData!]!
 }
 

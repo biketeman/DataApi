@@ -19,6 +19,10 @@ module.exports = objectType({
 		t.int('percentageNoneRenewed', {
 			description: '',
 			nullable: false
-		}) 
+		}),
+		t.string('description', {
+			description: 'profile description',
+			nullable: true
+		})
 	}
 })

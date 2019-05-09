@@ -103,6 +103,7 @@ export interface NexusGenRootTypes {
     cr_type_cr: string; // String!
   }
   profileAndData: { // root type
+    description?: string | null; // String
     percentageCardOwner: number; // Float!
     percentageInTotal: number; // Float!
     percentageNoneRenewed: number; // Int!
@@ -166,7 +167,6 @@ export interface NexusGenFieldTypes {
     in_top_sncf_connect: boolean; // Boolean!
   }
   Query: { // field return type
-    aboEvolution: NexusGenRootTypes['aboEvolution'][]; // [aboEvolution!]!
     getProfileListAndData: NexusGenRootTypes['profileAndData'][]; // [profileAndData!]!
   }
   Segment: { // field return type
@@ -208,6 +208,7 @@ export interface NexusGenFieldTypes {
     cr_type_cr: string; // String!
   }
   profileAndData: { // field return type
+    description: string | null; // String
     percentageCardOwner: number; // Float!
     percentageInTotal: number; // Float!
     percentageNoneRenewed: number; // Int!
@@ -216,14 +217,6 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenArgTypes {
-  Query: {
-    aboEvolution: { // args
-      subscriptionDateActual?: string | null; // String
-      subscriptionDateActualCompare?: string | null; // String
-      subscriptionDateRequest?: string | null; // String
-      subscriptionDateRequestCompare?: string | null; // String
-    }
-  }
 }
 
 export interface NexusGenAbstractResolveReturnTypes {
