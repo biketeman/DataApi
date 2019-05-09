@@ -131,7 +131,7 @@ type Client {
 }
 
 type profileAndData {
-  percentageCardOwner: Int!
+  percentageCardOwner: Float!
   percentageInTotal: Float!
   percentageNoneRenewed: Int!
 

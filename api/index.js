@@ -49,17 +49,22 @@ const Query = queryType({
 
 				const profile_list = await db.select('*').from('profile_cards');
 				const totalNumberUsers = await db('client').count('*')
+				const amountSubscribe = db.raw('SELECT count(*) from client left JOIN carte_comm on client.cle_client = carte_comm.cle_client left join abo_frequence on abo_frequence.cle_client = client.cle_client left join abo_tgvmax on abo_tgvmax.cle_client = client.cle_client where carte_comm.cr_type_cr  is NULL AND abo_frequence.cle_client IS NULL AND abo_tgvmax.cle_client IS NULL')
+				console.log(amountSubscribe)
 				let returnedValues = []
-
 				for (let i in profile_list) {
 
 					let request = profile_list[i].arguments;
 					let title = profile_list[i].title
+
 					let percentageTarget = await db.raw(request);
-					const test = percentageTarget.rows.length / totalNumberUsers[0].count * 100
+					const percentageInTotal = percentageTarget.rows.length / totalNumberUsers[0].count * 100
+					const percentageCardOwner = 90594 / percentageTarget.rows.length * 100
+
 					let result = {
 						title: title,
-						percentageInTotal: test
+						percentageInTotal: percentageInTotal,
+						percentageCardOwner: percentageCardOwner
 					}
 					returnedValues.push(result)
 				}

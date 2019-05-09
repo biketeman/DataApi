@@ -12,7 +12,7 @@ module.exports = objectType({
 			description: '',
 			nullable: false
 		}),
-		t.int('percentageCardOwner', {
+		t.float('percentageCardOwner', {
 			description: '',
 			nullable: false
 		}),		

@@ -103,7 +103,7 @@ export interface NexusGenRootTypes {
     cr_type_cr: string; // String!
   }
   profileAndData: { // root type
-    percentageCardOwner: number; // Int!
+    percentageCardOwner: number; // Float!
     percentageInTotal: number; // Float!
     percentageNoneRenewed: number; // Int!
     title: string; // String!
@@ -208,7 +208,7 @@ export interface NexusGenFieldTypes {
     cr_type_cr: string; // String!
   }
   profileAndData: { // field return type
-    percentageCardOwner: number; // Int!
+    percentageCardOwner: number; // Float!
     percentageInTotal: number; // Float!
     percentageNoneRenewed: number; // Int!
     title: string; // String!
