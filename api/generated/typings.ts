@@ -102,6 +102,12 @@ export interface NexusGenRootTypes {
     count?: number | null; // Int
     cr_type_cr: string; // String!
   }
+  profileAndData: { // root type
+    percentageCardOwner: number; // Int!
+    percentageInTotal: number; // Float!
+    percentageNoneRenewed: number; // Int!
+    title: string; // String!
+  }
   String: string;
   Int: number;
   Float: number;
@@ -161,6 +167,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     aboEvolution: NexusGenRootTypes['aboEvolution'][]; // [aboEvolution!]!
+    getProfileListAndData: NexusGenRootTypes['profileAndData'][]; // [profileAndData!]!
   }
   Segment: { // field return type
     cle_client: number; // Int!
@@ -200,6 +207,12 @@ export interface NexusGenFieldTypes {
     count: number | null; // Int
     cr_type_cr: string; // String!
   }
+  profileAndData: { // field return type
+    percentageCardOwner: number; // Int!
+    percentageInTotal: number; // Float!
+    percentageNoneRenewed: number; // Int!
+    title: string; // String!
+  }
 }
 
 export interface NexusGenArgTypes {
@@ -218,7 +231,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Abofrequences" | "Abotgvmax" | "CarteComm" | "Client" | "Query" | "Segment" | "aboEvolution";
+export type NexusGenObjectNames = "Abofrequences" | "Abotgvmax" | "CarteComm" | "Client" | "Query" | "Segment" | "aboEvolution" | "profileAndData";
 
 export type NexusGenInputNames = never;
 

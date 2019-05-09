@@ -2,18 +2,23 @@
     <div class="container-test">
 			<AboBarChart v-show="$route.path === '/dashboard'"></AboBarChart>
 			<AboLineChart v-show="$route.path === '/line'"></AboLineChart>
+			<doughnut v-show="$route.path === '/line'"></doughnut>
+
     </div>
 </template>
 
 <script>
 import AboBarChart from '@/components/AboBarChart.vue'
 import AboLineChart from '@/components/AboLineChart.vue'
+import doughnut from '@/components/charts/AboDoughnut.vue'
+
 
 export default {
 	name: 'container',
 	components: {
 		AboBarChart,
-		AboLineChart
+		AboLineChart,
+		doughnut
 	}
 }
 </script>

@@ -32,30 +32,37 @@
         </div>
       </div>
       <div class="bottom">
-          <div>hello</div>
+          <doughnut/>
           <h3>{{numberbottom}}%</h3>
           <p>des anciens abonnés qui n'ont pas renouvelé leur abonement</p>
+      <Button class="button-out" color="purple" message="Voir plus >"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import doughnut from '@/components/charts/AboDoughnut.vue'
+import Button from '@/components/reusable/button.vue'
 export default {
-  name: "evolution-card",
-  props: {
-    image: String,
-    title: String,
-    definition: String,
-    numberleft: Number,
-    numberright: Number,
-    numberbottom: Number,
-    cardImage1: String,
-    cardImage2: String,
-    cardImageText1: String,
-    cardImageText2: String,
-  }
-};
+	name: 'evolution-card',
+	components: {
+    doughnut,
+    Button
+	},
+	props: {
+		image: String,
+		title: String,
+		definition: String,
+		numberleft: Number,
+		numberright: Number,
+		numberbottom: Number,
+		cardImage1: String,
+		cardImage2: String,
+		cardImageText1: String,
+		cardImageText2: String
+	}
+}
 </script>
 
 <style lang="scss" scoped>
@@ -132,6 +139,7 @@ export default {
     display: flex;
     height: 50%;
     justify-content: space-around;
+    position: relative;
     *{
         margin-top: auto;
         margin-bottom: auto;
@@ -159,5 +167,10 @@ export default {
       justify-content: space-around
     }
   }
+}
+.button-out{
+  position: absolute;
+  bottom: -15px;
+  right: -50px;
 }
 </style>

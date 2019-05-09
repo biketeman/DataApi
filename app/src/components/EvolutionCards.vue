@@ -18,7 +18,7 @@ export default {
 	},
 	data () {
 		return {
-			dataLoaded : false,
+			dataLoaded: false,
 			cards: [
 				{
 					title: 'Abonnement Week-END',

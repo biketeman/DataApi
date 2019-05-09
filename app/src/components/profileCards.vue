@@ -21,7 +21,14 @@ export default {
 	name: 'profileCards',
 	components: {
 		profileCard
-	}
+    },
+    data (){
+        return {
+            profileData:{
+                
+            }
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>
