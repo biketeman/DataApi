@@ -131,18 +131,27 @@ type Client {
 }
 
 type profileAndData {
+  """image card 1"""
+  card1: String
+
+  """image card2"""
+  card2: String
+
   """profile description"""
   description: String
-  percentageCardOwner: Float!
-  percentageInTotal: Float!
-  percentageNoneRenewed: Int!
+  percentageCardOwner: Float
+  percentageInTotal: Float
+  percentageNoneRenewed: Float
 
   """profile title"""
-  title: String!
+  title: String
 }
 
 type Query {
-  getProfileListAndData: [profileAndData!]!
+  getProfileAndDataJeune: [profileAndData!]!
+  getProfileAndDatapro: [profileAndData!]!
+  getProfileAndDataSenior: [profileAndData!]!
+  getProfileAndDataWeekEnd: [profileAndData!]!
 }
 
 type Segment {

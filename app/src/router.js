@@ -22,6 +22,11 @@ export default new Router({
 			path: '/line',
 			name: 'line',
 			component: () => import('./views/Dashboard.vue')
+		},
+		{
+			path: '/analyse',
+			name: 'analyse',
+			component: () => import('./views/Analyse.vue')
 		}
 	]
 })

@@ -18,27 +18,26 @@ export default {
 				datasets: [
 					{
 						label: 'Abonnés',
-						backgroundColor: ['purple','white'],
+						backgroundColor: ['purple', 'white'],
 						borderColor: 'grey',
 						data: [5, 15],
-						borderWidth: 1,
-
+						borderWidth: 1
 					}
 				]
 			},
 			options: {
 				  layout: {
-            padding: {
-                right: 5,
-                bottom: 5
-            }
+					padding: {
+						right: 5,
+						bottom: 5
+					}
 				},
 				legend: {
 					display: false
 				},
 				tooltips: {
 					enabled: false
-				},
+				}
 			}
 		}
 	},

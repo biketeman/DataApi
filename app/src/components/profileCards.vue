@@ -9,7 +9,7 @@
         <div class="right-container">
             <profileCard :image="require('@/assets/logo.png')" :cardImage1="require('@/assets/icons/carte_senior.svg')" :cardImage2="require('@/assets/icons/abo_fréquence.svg')" cardImageText1="Carte Sénior" cardImageText2="Abo.fréquence" title="Séniors" definition="+ 65ans" :numberbottom=10 :numberleft=10 :numberright=20>
             </profileCard>
-            <profileCard :image="require('@/assets/logo.png')" cardImage1="empty" :cardImage2="require('@/assets/icons/abo_weekend.svg')" cardImageText2="Abo.Week End" title="Séniors" definition="+ 65ans" :numberbottom=10 :numberleft=10 :numberright=20>
+            <profileCard :image="require('@/assets/logo.png')" cardImage1="empty" :cardImage2="require('@/assets/icons/abo_weekend.svg')" cardImageText2="Abo.Week End" title="Week-END" definition="Voyage week end" :numberbottom=10 :numberleft=10 :numberright=20>
             </profileCard>
         </div>
 
@@ -21,14 +21,14 @@ export default {
 	name: 'profileCards',
 	components: {
 		profileCard
-    },
-    data (){
-        return {
-            profileData:{
-                
-            }
-        }
-    }
+	},
+	data () {
+		return {
+			profileData: {
+
+			}
+		}
+	}
 }
 </script>
 <style lang="scss" scoped>

@@ -12,7 +12,6 @@ import AboBarChart from '@/components/AboBarChart.vue'
 import AboLineChart from '@/components/AboLineChart.vue'
 import doughnut from '@/components/charts/AboDoughnut.vue'
 
-
 export default {
 	name: 'container',
 	components: {

@@ -6,22 +6,30 @@ module.exports = objectType({
 	definition(t) {
 		t.string('title', {
 			description: 'profile title',
-			nullable: false
+			nullable: true
 		}),
 		t.float('percentageInTotal', {
 			description: '',
-			nullable: false
+			nullable: true
 		}),
 		t.float('percentageCardOwner', {
 			description: '',
-			nullable: false
+			nullable: true
 		}),		
-		t.int('percentageNoneRenewed', {
+		t.float('percentageNoneRenewed', {
 			description: '',
-			nullable: false
+			nullable: true
 		}),
 		t.string('description', {
 			description: 'profile description',
+			nullable: true
+		}),
+		t.string('card1', {
+			description: 'image card 1',
+			nullable: true
+		}),	
+		t.string('card2', {
+			description: 'image card2',
 			nullable: true
 		})
 	}

@@ -47,8 +47,8 @@ import Button from '@/components/reusable/button.vue'
 export default {
 	name: 'evolution-card',
 	components: {
-    doughnut,
-    Button
+		doughnut,
+		Button
 	},
 	props: {
 		image: String,
