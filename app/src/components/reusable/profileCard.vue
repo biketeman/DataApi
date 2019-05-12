@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="bottom">
-          <doughnut/>
+          <doughnut class="doughnut"/>
           <h3>{{numberbottom}}%</h3>
           <p>des anciens abonnés qui n'ont pas renouvelé leur abonement</p>
       <Button class="button-out" color="purple" message="Voir plus >"/>
@@ -172,5 +172,8 @@ export default {
   position: absolute;
   bottom: -15px;
   right: -50px;
+}
+.doughnut{
+    width: 60px;
 }
 </style>

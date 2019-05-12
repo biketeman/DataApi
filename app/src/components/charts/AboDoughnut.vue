@@ -1,5 +1,5 @@
 <template>
-  <div class="small">
+  <div class="chart">
     <doughnut :chart-data="datacollection" :options="this.options"></doughnut>
   </div>
 </template>
@@ -47,7 +47,5 @@ export default {
 </script>
 
 <style scoped>
-  .small {
-		max-width: 60px;
-  }
+
 </style>

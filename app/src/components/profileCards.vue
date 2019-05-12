@@ -12,7 +12,6 @@
             <profileCard :image="require('@/assets/logo.png')" cardImage1="empty" :cardImage2="require('@/assets/icons/abo_weekend.svg')" cardImageText2="Abo.Week End" title="Week-END" definition="Voyage week end" :numberbottom=10 :numberleft=10 :numberright=20>
             </profileCard>
         </div>
-
     </div>
 </template>
 <script>
@@ -32,10 +31,10 @@ export default {
     mounted() {
         let url = this.api_base_url
 		let query = `
-        getProfileAndDatapro{percentageInTotal percentageCardOwner percentageNoneRenewed}
-        getProfileAndDataJeune{percentageInTotal percentageCardOwner percentageNoneRenewed}
-        getProfileAndDataSenior{percentageInTotal percentageCardOwner percentageNoneRenewed}
-        getProfileAndDataWeekEnd{percentageInTotal percentageCardOwner percentageNoneRenewed}
+        getProfileAndDatapro{percentageInTotal percentageCardOwner percentageNoneRenewed description title card1 card2 cardImageText2}
+        getProfileAndDataJeune{percentageInTotal percentageCardOwner percentageNoneRenewed description title card1 card2 cardImageText1 cardImageText2}
+        getProfileAndDataSenior{percentageInTotal percentageCardOwner percentageNoneRenewed description title card1 card2 cardImageText1 cardImageText2}
+        getProfileAndDataWeekEnd{percentageInTotal percentageCardOwner percentageNoneRenewed description title card1 card2 cardImageText2}
 		`
         console.log(this.api_base_url)
 		axios.post(url, { query: query })

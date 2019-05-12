@@ -9,7 +9,6 @@
           </div>
         </div>
         <div class="global-overview">
-
         </div>
       </div>
     </div>
@@ -18,12 +17,13 @@
 <script>
 import Structure from '@/components/Structure.vue'
 import Button from '@/components/reusable/button.vue'
+import analyseCard from '@/components/reusable/analyseCard.vue'
 
 export default {
 	name: 'dashboard',
 	components: {
         Structure,
-        Button
+        analyseCard,
 	}
 }
 </script>
