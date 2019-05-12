@@ -57,7 +57,7 @@ export default {
 <style lang="scss" scoped>
 .analyse-card{
     background-color: $white;
-    width: 33.3%;
+    width: 33%;
     display: flex;
     padding: 25px;
 }
@@ -76,6 +76,6 @@ h3{
     width: 40%;
 }
 .doughnut{
-    width: 300px;
+    width: 100px;
 }
 </style>

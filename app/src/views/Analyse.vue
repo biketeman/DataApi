@@ -9,6 +9,7 @@
           </div>
         </div>
         <div class="global-overview">
+            <analyse-card title="lol" percentage="12"/>
         </div>
       </div>
     </div>
@@ -51,9 +52,10 @@ export default {
       padding-bottom: auto
     }
 }
+}
 .global-overview{
     display: flex;
     justify-content: space-around;
-}
+    margin-top: 25px;
 }
 </style>
