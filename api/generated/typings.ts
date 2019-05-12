@@ -105,6 +105,8 @@ export interface NexusGenRootTypes {
   profileAndData: { // root type
     card1?: string | null; // String
     card2?: string | null; // String
+    cardImageText1?: string | null; // String
+    cardImageText2?: string | null; // String
     description?: string | null; // String
     percentageCardOwner?: number | null; // Float
     percentageInTotal?: number | null; // Float
@@ -215,6 +217,8 @@ export interface NexusGenFieldTypes {
   profileAndData: { // field return type
     card1: string | null; // String
     card2: string | null; // String
+    cardImageText1: string | null; // String
+    cardImageText2: string | null; // String
     description: string | null; // String
     percentageCardOwner: number | null; // Float
     percentageInTotal: number | null; // Float

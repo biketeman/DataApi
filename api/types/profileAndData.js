@@ -31,6 +31,14 @@ module.exports = objectType({
 		t.string('card2', {
 			description: 'image card2',
 			nullable: true
+		}),
+		t.string('cardImageText1', {
+			description: 'text image card1',
+			nullable: true
+		}),
+		t.string('cardImageText2', {
+			description: 'text image card2',
+			nullable: true
 		})
 	}
 })

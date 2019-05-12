@@ -17,6 +17,7 @@
 </template>
 <script>
 import profileCard from '@/components/reusable/profileCard.vue'
+import axios from 'axios'
 export default {
 	name: 'profileCards',
 	components: {
@@ -25,10 +26,23 @@ export default {
 	data () {
 		return {
 			profileData: {
-
 			}
 		}
-	}
+    },
+    mounted() {
+        let url = this.api_base_url
+		let query = `
+        getProfileAndDatapro{percentageInTotal percentageCardOwner percentageNoneRenewed}
+        getProfileAndDataJeune{percentageInTotal percentageCardOwner percentageNoneRenewed}
+        getProfileAndDataSenior{percentageInTotal percentageCardOwner percentageNoneRenewed}
+        getProfileAndDataWeekEnd{percentageInTotal percentageCardOwner percentageNoneRenewed}
+		`
+        console.log(this.api_base_url)
+		axios.post(url, { query: query })
+			.then((resp) => {
+				console.log(resp.data)
+			})
+    }
 }
 </script>
 <style lang="scss" scoped>

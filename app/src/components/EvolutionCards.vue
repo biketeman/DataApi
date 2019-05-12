@@ -10,7 +10,6 @@
 
 <script>
 import EvolutionCard from '@/components/reusable/evolutionCard.vue'
-import axios from 'axios'
 export default {
 	name: 'dashboard',
 	components: {
@@ -48,22 +47,6 @@ export default {
 			]
 		}
 	},
-	mounted () {
-		let url = this.api_base_url
-		let query = `
-									query{
-											aboEvolution{
-													cle_client
-													}
-											}
-							`
-		console.log(query)
-		console.log('sexe')
-		axios.post(url, { query: query })
-			.then((resp) => {
-				console.log(resp.data)
-			})
-	}
 }
 </script>
 <style>

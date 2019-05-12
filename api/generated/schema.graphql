@@ -137,6 +137,12 @@ type profileAndData {
   """image card2"""
   card2: String
 
+  """text image card1"""
+  cardImageText1: String
+
+  """text image card2"""
+  cardImageText2: String
+
   """profile description"""
   description: String
   percentageCardOwner: Float
