@@ -16,12 +16,12 @@
 
 <script>
 export default {
-    props: {
-        cardImage1: String,
-        cardImage2: String,
-        cardImageText1: String,
-        cardImageText2: String,
-    }
+	props: {
+		cardImage1: String,
+		cardImage2: String,
+		cardImageText1: String,
+		cardImageText2: String
+	}
 }
 </script>
 
@@ -56,5 +56,5 @@ img {
       width: 50%;
       text-align: center;
   }
-  
+
 </style>

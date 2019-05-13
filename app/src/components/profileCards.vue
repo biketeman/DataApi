@@ -16,7 +16,10 @@
 </template>
 <script>
 import profileCard from '@/components/reusable/profileCard.vue'
-import axios from 'axios'
+//import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
+import gql from 'graphql-tag'
+
 export default {
 	name: 'profileCards',
 	components: {
@@ -28,19 +31,21 @@ export default {
 			}
 		}
     },
-    mounted() {
-        let url = this.api_base_url
-		let query = `
-        getProfileAndDatapro{percentageInTotal percentageCardOwner percentageNoneRenewed description title card1 card2 cardImageText2}
-        getProfileAndDataJeune{percentageInTotal percentageCardOwner percentageNoneRenewed description title card1 card2 cardImageText1 cardImageText2}
-        getProfileAndDataSenior{percentageInTotal percentageCardOwner percentageNoneRenewed description title card1 card2 cardImageText1 cardImageText2}
-        getProfileAndDataWeekEnd{percentageInTotal percentageCardOwner percentageNoneRenewed description title card1 card2 cardImageText2}
-		`
-        console.log(this.api_base_url)
-		axios.post(url, { query: query })
-			.then((resp) => {
-				console.log(resp.data)
-			})
+    apollo: {
+        profiles: {
+           query: gql`
+                query getProfiles {
+                    getProfileAndDatapro {
+                        percentageInTotal
+                        percentageCardOwner
+                        percentageNoneRenewed
+                        description title card1 card2 cardImageText2}
+                    getProfileAndDataJeune{percentageInTotal percentageCardOwner percentageNoneRenewed description title card1 card2 cardImageText1 cardImageText2}
+                    getProfileAndDataSenior{percentageInTotal percentageCardOwner percentageNoneRenewed description title card1 card2 cardImageText1 cardImageText2}
+                    getProfileAndDataWeekEnd{percentageInTotal percentageCardOwner percentageNoneRenewed description title card1 card2 cardImageText2}
+                }
+            `,
+        }
     }
 }
 </script>

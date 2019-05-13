@@ -14,14 +14,14 @@
 import doughnut from '@/components/charts/AboDoughnut.vue'
 
 export default {
-    components: {
-        doughnut
-    },
-    props: {
-        percentage: Number,
-        title: String,
-    },
-    data () {
+	components: {
+		doughnut
+	},
+	props: {
+		percentage: Number,
+		title: String
+	},
+	data () {
 		return {
 			datacollection: {
 				labels: ['percentage'],
@@ -50,7 +50,7 @@ export default {
 				}
 			}
 		}
-	},
+	}
 }
 </script>
 

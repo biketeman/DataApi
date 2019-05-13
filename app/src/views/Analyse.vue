@@ -26,10 +26,10 @@ import analyseCardReccomanded from '@/components/reusable/analyseCardReccomanded
 export default {
 	name: 'dashboard',
 	components: {
-        Structure,
-        analyseCard,
-        Button,
-        analyseCardReccomanded
+		Structure,
+		analyseCard,
+		Button,
+		analyseCardReccomanded
 	}
 }
 </script>

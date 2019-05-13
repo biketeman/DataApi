@@ -19,7 +19,7 @@ const Query = queryType({
 		t.list.field("getProfileAndDataJeune", {
 			type: profileAndData,
 			resolve: async (parent, args) => {
-
+				console.log('HELLO')
 				const totalNumberUsers = await db('client').count('*')
 				let percentageTarget = await db('client').count('*').where('isjeune', true)
 				let title = 'Jeune'
