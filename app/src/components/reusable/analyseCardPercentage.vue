@@ -2,7 +2,7 @@
     <div class="analyse-card">
         <div class="left-container">
             <h4>{{title}}</h4>
-            <h3>{{percentage}}</h3>
+            <h3>{{percentage}}%</h3>
         </div>
         <div class="right-container">
             <doughnut class="doughnut"/>
@@ -30,7 +30,7 @@ export default {
 						label: 'Abonnés',
 						backgroundColor: ['purple', 'white'],
 						borderColor: 'grey',
-						data: [5, 15],
+						data: [15, 100],
 						borderWidth: 1
 					}
 				]
@@ -57,25 +57,31 @@ export default {
 <style lang="scss" scoped>
 .analyse-card{
     background-color: $white;
-    width: 33%;
     display: flex;
     padding: 25px;
+    width: calc(30% - 40px);
 }
 h4{
     color: $purple;
-    font-size: 16px;
+    font-size: 14px;
 }
 h3{
     color: black;
-    font-size: 22px;
+    font-size: 26px;
 }
 .left-container{
-    width: 40%;
+    width: 50%;
+	text-align: center;
 }
 .right-container{
-    width: 40%;
+    width: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 .doughnut{
-    width: 100px;
+    width: 90px;
+	margin-left: auto;
+	margin-right: auto;
 }
 </style>
