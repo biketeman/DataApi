@@ -145,6 +145,9 @@ type profileAndData {
 
   """profile description"""
   description: String
+
+  """profile image"""
+  image: String
   percentageCardOwner: Float
   percentageInTotal: Float
   percentageNoneRenewed: Float
@@ -154,10 +157,11 @@ type profileAndData {
 }
 
 type Query {
-  getProfileAndDataJeune: [profileAndData!]!
-  getProfileAndDatapro: [profileAndData!]!
-  getProfileAndDataSenior: [profileAndData!]!
-  getProfileAndDataWeekEnd: [profileAndData!]!
+  getProfileAndDataJeune: profileAndData!
+  getProfileAndDataPro: profileAndData!
+  getProfileAndDataSenior: profileAndData!
+  getProfileAndDataWeekEnd: profileAndData!
+  getProfiles: [profileAndData!]!
 }
 
 type Segment {

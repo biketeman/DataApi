@@ -108,6 +108,7 @@ export interface NexusGenRootTypes {
     cardImageText1?: string | null; // String
     cardImageText2?: string | null; // String
     description?: string | null; // String
+    image?: string | null; // String
     percentageCardOwner?: number | null; // Float
     percentageInTotal?: number | null; // Float
     percentageNoneRenewed?: number | null; // Float
@@ -171,10 +172,11 @@ export interface NexusGenFieldTypes {
     in_top_sncf_connect: boolean; // Boolean!
   }
   Query: { // field return type
-    getProfileAndDataJeune: NexusGenRootTypes['profileAndData'][]; // [profileAndData!]!
-    getProfileAndDatapro: NexusGenRootTypes['profileAndData'][]; // [profileAndData!]!
-    getProfileAndDataSenior: NexusGenRootTypes['profileAndData'][]; // [profileAndData!]!
-    getProfileAndDataWeekEnd: NexusGenRootTypes['profileAndData'][]; // [profileAndData!]!
+    getProfileAndDataJeune: NexusGenRootTypes['profileAndData']; // profileAndData!
+    getProfileAndDataPro: NexusGenRootTypes['profileAndData']; // profileAndData!
+    getProfileAndDataSenior: NexusGenRootTypes['profileAndData']; // profileAndData!
+    getProfileAndDataWeekEnd: NexusGenRootTypes['profileAndData']; // profileAndData!
+    getProfiles: NexusGenRootTypes['profileAndData'][]; // [profileAndData!]!
   }
   Segment: { // field return type
     cle_client: number; // Int!
@@ -220,6 +222,7 @@ export interface NexusGenFieldTypes {
     cardImageText1: string | null; // String
     cardImageText2: string | null; // String
     description: string | null; // String
+    image: string | null; // String
     percentageCardOwner: number | null; // Float
     percentageInTotal: number | null; // Float
     percentageNoneRenewed: number | null; // Float

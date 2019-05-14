@@ -15,17 +15,22 @@ const profileAndData = require(`./types/profileAndData.js`)
 
 const Query = queryType({
 	definition(t) {
-
-		t.list.field("getProfileAndDataJeune", {
+		t.list.field("getProfiles", {
 			type: profileAndData,
 			resolve: async (parent, args) => {
-				console.log('HELLO')
+
+			}
+		});
+		t.field("getProfileAndDataJeune", {
+			type: profileAndData,
+			resolve: async (parent, args) => {
 				const totalNumberUsers = await db('client').count('*')
 				let percentageTarget = await db('client').count('*').where('isjeune', true)
 				let title = 'Jeune'
+				let image = 'profile_jeune'
 				let description = '18- 25 ans'
-				let card1 = "require('@/assets/icons/carte_jeune.svg')"
-				let card2 = "require('@/assets/icons/abo_fréquence.svg')"
+				let card1 = "carte_jeune"
+				let card2 = "abo_frequence"
 				let cardImageText2 = "carte jeune"
 				let cardImageText1 = "Abo.fréquence"
 
@@ -45,13 +50,14 @@ const Query = queryType({
 				AND client.isjeune = true
 				`)
 
-				const percentageInTotal = percentageTarget[0].count / totalNumberUsers[0].count *100
-				const percentageCardOwner = cardOwner.rows[0].count / percentageTarget[0].count *100
-				const percentageNoneRenewed = NoneRenewed.rows[0].count / percentageTarget[0].count *100
-				let returnedValues = []
+				const percentageInTotal = (percentageTarget[0].count / totalNumberUsers[0].count *100).toFixed(1)
+				const percentageCardOwner = (cardOwner.rows[0].count / percentageTarget[0].count *100).toFixed(1)
+				const percentageNoneRenewed = (NoneRenewed.rows[0].count / percentageTarget[0].count *100).toFixed(1)
+
 
 				let result = {
 					title: title,
+					image: image,
 					percentageInTotal: percentageInTotal,
 					percentageCardOwner: percentageCardOwner,
 					percentageNoneRenewed : percentageNoneRenewed,
@@ -61,20 +67,20 @@ const Query = queryType({
 					cardImageText1: cardImageText1,
 					cardImageText2: cardImageText2
 				}
-				returnedValues.push(result)
-				return returnedValues
+				return result
 			}
 		});
-		t.list.field("getProfileAndDataSenior", {
+		t.field("getProfileAndDataSenior", {
 			type: profileAndData,
 			resolve: async (parent, args) => {
 
 				const totalNumberUsers = await db('client').count('*')
 				let percentageTarget = await db('client').count('*').where('issenior', true)
 				let title = 'Séniors'
+				let image = 'profile_senior'
 				let description = '+65 ans'
-				let card1 = "require('@/assets/icons/carte_senior.svg')"
-				let card2 = "require('@/assets/icons/abo_fréquence.svg')"
+				let card1 = "carte_senior"
+				let card2 = "abo_frequence"
 				let cardImageText2 = "carte Sénior"
 				let cardImageText1 = "Abo.fréquence"
 
@@ -93,13 +99,13 @@ const Query = queryType({
 				AND client.issenior = true
 				`)
 
-				const percentageInTotal = percentageTarget[0].count / totalNumberUsers[0].count *100
-				const percentageCardOwner = cardOwner.rows[0].count / percentageTarget[0].count *100
-				const percentageNoneRenewed = NoneRenewed.rows[0].count / percentageTarget[0].count *100
-				let returnedValues = []
+				const percentageInTotal = (percentageTarget[0].count / totalNumberUsers[0].count *100).toFixed(1)
+				const percentageCardOwner = (cardOwner.rows[0].count / percentageTarget[0].count *100).toFixed(1)
+				const percentageNoneRenewed = (NoneRenewed.rows[0].count / percentageTarget[0].count *100).toFixed(1)
 
 				let result = {
 					title: title,
+					image: image,
 					percentageInTotal: percentageInTotal,
 					percentageCardOwner: percentageCardOwner,
 					percentageNoneRenewed : percentageNoneRenewed,
@@ -109,21 +115,21 @@ const Query = queryType({
 					cardImageText1: cardImageText1,
 					cardImageText2: cardImageText2
 				}
-				returnedValues.push(result)
-				return returnedValues
+				return result
 			}
 		});
-		t.list.field("getProfileAndDatapro", {
+		t.field("getProfileAndDataPro", {
 			type: profileAndData,
 			resolve: async (parent, args) => {
 
 				const totalNumberUsers = await db('client').count('*')
 				let percentageTarget = await db('client').count('*').where('ispro', true)
 				let title = 'Pro'
-				let description = '2 A/R par mois'
-				let card2 = "require('@/assets/icons/abo_fréquence.svg')"
+				let image ='profile_pro'
+				let description = '2/AR Par an'
+				let card2 = "abo_frequence"
 				let card1 = "empty"
-				let cardImageText2 = "Abo.fréquence"
+				let cardImageText2 = "Abo.frequence"
 
 				let cardOwner = await db.raw(`SELECT count(distinct client.cle_client)
 				from client 
@@ -140,13 +146,13 @@ const Query = queryType({
 				AND client.ispro = true
 				`)
 
-				const percentageInTotal = percentageTarget[0].count / totalNumberUsers[0].count *100
-				const percentageCardOwner = cardOwner.rows[0].count / percentageTarget[0].count *100
-				const percentageNoneRenewed = NoneRenewed.rows[0].count / percentageTarget[0].count *100
-				let returnedValues = []
+				const percentageInTotal = (percentageTarget[0].count / totalNumberUsers[0].count *100).toFixed(1)
+				const percentageCardOwner = (cardOwner.rows[0].count / percentageTarget[0].count *100).toFixed(1)
+				const percentageNoneRenewed = (NoneRenewed.rows[0].count / percentageTarget[0].count *100).toFixed(1)
 
 				let result = {
 					title: title,
+					image: image,
 					percentageInTotal: percentageInTotal,
 					percentageCardOwner: percentageCardOwner,
 					percentageNoneRenewed : percentageNoneRenewed,
@@ -155,19 +161,19 @@ const Query = queryType({
 					card2: card2,
 					cardImageText2: cardImageText2
 				}
-				returnedValues.push(result)
-				return returnedValues
+				return result
 			}
 		});
-		t.list.field("getProfileAndDataWeekEnd", {
+		t.field("getProfileAndDataWeekEnd", {
 			type: profileAndData,
 			resolve: async (parent, args) => {
 
 				const totalNumberUsers = await db('client').count('*')
 				let percentageTarget = await db('client').count('*').where('ispro', true)
 				let title = 'Week-End'
+				let image ='profile_week-end'
 				let description = 'Abo.Week End'
-				let card2 = "require('@/assets/icons/abo_weekend.svg')"
+				let card2 = "abo_week-end"
 				let card1 = "empty"
 				let cardImageText2 = "Week-END"
 
@@ -186,13 +192,13 @@ const Query = queryType({
 				AND client.ispro = true
 				`)
 
-				const percentageInTotal = percentageTarget[0].count / totalNumberUsers[0].count *100
-				const percentageCardOwner = cardOwner.rows[0].count / percentageTarget[0].count *100
-				const percentageNoneRenewed = NoneRenewed.rows[0].count / percentageTarget[0].count *100
-				let returnedValues = []
+				const percentageInTotal = (percentageTarget[0].count / totalNumberUsers[0].count *100).toFixed(1)
+				const percentageCardOwner = (cardOwner.rows[0].count / percentageTarget[0].count *100).toFixed(1)
+				const percentageNoneRenewed = (NoneRenewed.rows[0].count / percentageTarget[0].count *100).toFixed(1)
 
 				let result = {
 					title: title,
+					image: image,
 					percentageInTotal: percentageInTotal,
 					percentageCardOwner: percentageCardOwner,
 					percentageNoneRenewed : percentageNoneRenewed,
@@ -201,8 +207,7 @@ const Query = queryType({
 					card2: card2,
 					cardImageText2: cardImageText2
 				}
-				returnedValues.push(result)
-				return returnedValues
+				return result
 			}
 		});
 	},

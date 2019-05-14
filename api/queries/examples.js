@@ -57,26 +57,7 @@ t.float("pourcentageFid", {
         return pourcentageAbo
     }	
 });
-
-		// t.list.field("pourcentageProfilewrong", {
-		// 	type: client,
-		// 	args: {
-		// 		maximumage: intArg({
-		// 			nullable: true,
-		// 		}),
-		// 		minimumage: intArg({
-		// 			nullable: true,
-		// 		}),
-		// 	},
-		// 	resolve: async (parent, args) => {
-		// 		// const total = await db('client').count('*')
-		// 		// const profile = await db.raw('SELECT COUNT(*) FROM CLIENT WHERE IN_AGE > ?', [args.minimumage])
-		// 		// const profile = await db('client').count('*').where('in_age', 41)
-		// 		// const pourcentageProfile = profile[0].count / total[0].count * 100
-		// 		// return profile[0]
-		// 		const test = await db.raw('SELECT * FROM CLIENT')
-		// 	}
-        // });
+		
         t.list.field("aboEvolution", {
 			type: aboEvolution,
 			args: {

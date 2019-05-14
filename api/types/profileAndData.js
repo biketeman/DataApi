@@ -8,6 +8,10 @@ module.exports = objectType({
 			description: 'profile title',
 			nullable: true
 		}),
+		t.string('image', {
+			description: 'profile image',
+			nullable: true
+		}),
 		t.float('percentageInTotal', {
 			description: '',
 			nullable: true

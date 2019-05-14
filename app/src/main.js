@@ -6,7 +6,6 @@ import { createApolloClient } from './apollo'
 
 const { apolloProvider } = createApolloClient()
 
-
 Vue.config.productionTip = false
 
 new Vue({
@@ -15,4 +14,3 @@ new Vue({
 	apolloProvider,
 	render: h => h(App)
 }).$mount('#app')
-

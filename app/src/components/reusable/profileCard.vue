@@ -4,17 +4,17 @@
       <div class="top">
         <img v-bind:src="image" alt="picture-profile">
         <h3>{{title}}</h3>
-        <h4>{{definition}}</h4>
+        <h4>{{description}}</h4>
       </div>
       <div class="bottom">
         <h5>Abonement et cartes conseillées</h5>
         <div class="flex cards-images">
-          <div v-if="cardImage1 != 'empty'">
-            <img class="small" v-bind:src="cardImage1" alt="card-image">
+          <div v-if="card1 != 'empty'">
+            <img class="small" v-bind:src="card1" alt="card-image">
             <p>{{cardImageText1}}</p>
           </div>
           <div>
-            <img class="small" v-bind:src="cardImage2" alt="card-image">
+            <img class="small" v-bind:src="card2" alt="card-image">
             <p>{{cardImageText2}}</p>
           </div>
         </div>
@@ -23,17 +23,17 @@
     <div class="card-right">
       <div class="flex">
         <div class>
-          <h3>{{numberleft}}%</h3>
+          <h3>{{percentageInTotal}}%</h3>
           <p>part dans le nombre total de voyageurs</p>
         </div>
         <div class>
-          <h3>{{numberright}}%</h3>
+          <h3>{{percentageCardOwner}}%</h3>
           <p>part dans cette catégorie ayant un abonement ou une carte</p>
         </div>
       </div>
       <div class="bottom">
-          <doughnut class="doughnut"/>
-          <h3>{{numberbottom}}%</h3>
+          <!--<doughnut class="doughnut"/> -->
+          <h3>{{percentageNoneRenewed}}%</h3>
           <p>des anciens abonnés qui n'ont pas renouvelé leur abonement</p>
       <Button class="button-out" color="purple" message="Voir plus >"/>
       </div>
@@ -42,23 +42,23 @@
 </template>
 
 <script>
-import doughnut from '@/components/charts/AboDoughnut.vue'
+//import doughnut from '@/components/charts/AboDoughnut.vue'
 import Button from '@/components/reusable/button.vue'
 export default {
 	name: 'evolution-card',
 	components: {
-		doughnut,
+		//doughnut,
 		Button
 	},
 	props: {
 		image: String,
 		title: String,
-		definition: String,
-		numberleft: Number,
-		numberright: Number,
-		numberbottom: Number,
-		cardImage1: String,
-		cardImage2: String,
+		description: String,
+		percentageInTotal: Number,
+		percentageCardOwner: Number,
+		percentageNoneRenewed: Number,
+		card1: String,
+		card2: String,
 		cardImageText1: String,
 		cardImageText2: String
 	}
@@ -173,7 +173,7 @@ export default {
   bottom: -15px;
   right: -50px;
 }
-.doughnut{
+/*.doughnut{
     width: 60px;
-}
+}*/
 </style>
