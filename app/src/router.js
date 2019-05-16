@@ -24,7 +24,7 @@ export default new Router({
 			component: () => import('./views/Dashboard.vue')
 		},
 		{
-			path: '/analyse',
+			path: '/analyse/:profilename',
 			name: 'analyse',
 			component: () => import('./views/Analyse.vue')
 		}

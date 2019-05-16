@@ -2,7 +2,7 @@
 	<div class="card flex">
         <div class="card-container">
             <img v-bind:src="image" alt="evolution-image">
-            <h5>{{number}}</h5>
+            <h5>{{number}}%</h5>
 		    <h4>{{title}}</h4>
         </div>
 	</div>
@@ -50,5 +50,8 @@ export default {
         margin-left: auto;
         margin-right: auto
     }
+}
+h5{
+	font-size: 28px!important
 }
 </style>

@@ -7,7 +7,7 @@
           <h2>Vue générale sur les abonements et les cartes</h2>
           <div class="settings">
             <img class="small-icon" src="../assets/icons/settings-work-tool.svg">
-            <Button color="white" message="30 derniers jours"/>
+            <Button color="white" message="Anéee passée"/>
           </div>
         </div>
         <EvolutionCards/>

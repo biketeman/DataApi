@@ -10,6 +10,8 @@
 
 <script>
 import EvolutionCard from '@/components/reusable/evolutionCard.vue'
+import gql from 'graphql-tag'
+
 export default {
 	name: 'dashboard',
 	components: {
@@ -46,14 +48,34 @@ export default {
 				}
 			]
 		}
+	},
+	apollo: {
+		data: {
+			query: gql`
+        query {
+  				aboEvolution{ cr_type_cr percentage}
+        }
+      `,
+			update (data) {
+				return data
+			},
+			error (err) {
+				console.log('Erreur Apollo', err)
+			}
+		}
+	},
+	mounted () {
 	}
 }
 </script>
-<style>
+<style lang="scss" scoped>
 .cards-container{
   justify-content: space-between;
   display: flex;
   width: 100%;
   margin-top: 50px;
-}
+}	
 </style>
+
+
+

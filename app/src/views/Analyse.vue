@@ -5,7 +5,7 @@
         <div class="home-headline">
           <h2>Vue générale sur la souscription à la carte jeune pour ce type de voyageur</h2>
           <div class="settings">
-            <Button color="white" message="30 derniers jours"/>
+            <Button color="white" message="Année passée"/>
           </div>
         </div>
         <div class="global-overview">

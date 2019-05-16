@@ -35,19 +35,19 @@
           <!--<doughnut class="doughnut"/> -->
           <h3>{{percentageNoneRenewed}}%</h3>
           <p>des anciens abonnés qui n'ont pas renouvelé leur abonement</p>
-      <Button class="button-out" color="purple" message="Voir plus >"/>
+      <Button @click.native="gotoAnalyse(title)" class="button-out" color="purple" message="Voir plus >"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-//import doughnut from '@/components/charts/AboDoughnut.vue'
+// import doughnut from '@/components/charts/AboDoughnut.vue'
 import Button from '@/components/reusable/button.vue'
 export default {
 	name: 'evolution-card',
 	components: {
-		//doughnut,
+		// doughnut,
 		Button
 	},
 	props: {
@@ -60,8 +60,18 @@ export default {
 		card1: String,
 		card2: String,
 		cardImageText1: String,
-		cardImageText2: String
-	}
+    cardImageText2: String,
+  },
+  methods: {
+    gotoAnalyse(profilename){
+      this.$router.push({
+        name: 'analyse',
+        params: {
+          profilename : profilename
+        }
+      })
+    }
+  }
 }
 </script>
 
@@ -172,6 +182,7 @@ export default {
   position: absolute;
   bottom: -15px;
   right: -50px;
+  cursor: pointer;
 }
 /*.doughnut{
     width: 60px;
