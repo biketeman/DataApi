@@ -10,7 +10,11 @@
             <Button color="white" message="Anéee passée"/>
           </div>
         </div>
-        <EvolutionCards/>
+        <ul class="cards-container">
+          <li v-for="(item, index) in data.aboEvolution" :key="index">
+            <EvolutionCard :title="item.cr_type_cr" :number="item.percentage.toFixed(1)"  :image="require('@/assets/logo.png')"/>
+          </li>
+        </ul>
         <div class="flex settings">
           <h2 class="margin">Segmentation par type de carte ou d'abonement</h2>
           <Button class="centered" color="purple" message="+ Ajouter un type de voyageur"/>
@@ -24,17 +28,88 @@
 <script>
 import Structure from '@/components/Structure.vue'
 import Button from '@/components/reusable/button.vue'
-import EvolutionCards from '@/components/EvolutionCards.vue'
 import ProfileCards from '@/components/profileCards.vue'
+import EvolutionCard from '@/components/reusable/evolutionCard.vue'
+import gql from 'graphql-tag'
+
 
 export default {
 	name: 'dashboard',
 	components: {
 		Structure,
 		Button,
-		EvolutionCards,
+		EvolutionCard,
 		ProfileCards
-	}
+  },
+	apollo: {
+		data: {
+			query: gql`
+        query {
+  				aboEvolution{
+						cr_type_cr 
+						percentage
+          }
+          getProfileAndDataJeune {
+            percentageInTotal
+            percentageCardOwner
+            percentageNoneRenewed
+            description
+            title
+            image
+            card1
+            card2
+            cardImageText1
+            cardImageText2
+          }
+          getProfileAndDataSenior {
+            percentageInTotal
+            percentageCardOwner
+            percentageNoneRenewed
+            description
+            title
+            image
+            card1
+            card2
+            cardImageText1
+            cardImageText2
+          }
+          getProfileAndDataWeekEnd {
+            percentageInTotal
+            percentageCardOwner
+            percentageNoneRenewed
+            description
+            title
+            image
+            card1
+            card2
+            cardImageText1
+            cardImageText2
+          }
+          getProfileAndDataPro {
+            percentageInTotal
+            percentageCardOwner
+            percentageNoneRenewed
+            description
+            title
+            image
+            card1
+            card2
+            cardImageText1
+            cardImageText2
+          }
+        }
+			`,
+			// result({ data }){
+
+			// },
+			update (data) {
+				return data
+			},
+			error (err) {
+				console.log('Erreur Apollo', err)
+			}
+		}
+	},
 }
 </script>
 
@@ -68,4 +143,10 @@ export default {
   margin-left: auto;
   margin-right: 0;
 }
+.cards-container{
+  justify-content: space-between;
+  display: flex;
+  width: 100%;
+  margin-top: 50px;
+}	
 </style>

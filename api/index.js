@@ -15,12 +15,7 @@ const profileAndData = require(`./types/profileAndData.js`)
 
 const Query = queryType({
 	definition(t) {
-		t.list.field("getProfiles", {
-			type: profileAndData,
-			resolve: async (parent, args) => {
 
-			}
-		});
 		t.field("getProfileAndDataJeune", {
 			type: profileAndData,
 			resolve: async (parent, args) => {
@@ -210,6 +205,41 @@ const Query = queryType({
 				return result
 			}
 		});
+		t.list.field("aboEvolution", {
+			type: aboEvolution,
+			args: {
+				subscriptionDateActual: stringArg({
+					nullable: true,
+					default: '2019-06-17'
+				}),
+				subscriptionDateRequest: stringArg({
+					nullable: true,
+					default: '2018-06-17'
+				}),
+				subscriptionDateActualCompare: stringArg({
+					nullable: true,
+					default: '2018-05-17'
+				}),
+				subscriptionDateRequestCompare: stringArg({
+					nullable: true,
+					default: '2017-05-17'
+				}),
+			},
+			resolve: async (parent, args) => {
+				const actual = await db.select('cr_type_cr').count('*').from('carte_comm').where('cr_dt_deb_val', '<', args.subscriptionDateActual).andWhere('cr_dt_deb_val', '>', args.subscriptionDateRequest).groupBy('cr_type_cr')
+				const compare = await db.select('cr_type_cr').count('*').from('carte_comm').where('cr_dt_deb_val', '<', args.subscriptionDateActualCompare).andWhere('cr_dt_deb_val', '>', args.subscriptionDateRequestCompare).groupBy('cr_type_cr')
+
+				var compared = []
+
+				actual.forEach((element, i) => {
+					compared.push({
+						cr_type_cr: element.cr_type_cr,
+						percentage: element.count / compare[i].count * 100 
+					})
+				});
+				return compared
+			}
+        });	
 	},
 });
 const schema = makeSchema({

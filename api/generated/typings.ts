@@ -100,7 +100,8 @@ export interface NexusGenRootTypes {
   }
   aboEvolution: { // root type
     count?: number | null; // Int
-    cr_type_cr: string; // String!
+    cr_type_cr?: string | null; // String
+    percentage?: number | null; // Float
   }
   profileAndData: { // root type
     card1?: string | null; // String
@@ -172,11 +173,11 @@ export interface NexusGenFieldTypes {
     in_top_sncf_connect: boolean; // Boolean!
   }
   Query: { // field return type
+    aboEvolution: NexusGenRootTypes['aboEvolution'][]; // [aboEvolution!]!
     getProfileAndDataJeune: NexusGenRootTypes['profileAndData']; // profileAndData!
     getProfileAndDataPro: NexusGenRootTypes['profileAndData']; // profileAndData!
     getProfileAndDataSenior: NexusGenRootTypes['profileAndData']; // profileAndData!
     getProfileAndDataWeekEnd: NexusGenRootTypes['profileAndData']; // profileAndData!
-    getProfiles: NexusGenRootTypes['profileAndData'][]; // [profileAndData!]!
   }
   Segment: { // field return type
     cle_client: number; // Int!
@@ -214,7 +215,8 @@ export interface NexusGenFieldTypes {
   }
   aboEvolution: { // field return type
     count: number | null; // Int
-    cr_type_cr: string; // String!
+    cr_type_cr: string | null; // String
+    percentage: number | null; // Float
   }
   profileAndData: { // field return type
     card1: string | null; // String
@@ -231,6 +233,14 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenArgTypes {
+  Query: {
+    aboEvolution: { // args
+      subscriptionDateActual?: string | null; // String
+      subscriptionDateActualCompare?: string | null; // String
+      subscriptionDateRequest?: string | null; // String
+      subscriptionDateRequestCompare?: string | null; // String
+    }
+  }
 }
 
 export interface NexusGenAbstractResolveReturnTypes {

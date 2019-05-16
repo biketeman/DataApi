@@ -1,8 +1,8 @@
 <template>
   <div>
     <ul class="cards-container">
-      <li v-for="card in cards" :key="card.title">
-        <EvolutionCard :title="card.title" :image="card.img" :number="card.number"/>
+      <li v-for="(item, index) in data.aboEvolution" :key="index">
+        <EvolutionCard :title="item.cr_type_cr" :number="item.percentage.toFixed(1)"/>
       </li>
     </ul>
   </div>
@@ -19,43 +19,22 @@ export default {
 	},
 	data () {
 		return {
-			dataLoaded: false,
-			cards: [
-				{
-					title: 'Abonnement Week-END',
-					number: 0,
-					img: require('@/assets/logo.png')
-				},
-				{
-					title: 'Abonnement Senior+',
-					number: 0,
-					img: require('@/assets/logo.png')
-				},
-				{
-					title: 'Abonnement Enfant +',
-					number: 0,
-					img: require('@/assets/logo.png')
-				},
-				{
-					title: 'Carte jeune',
-					number: 0,
-					img: require('@/assets/logo.png')
-				},
-				{
-					title: 'Evolution du nombre d abonnés',
-					number: 0,
-					img: require('@/assets/logo.png')
-				}
-			]
+			dataLoaded: false
 		}
 	},
 	apollo: {
 		data: {
 			query: gql`
         query {
-  				aboEvolution{ cr_type_cr percentage}
+  				aboEvolution{
+						cr_type_cr 
+						percentage
+					}
         }
-      `,
+			`,
+			// result({ data }){
+
+			// },
 			update (data) {
 				return data
 			},
@@ -65,6 +44,7 @@ export default {
 		}
 	},
 	mounted () {
+
 	}
 }
 </script>
