@@ -12,7 +12,7 @@
 export default {
 	name: 'evolution-card',
 	props: {
-		number: Number,
+		number: String,
 		image: String,
 		title: String
 	}

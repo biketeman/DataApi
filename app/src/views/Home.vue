@@ -10,14 +10,17 @@
             <Button color="white" message="Anéee passée"/>
           </div>
         </div>
-        <ul class="cards-container">
+        <ul class="cards-container" v-if="data">
           <li v-for="(item, index) in data.aboEvolution" :key="index">
             <EvolutionCard :title="item.cr_type_cr" :number="item.percentage.toFixed(1)"  :image="require('@/assets/logo.png')"/>
           </li>
         </ul>
         <div class="flex settings">
           <h2 class="margin">Segmentation par type de carte ou d'abonement</h2>
-          <Button class="centered" color="purple" message="+ Ajouter un type de voyageur"/>
+          <div class="centered">
+            <toggle/>
+            <Button  color="purple" message="+ Ajouter un type de voyageur"/>
+          </div>
         </div>
         <ProfileCards/>
         <!--lol-->
@@ -30,8 +33,8 @@ import Structure from '@/components/Structure.vue'
 import Button from '@/components/reusable/button.vue'
 import ProfileCards from '@/components/profileCards.vue'
 import EvolutionCard from '@/components/reusable/evolutionCard.vue'
+import toggle from '@/components/reusable/toggle.vue'
 import gql from 'graphql-tag'
-
 
 export default {
 	name: 'dashboard',
@@ -39,15 +42,16 @@ export default {
 		Structure,
 		Button,
 		EvolutionCard,
-		ProfileCards
-  },
+        ProfileCards,
+        toggle
+	},
 	apollo: {
 		data: {
 			query: gql`
         query {
-  				aboEvolution{
-						cr_type_cr 
-						percentage
+  		  aboEvolution {
+			cr_type_cr
+			percentage
           }
           getProfileAndDataJeune {
             percentageInTotal
@@ -109,7 +113,7 @@ export default {
 				console.log('Erreur Apollo', err)
 			}
 		}
-	},
+	}
 }
 </script>
 
@@ -142,11 +146,12 @@ export default {
   margin-top: auto;
   margin-left: auto;
   margin-right: 0;
+  display: flex;
 }
 .cards-container{
   justify-content: space-between;
   display: flex;
   width: 100%;
   margin-top: 50px;
-}	
+}
 </style>

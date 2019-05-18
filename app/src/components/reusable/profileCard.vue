@@ -60,18 +60,18 @@ export default {
 		card1: String,
 		card2: String,
 		cardImageText1: String,
-    cardImageText2: String,
-  },
-  methods: {
-    gotoAnalyse(profilename){
-      this.$router.push({
-        name: 'analyse',
-        params: {
-          profilename : profilename
-        }
-      })
-    }
-  }
+		cardImageText2: String
+	},
+	methods: {
+		gotoAnalyse (profilename) {
+			this.$router.push({
+				name: 'analyse',
+				params: {
+					profilename: profilename
+				}
+			})
+		}
+	}
 }
 </script>
 
