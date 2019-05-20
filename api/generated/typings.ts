@@ -98,6 +98,10 @@ export interface NexusGenRootTypes {
     sg_transp_d1: string; // String!
     sg_typ_ligne: string; // String!
   }
+  TimeSubcriptionEvolution: { // root type
+    count?: number | null; // Int
+    date?: string | null; // String
+  }
   aboEvolution: { // root type
     count?: number | null; // Int
     cr_type_cr?: string | null; // String
@@ -178,6 +182,7 @@ export interface NexusGenFieldTypes {
     getProfileAndDataPro: NexusGenRootTypes['profileAndData']; // profileAndData!
     getProfileAndDataSenior: NexusGenRootTypes['profileAndData']; // profileAndData!
     getProfileAndDataWeekEnd: NexusGenRootTypes['profileAndData']; // profileAndData!
+    TimeSubcriptionEvolution: NexusGenRootTypes['TimeSubcriptionEvolution'][]; // [TimeSubcriptionEvolution!]!
   }
   Segment: { // field return type
     cle_client: number; // Int!
@@ -212,6 +217,10 @@ export interface NexusGenFieldTypes {
     sg_statut: string; // String!
     sg_transp_d1: string; // String!
     sg_typ_ligne: string; // String!
+  }
+  TimeSubcriptionEvolution: { // field return type
+    count: number | null; // Int
+    date: string | null; // String
   }
   aboEvolution: { // field return type
     count: number | null; // Int
@@ -248,7 +257,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Abofrequences" | "Abotgvmax" | "CarteComm" | "Client" | "Query" | "Segment" | "aboEvolution" | "profileAndData";
+export type NexusGenObjectNames = "Abofrequences" | "Abotgvmax" | "CarteComm" | "Client" | "Query" | "Segment" | "TimeSubcriptionEvolution" | "aboEvolution" | "profileAndData";
 
 export type NexusGenInputNames = never;
 

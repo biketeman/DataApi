@@ -165,6 +165,7 @@ type Query {
   getProfileAndDataPro: profileAndData!
   getProfileAndDataSenior: profileAndData!
   getProfileAndDataWeekEnd: profileAndData!
+  TimeSubcriptionEvolution: [TimeSubcriptionEvolution!]!
 }
 
 type Segment {
@@ -263,4 +264,10 @@ type Segment {
 
   """clé du segment"""
   sg_typ_ligne: String!
+}
+
+type TimeSubcriptionEvolution {
+  """count subscriber"""
+  count: Int
+  date: String
 }

@@ -10,7 +10,8 @@ const CarteComm = require(`./types/cartecomm.js`);
 const Abofrequences = require(`./types/abofrequences.js`);
 const Abotgvmax = require(`./types/abotgvmax.js`);
 const aboEvolution = require(`./types/aboEvolution.js`);
-const profileAndData = require(`./types/profileAndData.js`)
+const profileAndData = require(`./types/profileAndData.js`);
+const TimeSubcriptionEvolution = require(`./types/TimeSubcriptionEvolution.js`)
 
 
 const Query = queryType({
@@ -239,11 +240,44 @@ const Query = queryType({
 				});
 				return compared
 			}
-        });	
+		});
+		t.list.field("TimeSubcriptionEvolution", {
+			type: TimeSubcriptionEvolution,
+			resolve: async (parent, args) => {
+
+				const query= db.raw(`
+				SELECT count(*), date_trunc('month', cr_dt_deb_val::date) AS monthly
+				FROM client
+				LEFT JOIN carte_comm on carte_comm.cle_client = client.cle_client
+				LEFT JOIN abo_frequence on abo_frequence.cle_client = client.cle_client
+				LEFT JOIN abo_tgvmax on abo_tgvmax.cle_client = client.cle_client
+				WHERE (carte_comm.cr_type_cr = 'Jeune'
+				AND cr_dt_deb_val > '2016-10-06'
+				AND cr_dt_deb_val < '2019-01-07')
+				OR (abo_frequence.fq_dt_cmd > '2016-10-06'
+				AND abo_frequence.fq_dt_cmd < '2019-01-07')
+				OR (abo_tgvmax.dt_souscription_max > '2016-10-06'
+				AND abo_tgvmax.dt_souscription_max < '2019-01-07')
+				GROUP BY monthly
+				ORDER BY monthly
+				`)
+
+				var result = []
+
+				query.forEach((element, i) => {
+					result.push({
+						date: element.monthly,
+						count: element.count
+					})
+				});
+				return result
+			}
+		});		
+		
 	},
 });
 const schema = makeSchema({
-	types: [Query, Segment, Client, CarteComm, Abofrequences, Abotgvmax, aboEvolution, profileAndData],
+	types: [Query, Segment, Client, CarteComm, Abofrequences, Abotgvmax, aboEvolution, profileAndData, TimeSubcriptionEvolution],
 	outputs: {
 		schema: __dirname + "/generated/schema.graphql",
 		typegen: __dirname + "/generated/typings.ts",
