@@ -12,12 +12,12 @@
           <h3>{{percentageInTotal}}%</h3>
           <p>part dans le nombre total de voyageurs</p>
         </div>
-        <div class>
+        <div >
           <h3>{{percentageInTotalcardOwner}}%</h3>
           <p>pourcentage d'abonements non renouvellés</p>
         </div>
+        <Button @click.native="gotoAnalyse(title)" class="button-out" color="purple" message="Voir plus >"/>
       </div>
-      <Button @click.native="gotoAnalyse(title)" class="button-out" color="purple" message="Voir plus >"/>
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
 		image: String,
 		title: String,
 		percentageInTotal: Number,
-		percentageInTotalcardOwner: Number,
+		percentageInTotalcardOwner: Number
 	},
 	methods: {
 		gotoAnalyse (profilename) {
@@ -60,7 +60,6 @@ export default {
   border-right: $border;
   .top {
     height: 50%;
-    padding-bottom: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -91,6 +90,7 @@ export default {
   h3 {
     margin: 0;
     text-transform: uppercase;
+    margin-top: 20px;
   }
   h4 {
     color: $purple;
@@ -124,23 +124,23 @@ export default {
     color: $purple;
   }
   .flex {
-    height: 50%;
     padding-bottom: 10px;
     padding-top: 10px;
-    border-bottom: $border;
+    height: 100%;
+    position: relative;
     div {
       width: 50%;
       padding-left: 20px;
       padding-right: 20px;
       display: flex;
       flex-direction: column;
-      justify-content: space-around
+      justify-content: center;
     }
   }
 }
 .button-out{
   position: absolute;
-  bottom: -15px;
+  bottom: -20px;
   right: -50px;
   cursor: pointer;
 }

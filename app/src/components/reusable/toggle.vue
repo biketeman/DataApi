@@ -1,7 +1,7 @@
 <template>
     <div>
         <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" v-model="checked">
             <span class="slider round"></span>
         </label>
     </div>
@@ -9,7 +9,12 @@
 
 <script>
 export default {
-	name: 'Toggle'
+	name: 'Toggle',
+	data () {
+		return {
+			checked: false
+		}
+	}
 }
 </script>
 
