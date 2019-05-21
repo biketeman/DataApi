@@ -165,6 +165,7 @@ type Query {
   getProfileAndDataPro: profileAndData!
   getProfileAndDataSenior: profileAndData!
   getProfileAndDataWeekEnd: profileAndData!
+  subscriptionCards(cr_type_cr: String): [subscriptionCards!]!
   TimeSubcriptionEvolution: [TimeSubcriptionEvolution!]!
 }
 
@@ -264,6 +265,17 @@ type Segment {
 
   """clé du segment"""
   sg_typ_ligne: String!
+}
+
+type subscriptionCards {
+  cr_type_cr: String
+
+  """clé du client"""
+  percentageInTotal: Float
+
+  """clé du client"""
+  percentageInTotalcardOwner: Float
+  title: String
 }
 
 type TimeSubcriptionEvolution {

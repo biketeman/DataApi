@@ -12,18 +12,22 @@
         </div>
         <ul class="cards-container" v-if="data">
           <li v-for="(item, index) in data.aboEvolution" :key="index">
-            <EvolutionCard :title="item.cr_type_cr" :number="item.percentage.toFixed(1)"  :image="require('@/assets/logo.png')"/>
+            <EvolutionCard :title="item.cr_type_cr" :number="item.percentage.toFixed(1)"/>
           </li>
         </ul>
-        <div class="flex settings">
-          <h2 class="margin">Segmentation par type de carte ou d'abonement</h2>
-          <div class="centered">
-            <toggle/>
-            <Button  color="purple" message="+ Ajouter un type de voyageur"/>
+        <div class="settings container-switch">
+          <div class="profil">
+            <div class="flex">
+              <h2 class="margin">Segmentation par type de carte ou d'abonement</h2>
+              <div class="centered">
+                <toggle id="toggle"/>
+                <Button  color="purple" message="+ Ajouter un type de voyageur"/>
+              </div>
+            </div>
+            <SubscriptionCards/>
+            <ProfileCards/>
           </div>
         </div>
-        <ProfileCards/>
-        <!--lol-->
       </div>
     </div>
 </template>
@@ -32,6 +36,7 @@
 import Structure from '@/components/Structure.vue'
 import Button from '@/components/reusable/button.vue'
 import ProfileCards from '@/components/profileCards.vue'
+import SubscriptionCards from '@/components/subscriptionCards.vue'
 import EvolutionCard from '@/components/reusable/evolutionCard.vue'
 import toggle from '@/components/reusable/toggle.vue'
 import gql from 'graphql-tag'
@@ -42,16 +47,17 @@ export default {
 		Structure,
 		Button,
 		EvolutionCard,
-        ProfileCards,
-        toggle
+		ProfileCards,
+    toggle,
+    SubscriptionCards
 	},
 	apollo: {
 		data: {
 			query: gql`
         query {
-  		  aboEvolution {
-			cr_type_cr
-			percentage
+  		    aboEvolution {
+			      cr_type_cr
+			      percentage
           }
           getProfileAndDataJeune {
             percentageInTotal

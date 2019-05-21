@@ -27,6 +27,11 @@ export default new Router({
 			path: '/analyse/:profilename',
 			name: 'analyse',
 			component: () => import('./views/Analyse.vue')
+		},
+		{
+			path: '/cards/:cardname',
+			name: 'cards',
+			component: () => import('./views/Analyse.vue')
 		}
 	]
 })

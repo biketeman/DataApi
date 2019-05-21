@@ -12,6 +12,7 @@ const Abotgvmax = require(`./types/abotgvmax.js`);
 const aboEvolution = require(`./types/aboEvolution.js`);
 const profileAndData = require(`./types/profileAndData.js`);
 const TimeSubcriptionEvolution = require(`./types/TimeSubcriptionEvolution.js`)
+const subscriptionCards = require(`./types/subscriptionCards.js`)
 
 
 const Query = queryType({
@@ -245,7 +246,7 @@ const Query = queryType({
 			type: TimeSubcriptionEvolution,
 			resolve: async (parent, args) => {
 
-				const query= db.raw(`
+				const query= await db.raw(`
 				SELECT count(*), date_trunc('month', cr_dt_deb_val::date) AS monthly
 				FROM client
 				LEFT JOIN carte_comm on carte_comm.cle_client = client.cle_client
@@ -261,23 +262,56 @@ const Query = queryType({
 				GROUP BY monthly
 				ORDER BY monthly
 				`)
-
 				var result = []
 
-				query.forEach((element, i) => {
-					result.push({
-						date: element.monthly,
-						count: element.count
-					})
-				});
+				query.rows.forEach((element, i) => {
+					if(element.monthly != null) {
+						result.push({
+							count: element.count,
+							date: element.monthly
+						})
+					}
+				})
+
 				return result
 			}
-		});		
+		});	
+		t.list.field("subscriptionCards", {
+			type: subscriptionCards,
+			args: {
+				cr_type_cr: stringArg({
+				  nullable: true,
+				})
+			},
+			resolve: async (parent, args) => {
+		
+				const totalCardOwner = await db('carte_comm').count('*')
+				const total = await db('client').count('*')
+				const percentageCard = await db.raw(`
+				SELECT cr_type_cr, count(distinct carte_comm) 
+				from carte_comm
+				FULL JOIN client on carte_comm.cle_client = client.cle_client
+				WHERE cr_type_cr IS NOT NULL
+				GROUP BY cr_type_cr
+				`)
+				
+				let result = []
+
+				percentageCard.rows.forEach((element, i) => {
+					result.push({
+						title: element.cr_type_cr,
+						percentageInTotal : element.count / total[0].count * 100,
+						percentageInTotalcardOwner : element.count/ totalCardOwner[0].count * 100
+					})
+				})
+				return result
+			}	
+		});	
 		
 	},
 });
 const schema = makeSchema({
-	types: [Query, Segment, Client, CarteComm, Abofrequences, Abotgvmax, aboEvolution, profileAndData, TimeSubcriptionEvolution],
+	types: [Query, Segment, Client, CarteComm, Abofrequences, Abotgvmax, aboEvolution, profileAndData, TimeSubcriptionEvolution, subscriptionCards],
 	outputs: {
 		schema: __dirname + "/generated/schema.graphql",
 		typegen: __dirname + "/generated/typings.ts",

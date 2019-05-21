@@ -26,12 +26,12 @@ export default {
 		data: {
 			query: gql`
         query {
-  				aboEvolution{
-						cr_type_cr 
-						percentage
-					}
+          aboEvolution {
+            cr_type_cr
+            percentage
+          }
         }
-			`,
+      `,
 			// result({ data }){
 
 			// },
@@ -43,13 +43,11 @@ export default {
 			}
 		}
 	},
-	mounted () {
-
-	}
+	mounted () {}
 }
 </script>
 <style lang="scss" scoped>
-.cards-container{
+.cards-container {
   justify-content: space-between;
   display: flex;
   width: 100%;
