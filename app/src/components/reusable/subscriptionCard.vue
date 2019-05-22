@@ -14,7 +14,7 @@
         </div>
         <div >
           <h3>{{percentageInTotalcardOwner}}%</h3>
-          <p>pourcentage d'abonements non renouvellés</p>
+          <p>pourcentage parmi les posséseurs de carte</p>
         </div>
         <Button @click.native="gotoAnalyse(title)" class="button-out" color="purple" message="Voir plus >"/>
       </div>

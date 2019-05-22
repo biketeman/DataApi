@@ -27,8 +27,8 @@
                 <Button  color="purple" message="+ Ajouter un type de voyageur"/>
               </div>
             </div>
-            <ProfileCards v-if="switchProfile" />
-            <SubscriptionCards v-else />
+            <SubscriptionCards v-if="switchProfile"/>
+            <ProfileCards v-else/>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@ export default {
 		data: {
 			query: gql`
         query {
-  		    aboEvolution {
+  		  aboEvolution {
 			      cr_type_cr
 			      percentage
           }

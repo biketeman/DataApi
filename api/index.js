@@ -300,8 +300,8 @@ const Query = queryType({
 				percentageCard.rows.forEach((element, i) => {
 					result.push({
 						title: element.cr_type_cr,
-						percentageInTotal : element.count / total[0].count * 100,
-						percentageInTotalcardOwner : element.count/ totalCardOwner[0].count * 100
+						percentageInTotal : (element.count / total[0].count * 100).toFixed(1),
+						percentageInTotalcardOwner : (element.count/ totalCardOwner[0].count * 100).toFixed(1)
 					})
 				})
 				return result

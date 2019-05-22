@@ -1,33 +1,11 @@
 <template>
   <div class="profile-cards-container flex">
-    <div class="left-container">
-        <subscription-card
-        :image="require('@/assets/icons/carte_jeune.svg')"
-        title="hello"
-        :percentageInTotal="10"
-        :percentageInTotalcardOwner="10">
-        </subscription-card>
-        <subscription-card
-        :image="require('@/assets/icons/carte_jeune.svg')"
-        title="hello"
-        :percentageInTotal="10"
-        :percentageInTotalcardOwner="10">
-        </subscription-card>
-    </div>
-    <div class="right-container">
-        <subscription-card
-        :image="require('@/assets/icons/carte_jeune.svg')"
-        title="hello"
-        :percentageInTotal="10"
-        :percentageInTotalcardOwner="10">
-        </subscription-card>
-        <subscription-card
-        :image="require('@/assets/icons/carte_jeune.svg')"
-        title="hello"
-        :percentageInTotal="10"
-        :percentageInTotalcardOwner="10">
-        </subscription-card>
-    </div>
+
+    <ul class="left-container">
+            <li v-for="(item, index) in data.subscriptionCards" :key="index">
+                <subscription-card :title="item.title" :image="require('@/assets/icons/carte_jeune.svg')" :percentageInTotal="item.percentageInTotal" :percentageInTotalcardOwner="item.percentageInTotalcardOwner"/>
+           </li>
+    </ul>
   </div>
 </template>
 <script>
@@ -43,20 +21,36 @@ export default {
 	data () {
 		return {}
 	},
-
+	apollo: {
+		data: {
+			query: gql`
+        query {
+            subscriptionCards{
+                percentageInTotal
+                percentageInTotalcardOwner
+                title
+            }
+        }
+      `,
+			update (data) {
+				return data
+			},
+			error (err) {
+				console.log('Erreur Apollo', err)
+			}
+		}
+	},
 	mounted () {
 	}
 }
 </script>
 <style lang="scss" scoped>
-.profile-cards-container {
-  .left-container {
-    width: 50%;
-    padding-right: 25px;
-  }
-  .right-container {
-    padding-left: 25px;
-    width: 50%;
-  }
+ul{
+    display: flex;
+    width: 100%;
+    padding:0%
+}
+li{
+
 }
 </style>
