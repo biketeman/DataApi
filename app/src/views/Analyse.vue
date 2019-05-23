@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="isDataLoaded">
     <Structure/>
     <div class="container-content">
       <div class="home-headline">
@@ -25,10 +25,24 @@
       <div class="time-evolution">
         <div v-if="data.TimeSubcriptionEvolution" class="left">
           <div class="graph">
-          <bar-chart-evolution :chart-data="datacollection" :options="this.options"></bar-chart-evolution>
-        </div>
+            <bar-chart-evolution :chart-data="datacollection" :options="this.options"></bar-chart-evolution>
+          </div>
         </div>
       </div>
+      <div class="time-evolution">
+        <div v-if="data.TimeSubcriptionEvolution" class="left">
+          <div class="graph">
+            <bar-chart-evolution :chart-data="datacollection" :options="this.options"></bar-chart-evolution>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-else class="loader">
+    <div class="LoaderBalls">
+      <div class="LoaderBalls__item"></div>
+      <div class="LoaderBalls__item"></div>
+      <div class="LoaderBalls__item"></div>
     </div>
   </div>
 </template>
@@ -54,21 +68,22 @@ export default {
 		data: {
 			query: gql`
         query {
-					TimeSubcriptionEvolution{
-						date 
-						count
-					}
+          TimeSubcriptionEvolution {
+            date
+            count
+          }
         }
-			`,
+      `,
 			update (data) {
 				return data
 			},
 			result ({ loading, data }) {
 				if (data) {
-					data.TimeSubcriptionEvolution.forEach((item) => {
+					data.TimeSubcriptionEvolution.forEach(item => {
 						this.datacollection.labels.push(item.date)
 						this.datacollection.datasets[0].data.push(item.count)
 					})
+					this.isDataLoaded = true
 				}
 			},
 			error (err) {
@@ -78,6 +93,7 @@ export default {
 	},
 	data () {
 		return {
+            isDataLoaded: false,
 			datacollection: {
 				labels: [],
 				datasets: [
@@ -170,12 +186,13 @@ export default {
 .time-evolution {
   background-color: $white;
   padding: 25px;
-  .left{
+  margin-bottom: 50px;
+  .left {
     width: 60%;
-    border-right: $border
+    border-right: $border;
   }
 }
-.graph{
+.graph {
   width: 100%;
 }
 </style>

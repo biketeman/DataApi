@@ -4,18 +4,13 @@
             <h4>{{title}}</h4>
             <h3>{{percentage}}%</h3>
         </div>
-        <div class="right-container">
-            <doughnut class="doughnut"/>
-        </div>
     </div>
 </template>
 
 <script>
-import doughnut from '@/components/charts/AboDoughnut.vue'
 
 export default {
 	components: {
-		doughnut
 	},
 	props: {
 		percentage: Number,
@@ -23,32 +18,6 @@ export default {
 	},
 	data () {
 		return {
-			datacollection: {
-				labels: ['percentage'],
-				datasets: [
-					{
-						label: 'Abonnés',
-						backgroundColor: ['purple', 'white'],
-						borderColor: 'grey',
-						data: [15, 100],
-						borderWidth: 1
-					}
-				]
-			},
-			options: {
-				  layout: {
-					padding: {
-						right: 5,
-						bottom: 5
-					}
-				},
-				legend: {
-					display: false
-				},
-				tooltips: {
-					enabled: false
-				}
-			}
 		}
 	}
 }
@@ -63,14 +32,14 @@ export default {
 }
 h4{
     color: $purple;
-    font-size: 14px;
+    font-size: 18px;
 }
 h3{
     color: black;
-    font-size: 26px;
+    font-size: 30px;
 }
 .left-container{
-    width: 50%;
+    width: 100%;
 	text-align: center;
 }
 .right-container{

@@ -1,5 +1,6 @@
 <template>
-    <div>
+  <div>
+    <div v-if="isDataLoaded">
       <Structure/>
       <div class="container-content">
         <div class="home-headline">
@@ -19,11 +20,19 @@
             <div class="flex">
               <h2 class="margin">Segmentation par type de carte ou d'abonement</h2>
               <div class="centered">
-              <label class="switch">
-                <input type="checkbox" v-model="switchProfile">
-                <span class="slider round"></span>
-              </label>
-                <Button  color="purple" message="+ Ajouter un type de voyageur"/>
+                <div class="switch-container centered">
+                  <img
+                    src="@/assets/icons/people_purple.svg"
+                    id="people_purple"
+                    alt="people-switch"
+                  >
+                  <label class="switch">
+                    <input type="checkbox" v-model="switchProfile">
+                    <span class="slider round"></span>
+                  </label>
+                  <img src="@/assets/icons/purple_card.svg" id="card_purple" alt="card-switch">
+                </div>
+                <Button color="purple" message="+ Ajouter un type de voyageur"/>
               </div>
             </div>
             <SubscriptionCards v-if="switchProfile"/>
@@ -32,6 +41,14 @@
         </div>
       </div>
     </div>
+    <div v-else class="loader">
+        <div class="LoaderBalls">
+            <div class="LoaderBalls__item"></div>
+            <div class="LoaderBalls__item"></div>
+            <div class="LoaderBalls__item"></div>
+        </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -53,16 +70,17 @@ export default {
 	},
 	data () {
 		return {
-			switchProfile: false
+			switchProfile: false,
+			isDataLoaded: false
 		}
 	},
 	apollo: {
 		data: {
 			query: gql`
         query {
-  		  aboEvolution {
-			      cr_type_cr
-			      percentage
+          aboEvolution {
+            cr_type_cr
+            percentage
           }
           getProfileAndDataJeune {
             percentageInTotal
@@ -113,11 +131,9 @@ export default {
             cardImageText2
           }
         }
-			`,
-			// result({ data }){
-
-			// },
+      `,
 			update (data) {
+				this.isDataLoaded = true
 				return data
 			},
 			error (err) {
@@ -129,37 +145,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .container-content {
   margin-top: 65px;
-	padding-left: 5%;
+  padding-left: 5%;
   padding-right: 5%;
   padding-top: 50px;
   max-width: 100%;
 }
-.home-headline{
+.home-headline {
   display: flex;
-  .settings{
+  .settings {
     margin-left: auto;
     margin-right: 0;
     display: flex;
     justify-content: center;
 
-    img{
+    img {
       margin-right: 20px;
       padding-top: auto;
-      padding-bottom: auto
+      padding-bottom: auto;
     }
+  }
 }
-}
-.centered{
+.centered {
   margin-bottom: auto;
   margin-top: auto;
   margin-left: auto;
   margin-right: 0;
   display: flex;
 }
-.cards-container{
+.cards-container {
   justify-content: space-between;
   display: flex;
   width: 100%;
@@ -187,8 +202,8 @@ export default {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -199,8 +214,8 @@ export default {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
@@ -224,4 +239,65 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+#people_purple {
+  width: 30px;
+  height: 30px;
+  margin-right: 20px;
+}
+#card_purple {
+  width: 40px;
+  height: 40px;
+  margin-right: 30px;
+  margin-left: 20px;
+}
+/* loader */
+.loader{
+    margin: auto;
+    width: 100vw;
+    height: 100vh;
+}
+.LoaderBalls {
+	width: 90px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+    height: 100%;
+    margin-right: auto;
+    margin-left: auto;
+
+	&__item {
+		// .LoaderBalls__wrapper__item
+		$anim-drt: 0.4s;
+		$anim-ease: cubic-bezier(.6,.05,.15,.95);
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		background: $purple;
+
+		&:nth-child(1) {
+			animation: bouncing $anim-drt alternate infinite $anim-ease;
+		}
+
+		&:nth-child(2) {
+			animation: bouncing $anim-drt $anim-drt/4 alternate infinite $anim-ease backwards;
+		}
+
+		&:nth-child(3) {
+			animation: bouncing $anim-drt $anim-drt/2 alternate infinite $anim-ease backwards;
+		}
+	}
+}
+
+@keyframes bouncing {
+
+	0% {
+		transform: translate3d(0, 10px, 0) scale(1.2, 0.85);
+	}
+
+	100% {
+		transform: translate3d(0, -20px, 0) scale(0.9, 1.1);
+	}
+}
+
 </style>

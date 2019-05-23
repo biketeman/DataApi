@@ -27,9 +27,9 @@
           <h3>{{percentageInTotalcardOwner}}%</h3>
           <p>pourcentage parmi les posséseurs de carte</p>
         </div>
-        <Button @click.native="gotoAnalyse(title)" class="button-out" color="purple" message="Voir plus >"/>
       </div>
     </div>
+    <Button @click.native="gotoAnalyse(title)" class="button-out" color="purple" message="Voir plus >"/>
   </div>
 </template>
 
@@ -65,12 +65,12 @@ export default {
   background-color: $white;
   padding: 10px;
   margin-bottom: 50px;
+  position: relative;
 }
 .card-left {
   width: 33.33333%;
   border-right: $border;
   .top {
-    height: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -138,7 +138,6 @@ export default {
     padding-bottom: 10px;
     padding-top: 10px;
     height: 100%;
-    position: relative;
     div {
       width: 50%;
       padding-left: 20px;
@@ -152,8 +151,9 @@ export default {
 .button-out{
   position: absolute;
   bottom: -20px;
-  right: -50px;
+  right: -20px;
   cursor: pointer;
+  z-index: 5;
 }
 
 </style>

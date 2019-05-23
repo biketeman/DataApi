@@ -268,7 +268,7 @@ const Query = queryType({
 					if(element.monthly != null) {
 						result.push({
 							count: element.count,
-							date: moment(element.monthly).format()
+							date: moment(element.monthly).lang('fr').format('MMMM YYYY')
 						})
 					}
 				})
