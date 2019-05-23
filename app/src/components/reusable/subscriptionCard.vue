@@ -2,7 +2,18 @@
   <div class="card-container flex">
     <div class="card-left flex">
       <div class="top">
-        <img v-bind:src="image" alt="picture-profile">
+        <div v-if="title == 'Jeune'">
+          <img :src="require('@/assets/icons/carte_jeune.svg')" alt="picture-profile">
+        </div>
+        <div v-else-if="title == 'Week-END'">
+          <img :src="require('@/assets/icons/abo_week-end.svg')" alt="picture-profile">
+        </div>
+        <div v-else-if="title == 'Senior+'">
+          <img :src="require('@/assets/icons/carte_senior.svg')" alt="picture-profile">
+        </div>
+        <div v-else-if="title == 'Enfant+' ">
+          <img :src="require('@/assets/icons/carte_enfant.svg')" alt="picture-profile">
+        </div>
         <h3>Carte {{title}}</h3>
       </div>
     </div>
@@ -37,11 +48,11 @@ export default {
 		percentageInTotalcardOwner: Number
 	},
 	methods: {
-		gotoAnalyse (profilename) {
+		gotoAnalyse (cardname) {
 			this.$router.push({
-				name: 'analyse',
+				name: 'cards',
 				params: {
-					profilename: profilename
+					cardname: cardname
 				}
 			})
 		}

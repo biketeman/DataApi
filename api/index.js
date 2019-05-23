@@ -13,7 +13,7 @@ const aboEvolution = require(`./types/aboEvolution.js`);
 const profileAndData = require(`./types/profileAndData.js`);
 const TimeSubcriptionEvolution = require(`./types/TimeSubcriptionEvolution.js`)
 const subscriptionCards = require(`./types/subscriptionCards.js`)
-
+const moment = require('moment')
 
 const Query = queryType({
 	definition(t) {
@@ -268,7 +268,7 @@ const Query = queryType({
 					if(element.monthly != null) {
 						result.push({
 							count: element.count,
-							date: element.monthly
+							date: moment(element.monthly).format()
 						})
 					}
 				})

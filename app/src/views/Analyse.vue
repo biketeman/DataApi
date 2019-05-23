@@ -23,7 +23,7 @@
       </div>
       <h2 class="slight-margin">Date de souscription à la carte(Jeune)</h2>
       <div class="time-evolution">
-        <div class="left">
+        <div v-if="data.TimeSubcriptionEvolution" class="left">
           <div class="graph">
           <bar-chart-evolution :chart-data="datacollection" :options="this.options"></bar-chart-evolution>
         </div>
@@ -39,6 +39,7 @@ import Button from '@/components/reusable/button.vue'
 import analyseCard from '@/components/reusable/analyseCardPercentage.vue'
 import analyseCardReccomanded from '@/components/reusable/analyseCardReccomanded.vue'
 import BarChartEvolution from '@/components/charts/BarChart.js'
+import gql from 'graphql-tag'
 
 export default {
 	name: 'dashboard',
@@ -49,16 +50,41 @@ export default {
 		analyseCardReccomanded,
 		BarChartEvolution
 	},
-
+	apollo: {
+		data: {
+			query: gql`
+        query {
+					TimeSubcriptionEvolution{
+						date 
+						count
+					}
+        }
+			`,
+			update (data) {
+				return data
+			},
+			result ({ loading, data }) {
+				if (data) {
+					data.TimeSubcriptionEvolution.forEach((item) => {
+						this.datacollection.labels.push(item.date)
+						this.datacollection.datasets[0].data.push(item.count)
+					})
+				}
+			},
+			error (err) {
+				console.log('Erreur Apollo', err)
+			}
+		}
+	},
 	data () {
 		return {
 			datacollection: {
-				labels: ['1-3', '4-6', '8-9', '10+'],
+				labels: [],
 				datasets: [
 					{
 						label: 'Abonnés',
 						backgroundColor: '#f87979',
-						data: [18, 21, 14, 11]
+						data: []
 					}
 				]
 			},

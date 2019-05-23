@@ -1,7 +1,6 @@
 <template>
     <div>
-      <Structure>
-      </Structure>
+      <Structure/>
       <div class="container-content">
         <div class="home-headline">
           <h2>Vue générale sur les abonements et les cartes</h2>
@@ -15,7 +14,7 @@
             <EvolutionCard :title="item.cr_type_cr" :number="item.percentage.toFixed(1)"/>
           </li>
         </ul>
-        <div class="settings container-switch">
+        <div class="settings container-switch" v-if="data">
           <div class="profil">
             <div class="flex">
               <h2 class="margin">Segmentation par type de carte ou d'abonement</h2>
@@ -166,7 +165,6 @@ export default {
   width: 100%;
   margin-top: 50px;
 }
-
 
 .switch {
   position: relative;

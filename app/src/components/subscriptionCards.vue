@@ -1,10 +1,14 @@
 <template>
   <div class="profile-cards-container flex">
-
     <ul class="left-container">
-            <li v-for="(item, index) in data.subscriptionCards" :key="index">
-                <subscription-card :title="item.title" :image="require('@/assets/icons/carte_jeune.svg')" :percentageInTotal="item.percentageInTotal" :percentageInTotalcardOwner="item.percentageInTotalcardOwner"/>
-           </li>
+      <li v-for="(item, index) in data.subscriptionCards" :key="index">
+        <subscription-card
+          :title="item.title"
+          :image="require('@/assets/icons/carte_jeune.svg')"
+          :percentageInTotal="item.percentageInTotal"
+          :percentageInTotalcardOwner="item.percentageInTotalcardOwner"
+        />
+      </li>
     </ul>
   </div>
 </template>
@@ -25,11 +29,11 @@ export default {
 		data: {
 			query: gql`
         query {
-            subscriptionCards{
-                percentageInTotal
-                percentageInTotalcardOwner
-                title
-            }
+          subscriptionCards {
+            percentageInTotal
+            percentageInTotalcardOwner
+            title
+          }
         }
       `,
 			update (data) {
@@ -40,17 +44,20 @@ export default {
 			}
 		}
 	},
-	mounted () {
-	}
+	mounted () {}
 }
 </script>
 <style lang="scss" scoped>
-ul{
-    display: flex;
-    width: 100%;
-    padding:0%
-}
-li{
-
+ul {
+  display: flex;
+  width: 100%;
+  padding: 0%;
+  flex-wrap: wrap;
+  > * {
+    flex: 1 1 600px;
+    margin: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
 }
 </style>
