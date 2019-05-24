@@ -251,53 +251,5 @@ input:checked + .slider:before {
   margin-right: 30px;
   margin-left: 20px;
 }
-/* loader */
-.loader{
-    margin: auto;
-    width: 100vw;
-    height: 100vh;
-}
-.LoaderBalls {
-	width: 90px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-    height: 100%;
-    margin-right: auto;
-    margin-left: auto;
-
-	&__item {
-		// .LoaderBalls__wrapper__item
-		$anim-drt: 0.4s;
-		$anim-ease: cubic-bezier(.6,.05,.15,.95);
-		width: 20px;
-		height: 20px;
-		border-radius: 50%;
-		background: $purple;
-
-		&:nth-child(1) {
-			animation: bouncing $anim-drt alternate infinite $anim-ease;
-		}
-
-		&:nth-child(2) {
-			animation: bouncing $anim-drt $anim-drt/4 alternate infinite $anim-ease backwards;
-		}
-
-		&:nth-child(3) {
-			animation: bouncing $anim-drt $anim-drt/2 alternate infinite $anim-ease backwards;
-		}
-	}
-}
-
-@keyframes bouncing {
-
-	0% {
-		transform: translate3d(0, 10px, 0) scale(1.2, 0.85);
-	}
-
-	100% {
-		transform: translate3d(0, -20px, 0) scale(0.9, 1.1);
-	}
-}
 
 </style>

@@ -87,10 +87,10 @@ export default {
 					data.TimeSubcriptionEvolution.forEach(item => {
 						this.datacollection.labels.push(item.date)
 						this.datacollection.datasets[0].data.push(item.count)
-                    })
-                    data.AmountOfTravelsPerNumberOfTravel.forEach(item => {
+					})
+					data.AmountOfTravelsPerNumberOfTravel.forEach(item => {
 						this.datacollectionSecondGraph.labels.push(item.count)
-                        this.datacollectionSecondGraph.datasets[0].data.push(item.AmountNonSubscribers)
+						this.datacollectionSecondGraph.datasets[0].data.push(item.AmountNonSubscribers)
 						this.datacollectionSecondGraph.datasets[1].data.push(item.AmountSubscribers)
 					})
 					this.isDataLoaded = true
@@ -114,7 +114,7 @@ export default {
 						data: []
 					}
 				]
-            },
+			},
 
 			options: {
 				maintainAspectRatio: false,
@@ -156,25 +156,25 @@ export default {
 						}
 					]
 				}
-            },
+			},
 
-            datacollectionSecondGraph: {
+			datacollectionSecondGraph: {
 				labels: [],
 				datasets: [
 					{
 						label: 'Abonnés',
 						backgroundColor: '#80ccff',
 						data: []
-                    },
-                    {
+					},
+					{
 						label: 'Non Abonnés',
 						backgroundColor: '#0066ff',
 						data: []
 					}
 				]
-            },
+			},
 
-            optionsSecondGraph: {
+			optionsSecondGraph: {
 				maintainAspectRatio: false,
 				layout: {
 					padding: {
@@ -184,7 +184,7 @@ export default {
 				scales: {
 					xAxes: [
 						{
-                            stacked:true,
+							stacked: true,
 							ticks: {
 								fontSize: 11,
 								beginAtZero: true
@@ -200,7 +200,7 @@ export default {
 					],
 					yAxes: [
 						{
-                            stacked:true,
+							stacked: true,
 							ticks: {
 								fontColor: 'black',
 								fontSize: 12,
@@ -216,7 +216,7 @@ export default {
 						}
 					]
 				}
-            },
+			}
 		}
 	}
 

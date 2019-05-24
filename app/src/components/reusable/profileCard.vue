@@ -10,11 +10,11 @@
         <h5>Abonement et cartes conseillées</h5>
         <div class="flex cards-images">
           <div v-if="card1 != 'empty'">
-            <img class="small" v-bind:src="card1" alt="card-image">
+            <img class="small" v-bind:src="require('@/assets/icons/'+ card1  + '.svg')" alt="card-image">
             <p>{{cardImageText1}}</p>
           </div>
-          <div>
-            <img class="small" v-bind:src="card2" alt="card-image">
+          <div v-if="card2 != 'empty'">
+            <img class="small" v-bind:src="require('@/assets/icons/'+ card2  + '.svg')" alt="card-image">
             <p>{{cardImageText2}}</p>
           </div>
         </div>

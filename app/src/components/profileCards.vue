@@ -1,61 +1,19 @@
 <template>
-  <div class="profile-cards-container flex">
-    <div class="left-container">
-      <profileCard
-        v-if="data"
-        :image="require('@/assets/icons/'+ data.getProfileAndDataJeune.image + '.svg')"
-        :card1="require('@/assets/icons/'+ data.getProfileAndDataJeune.card1 + '.svg')"
-        :card2="require('@/assets/icons/'+ data.getProfileAndDataJeune.card2 + '.svg')"
-        :cardImageText1="data.getProfileAndDataJeune.cardImageText1"
-        :cardImageText2="data.getProfileAndDataJeune.cardImageText2"
-        :title="data.getProfileAndDataJeune.title"
-        :description="data.getProfileAndDataJeune.description"
-        :percentageNoneRenewed="data.getProfileAndDataJeune.percentageNoneRenewed"
-        :percentageInTotal="data.getProfileAndDataJeune.percentageInTotal"
-        :percentageCardOwner="data.getProfileAndDataJeune.percentageCardOwner"
+  <div class="profile-cards-container flex" v-if="data">
+    <profileCard
+        v-for="(profile_data, index) in data.getAllprofile"
+        :key="index"
+        :image="require('@/assets/icons/'+ profile_data.image + '.svg')"
+        :card1="profile_data.card1"
+        :card2="profile_data.card2"
+        :cardImageText1="profile_data.cardImageText1"
+        :cardImageText2="profile_data.cardImageText2"
+        :title="profile_data.title"
+        :description="profile_data.description"
+        :percentageNoneRenewed="profile_data.percentageNoneRenewed"
+        :percentageInTotal="profile_data.percentageInTotal"
+        :percentageCardOwner="profile_data.percentageCardOwner"
       />
-      <profileCard
-        v-if="data"
-        :image="require('@/assets/icons/'+ data.getProfileAndDataPro.image + '.svg')"
-        card1="empty"
-        :card2="require('@/assets/icons/'+ data.getProfileAndDataPro.card2 + '.svg')"
-        :cardImageText1="data.getProfileAndDataPro.cardImageText1"
-        :cardImageText2="data.getProfileAndDataPro.cardImageText2"
-        :title="data.getProfileAndDataPro.title"
-        :description="data.getProfileAndDataPro.description"
-        :percentageNoneRenewed="data.getProfileAndDataPro.percentageNoneRenewed"
-        :percentageInTotal="data.getProfileAndDataPro.percentageInTotal"
-        :percentageCardOwner="data.getProfileAndDataPro.percentageCardOwner"
-      />
-    </div>
-    <div class="right-container">
-      <profileCard
-        v-if="data"
-        :image="require('@/assets/icons/'+ data.getProfileAndDataSenior.image + '.svg')"
-        :card1="require('@/assets/icons/'+ data.getProfileAndDataSenior.card1 + '.svg')"
-        :card2="require('@/assets/icons/'+ data.getProfileAndDataSenior.card2 + '.svg')"
-        :cardImageText1="data.getProfileAndDataSenior.cardImageText1"
-        :cardImageText2="data.getProfileAndDataSenior.cardImageText2"
-        :title="data.getProfileAndDataSenior.title"
-        :description="data.getProfileAndDataSenior.description"
-        :percentageNoneRenewed="data.getProfileAndDataSenior.percentageNoneRenewed"
-        :percentageInTotal="data.getProfileAndDataSenior.percentageInTotal"
-        :percentageCardOwner="data.getProfileAndDataSenior.percentageCardOwner"
-      />
-      <profileCard
-        v-if="data"
-        :image="require('@/assets/icons/'+ data.getProfileAndDataWeekEnd.image + '.svg')"
-        card1="empty"
-        :card2="require('@/assets/icons/'+ data.getProfileAndDataWeekEnd.card2 + '.svg')"
-        :cardImageText1="data.getProfileAndDataWeekEnd.cardImageText1"
-        :cardImageText2="data.getProfileAndDataWeekEnd.cardImageText2"
-        :title="data.getProfileAndDataWeekEnd.title"
-        :description="data.getProfileAndDataWeekEnd.description"
-        :percentageNoneRenewed="data.getProfileAndDataWeekEnd.percentageNoneRenewed"
-        :percentageInTotal="data.getProfileAndDataWeekEnd.percentageInTotal"
-        :percentageCardOwner="data.getProfileAndDataWeekEnd.percentageCardOwner"
-      />
-    </div>
   </div>
 </template>
 <script>
@@ -75,6 +33,18 @@ export default {
 		data: {
 			query: gql`
         query {
+          	getAllprofile{
+                title
+                card1
+                card2
+                cardImageText1
+                cardImageText2
+                description
+                percentageInTotal
+                percentageCardOwner
+                percentageNoneRenewed
+                image
+            }
           getProfileAndDataJeune {
             percentageInTotal
             percentageCardOwner
