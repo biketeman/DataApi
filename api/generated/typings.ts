@@ -42,6 +42,11 @@ export interface NexusGenRootTypes {
     compte_personnel_statut: string; // String!
     dt_souscription_max: string; // String!
   }
+  AmountOfTravelsPerPerson: { // root type
+    AmountNonSubscribers?: number | null; // Int
+    AmountSubscribers?: number | null; // Int
+    count?: number | null; // Int
+  }
   CarteComm: { // root type
     cle_client: number; // Int!
     cle_cmd: string; // String!
@@ -161,6 +166,11 @@ export interface NexusGenFieldTypes {
     compte_personnel_statut: string; // String!
     dt_souscription_max: string; // String!
   }
+  AmountOfTravelsPerPerson: { // field return type
+    AmountNonSubscribers: number | null; // Int
+    AmountSubscribers: number | null; // Int
+    count: number | null; // Int
+  }
   CarteComm: { // field return type
     cle_client: number; // Int!
     cle_cmd: string; // String!
@@ -184,6 +194,8 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     aboEvolution: NexusGenRootTypes['aboEvolution'][]; // [aboEvolution!]!
+    AmountOfTravelsPerNumberOfTravel: NexusGenRootTypes['AmountOfTravelsPerPerson'][]; // [AmountOfTravelsPerPerson!]!
+    getProfileAndData: NexusGenRootTypes['profileAndData']; // profileAndData!
     getProfileAndDataJeune: NexusGenRootTypes['profileAndData']; // profileAndData!
     getProfileAndDataPro: NexusGenRootTypes['profileAndData']; // profileAndData!
     getProfileAndDataSenior: NexusGenRootTypes['profileAndData']; // profileAndData!
@@ -262,6 +274,9 @@ export interface NexusGenArgTypes {
       subscriptionDateRequest?: string | null; // String
       subscriptionDateRequestCompare?: string | null; // String
     }
+    getProfileAndData: { // args
+      slug: string; // String!
+    }
     subscriptionCards: { // args
       cr_type_cr?: string | null; // String
     }
@@ -273,7 +288,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Abofrequences" | "Abotgvmax" | "CarteComm" | "Client" | "Query" | "Segment" | "TimeSubcriptionEvolution" | "aboEvolution" | "profileAndData" | "subscriptionCards";
+export type NexusGenObjectNames = "Abofrequences" | "Abotgvmax" | "AmountOfTravelsPerPerson" | "CarteComm" | "Client" | "Query" | "Segment" | "TimeSubcriptionEvolution" | "aboEvolution" | "profileAndData" | "subscriptionCards";
 
 export type NexusGenInputNames = never;
 

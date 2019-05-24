@@ -21,7 +21,7 @@
           :percentage="53"
         />
       </div>
-      <h2 class="slight-margin">Date de souscription à la carte(Jeune)</h2>
+      <h2 class="slight-margin">Date de souscription à la carte({{profilename}})</h2>
       <div class="time-evolution">
         <div v-if="data.TimeSubcriptionEvolution" class="left">
           <div class="graph">
@@ -32,7 +32,7 @@
       <div class="time-evolution">
         <div v-if="data.TimeSubcriptionEvolution" class="left">
           <div class="graph">
-            <bar-chart-evolution :chart-data="datacollection" :options="this.options"></bar-chart-evolution>
+            <bar-chart-evolution :chart-data="datacollectionSecondGraph" :options="this.optionsSecondGraph"></bar-chart-evolution>
           </div>
         </div>
       </div>
@@ -72,6 +72,11 @@ export default {
             date
             count
           }
+          AmountOfTravelsPerNumberOfTravel{
+              count
+              AmountNonSubscribers
+              AmountSubscribers
+          }
         }
       `,
 			update (data) {
@@ -82,6 +87,11 @@ export default {
 					data.TimeSubcriptionEvolution.forEach(item => {
 						this.datacollection.labels.push(item.date)
 						this.datacollection.datasets[0].data.push(item.count)
+                    })
+                    data.AmountOfTravelsPerNumberOfTravel.forEach(item => {
+						this.datacollectionSecondGraph.labels.push(item.count)
+                        this.datacollectionSecondGraph.datasets[0].data.push(item.AmountNonSubscribers)
+						this.datacollectionSecondGraph.datasets[1].data.push(item.AmountSubscribers)
 					})
 					this.isDataLoaded = true
 				}
@@ -93,17 +103,19 @@ export default {
 	},
 	data () {
 		return {
-            isDataLoaded: false,
+			profilename: this.$route.params.profilename,
+			isDataLoaded: false,
 			datacollection: {
 				labels: [],
 				datasets: [
 					{
 						label: 'Abonnés',
-						backgroundColor: '#f87979',
+						backgroundColor: '#80ccff',
 						data: []
 					}
 				]
-			},
+            },
+
 			options: {
 				maintainAspectRatio: false,
 				layout: {
@@ -144,9 +156,70 @@ export default {
 						}
 					]
 				}
-			}
+            },
+
+            datacollectionSecondGraph: {
+				labels: [],
+				datasets: [
+					{
+						label: 'Abonnés',
+						backgroundColor: '#80ccff',
+						data: []
+                    },
+                    {
+						label: 'Non Abonnés',
+						backgroundColor: '#0066ff',
+						data: []
+					}
+				]
+            },
+
+            optionsSecondGraph: {
+				maintainAspectRatio: false,
+				layout: {
+					padding: {
+						right: 30
+					}
+				},
+				scales: {
+					xAxes: [
+						{
+                            stacked:true,
+							ticks: {
+								fontSize: 11,
+								beginAtZero: true
+							},
+							display: true,
+							scaleLabel: {
+								display: true,
+								labelString: 'Nombres de voyages effectué',
+								fontColor: '#4710A3',
+								fontSize: 20
+							}
+						}
+					],
+					yAxes: [
+						{
+                            stacked:true,
+							ticks: {
+								fontColor: 'black',
+								fontSize: 12,
+								beginAtZero: true
+							},
+							display: true,
+							scaleLabel: {
+								display: true,
+								labelString: 'Nombre de voyageurs ayant effectué X voyages ',
+								fontColor: '#4710A3',
+								fontSize: 20
+							}
+						}
+					]
+				}
+            },
 		}
 	}
+
 }
 </script>
 

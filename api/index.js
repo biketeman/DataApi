@@ -13,10 +13,68 @@ const aboEvolution = require(`./types/aboEvolution.js`);
 const profileAndData = require(`./types/profileAndData.js`);
 const TimeSubcriptionEvolution = require(`./types/TimeSubcriptionEvolution.js`)
 const subscriptionCards = require(`./types/subscriptionCards.js`)
+const AmountOfTravelsPerNumberOfTravel = require(`./types/AmountOfTravelsPerNumberOfTravel.js`)
+
 const moment = require('moment')
 
 const Query = queryType({
 	definition(t) {
+
+		t.field("getProfileAndData", {
+			type: profileAndData,
+			args: {
+				slug: stringArg({
+					nullable: false
+				})
+			},
+
+			resolve: async (parent, args) => {
+				const totalNumberUsers = await db('client').count('*')
+				let percentageTarget = await db('client').count('*').where("slug", "=", args.slug)
+				let title = 'Jeune'
+				let image = 'profile_jeune'
+				let description = '18- 25 ans'
+				let card1 = "carte_jeune"
+				let card2 = "abo_frequence"
+				let cardImageText2 = "carte jeune"
+				let cardImageText1 = "Abo fréquence"
+
+
+				let cardOwner = await db.raw(`SELECT count(*)
+				from client 
+				left JOIN carte_comm on client.cle_client = carte_comm.cle_client
+				left join abo_frequence on abo_frequence.cle_client = client.cle_client 
+				left join abo_tgvmax on abo_tgvmax.cle_client = client.cle_client
+				where (carte_comm.cr_type_cr is NOT NULL OR abo_frequence.cle_client IS NOT NULL OR abo_tgvmax.cle_client IS NOT NULL) AND isjeune = true`)
+
+				let NoneRenewed = await db.raw(`SELECT count(*) FROM client
+				LEFT JOIN carte_comm ON carte_comm.cle_client = client.cle_client
+				LEFT JOIN abo_frequence ON abo_frequence.cle_client = client.cle_client
+				WHERE (carte_comm.cr_type_ren = 'RENOUV ISO' or carte_comm.cr_type_ren = 'RENOUV TRANSFERT' 
+				OR abo_frequence.fq_type_ren = 'RENOUV ISO' or abo_frequence.fq_type_ren = 'RENOUV TRANSFERT')
+				AND client.isjeune = true
+				`)
+
+				const percentageInTotal = (percentageTarget[0].count / totalNumberUsers[0].count *100).toFixed(1)
+				const percentageCardOwner = (cardOwner.rows[0].count / percentageTarget[0].count *100).toFixed(1)
+				const percentageNoneRenewed = (NoneRenewed.rows[0].count / percentageTarget[0].count *100).toFixed(1)
+
+
+				let result = {
+					title: title,
+					image: image,
+					percentageInTotal: percentageInTotal,
+					percentageCardOwner: percentageCardOwner,
+					percentageNoneRenewed : percentageNoneRenewed,
+					description: description,
+					card1: card1,
+					card2: card2,
+					cardImageText1: cardImageText1,
+					cardImageText2: cardImageText2
+				}
+				return result
+			}
+		});
 
 		t.field("getProfileAndDataJeune", {
 			type: profileAndData,
@@ -29,7 +87,7 @@ const Query = queryType({
 				let card1 = "carte_jeune"
 				let card2 = "abo_frequence"
 				let cardImageText2 = "carte jeune"
-				let cardImageText1 = "Abo.fréquence"
+				let cardImageText1 = "Abo fréquence"
 
 
 				let cardOwner = await db.raw(`SELECT count(*)
@@ -207,8 +265,10 @@ const Query = queryType({
 				return result
 			}
 		});
+
 		t.list.field("aboEvolution", {
 			type: aboEvolution,
+			description: 'gives the evolution of subscription on one year for every card',
 			args: {
 				subscriptionDateActual: stringArg({
 					nullable: true,
@@ -244,6 +304,7 @@ const Query = queryType({
 		});
 		t.list.field("TimeSubcriptionEvolution", {
 			type: TimeSubcriptionEvolution,
+			description: 'gives the evolution over the time for subscriptions',
 			resolve: async (parent, args) => {
 
 				const query= await db.raw(`
@@ -278,6 +339,7 @@ const Query = queryType({
 		});	
 		t.list.field("subscriptionCards", {
 			type: subscriptionCards,
+			description: 'gives the percentage of subscription card owners among the whole base and among all the card owners',
 			args: {
 				cr_type_cr: stringArg({
 				  nullable: true,
@@ -306,12 +368,79 @@ const Query = queryType({
 				})
 				return result
 			}	
-		});	
-		
+		});
+		t.list.field("AmountOfTravelsPerNumberOfTravel", {
+			type: AmountOfTravelsPerNumberOfTravel,
+			resolve: async (parent, args) => {
+
+				const AmountNonSubscribers = await db.raw(`
+						SELECT
+							count,
+							COUNT(cle_client) AS AmountNonSubscribers
+								FROM (
+								SELECT
+									segment.cle_client,
+									count(*)
+								FROM
+									segment
+									LEFT JOIN carte_comm ON segment.cle_client = carte_comm.cle_client
+									LEFT JOIN abo_frequence ON abo_frequence.cle_client = segment.cle_client
+									LEFT JOIN abo_tgvmax ON abo_tgvmax.cle_client = segment.cle_client
+								WHERE
+									carte_comm.cr_type_cr IS NULL
+									AND abo_frequence.cle_client IS NULL
+									AND abo_tgvmax.cle_client IS NULL
+								GROUP BY
+									segment.cle_client
+								ORDER BY
+									count DESC
+								) t
+							WHERE COUNT <= 10 
+							GROUP BY count
+						`
+						)
+						const AmountSubscribers = await db.raw(`
+						SELECT
+						count,
+						COUNT(cle_client) AS AmountSubscribers
+							FROM (
+							SELECT
+								segment.cle_client,
+								count(*)
+							FROM
+								segment
+								LEFT JOIN carte_comm ON segment.cle_client = carte_comm.cle_client
+								LEFT JOIN abo_frequence ON abo_frequence.cle_client = segment.cle_client
+								LEFT JOIN abo_tgvmax ON abo_tgvmax.cle_client = segment.cle_client
+							WHERE
+								(carte_comm.cr_type_cr IS NOT NULL
+								OR abo_frequence.cle_client IS NOT NULL
+								OR abo_tgvmax.cle_client IS NOT NULL)
+							GROUP BY
+								segment.cle_client
+							ORDER BY
+								count DESC
+							) t
+						WHERE COUNT <= 10 
+						GROUP BY count
+						`
+						)
+				let result = []
+
+				AmountNonSubscribers.rows.forEach((element, i) => {
+					result.push({
+						count: element.count,
+						AmountNonSubscribers : element.amountnonsubscribers,
+						AmountSubscribers : AmountSubscribers.rows[i].amountsubscribers,
+					})
+				})
+				return result
+			}	
+		});
 	},
 });
 const schema = makeSchema({
-	types: [Query, Segment, Client, CarteComm, Abofrequences, Abotgvmax, aboEvolution, profileAndData, TimeSubcriptionEvolution, subscriptionCards],
+	types: [Query, Segment, Client, CarteComm, Abofrequences, Abotgvmax, aboEvolution, profileAndData, TimeSubcriptionEvolution, subscriptionCards, AmountOfTravelsPerNumberOfTravel],
 	outputs: {
 		schema: __dirname + "/generated/schema.graphql",
 		typegen: __dirname + "/generated/typings.ts",
