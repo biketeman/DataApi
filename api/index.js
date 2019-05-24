@@ -92,6 +92,7 @@ const Query = queryType({
 				return result
 			}
 		});
+		
 		t.list.field("getAllprofile", {
 			type: profileAndData,
 			
@@ -103,6 +104,7 @@ const Query = queryType({
 				let result = []
 
 				allProfiles.forEach((element, i) => {
+
 					result.push({
 						title: element.title,
 						image: element.image,

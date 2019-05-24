@@ -109,13 +109,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .profile-cards-container {
-  .left-container {
-    width: 50%;
-    padding-right: 25px;
-  }
-  .right-container {
-    padding-left: 25px;
-    width: 50%;
-  }
+    display: flex;
+    flex-wrap: wrap;
+    div{
+        flex: 1 1 600px;
+        margin: 20px;
+        margin-top: 0px;
+        margin-bottom: 40px;
+    }
 }
 </style>
