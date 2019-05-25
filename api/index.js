@@ -102,8 +102,6 @@ const Query = queryType({
 						AND `+query_param)
 
 						percentageTarget = await db('client').count('*').whereRaw(query_param)
-						console.log(cardOwner.rows[0].count, percentageTarget[0].count )
-
 						
 						let percentageInTotal = ((percentageTarget[0].count / totalNumberUsers[0].count) *100).toFixed(1)
 						let percentageCardOwner = ((cardOwner.rows[0].count / percentageTarget[0].count) *100).toFixed(1)
@@ -137,37 +135,6 @@ const Query = queryType({
 			}
 			
 			//this query retrives all the informations for all profiles
-			
-		});
-		t.list.field("getAllprofile", {
-			type: profileAndData,
-			
-			resolve: async (parent, args) => {
-
-				const allProfiles = await db.select('*').from('cluster_data')
-
-				let result = []
-
-				allProfiles.forEach((element, i) => {
-
-					result.push({
-						title: element.title,
-						image: element.image,
-						percentageInTotal: element.percentageInTotal,
-						percentageCardOwner: element.percentageCardOwner,
-						percentageNoneRenewed : element.percentageNoneRenewed,
-						description: element.description,
-						card1: element.card1,
-						card2: element.card2,
-						cardImageText1:element.cardImageText1,
-						cardImageText2: element.cardImageText2
-					})
-				})
-
-				return result
-
-			}
-
 			
 		});
 

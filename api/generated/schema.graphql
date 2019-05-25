@@ -172,7 +172,6 @@ type Query {
   """gives the evolution of subscription on one year for every card"""
   aboEvolution(subscriptionDateActual: String = "2019-06-17", subscriptionDateActualCompare: String = "2018-05-17", subscriptionDateRequest: String = "2018-06-17", subscriptionDateRequestCompare: String = "2017-05-17"): [aboEvolution!]!
   AmountOfTravelsPerNumberOfTravel: [AmountOfTravelsPerPerson!]!
-  getAllprofile: [profileAndData!]!
   getProfileAndData(slug: String): [profileAndData!]!
 
   """

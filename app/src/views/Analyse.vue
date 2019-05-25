@@ -8,14 +8,14 @@
           <Button color="white" message="Année passée"/>
         </div>
       </div>
-      <div class="global-overview">
+      <div v-if="data" class="global-overview">
         <analyse-card-reccomanded
           cardImageText1="carte jeune"
           cardImageText2="carte abo frequence"
           :cardImage1="require('@/assets/icons/carte_jeune.svg')"
           :cardImage2="require('@/assets/icons/abo_frequence.svg')"
         />
-        <analyse-card title="part dans le nombre total de voyageurs" :percentage="12"/>
+        <analyse-card title="part dans le nombre total de voyageurs" :percentage="data.getProfileAndData.percentageInTotal"/>
         <analyse-card
           title="part de cette catégorie ayant un abonement ou une carte"
           :percentage="53"
@@ -76,7 +76,19 @@ export default {
               count
               AmountNonSubscribers
               AmountSubscribers
-          }
+            }
+        getProfileAndData (slug: "jeune"){
+            title
+            card1
+            card2
+            cardImageText1
+            cardImageText2
+            description
+            percentageInTotal
+            percentageCardOwner
+            percentageNoneRenewed
+            image
+        }
         }
       `,
 			update (data) {

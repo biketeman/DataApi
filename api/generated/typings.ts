@@ -195,7 +195,6 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     aboEvolution: NexusGenRootTypes['aboEvolution'][]; // [aboEvolution!]!
     AmountOfTravelsPerNumberOfTravel: NexusGenRootTypes['AmountOfTravelsPerPerson'][]; // [AmountOfTravelsPerPerson!]!
-    getAllprofile: NexusGenRootTypes['profileAndData'][]; // [profileAndData!]!
     getProfileAndData: NexusGenRootTypes['profileAndData'][]; // [profileAndData!]!
     subscriptionCards: NexusGenRootTypes['subscriptionCards'][]; // [subscriptionCards!]!
     TimeSubcriptionEvolution: NexusGenRootTypes['TimeSubcriptionEvolution'][]; // [TimeSubcriptionEvolution!]!
