@@ -164,6 +164,9 @@ type profileAndData {
   percentageInTotal: Float
   percentageNoneRenewed: Float
 
+  """slug"""
+  slug: String
+
   """profile title"""
   title: String
 }
@@ -171,7 +174,7 @@ type profileAndData {
 type Query {
   """gives the evolution of subscription on one year for every card"""
   aboEvolution(subscriptionDateActual: String = "2019-06-17", subscriptionDateActualCompare: String = "2018-05-17", subscriptionDateRequest: String = "2018-06-17", subscriptionDateRequestCompare: String = "2017-05-17"): [aboEvolution!]!
-  AmountOfTravelsPerNumberOfTravel: [AmountOfTravelsPerPerson!]!
+  AmountOfTravelsPerNumberOfTravel(slug: String): [AmountOfTravelsPerPerson!]!
   getProfileAndData(slug: String): [profileAndData!]!
 
   """
@@ -180,7 +183,7 @@ type Query {
   subscriptionCards(cr_type_cr: String): [subscriptionCards!]!
 
   """gives the evolution over the time for subscriptions"""
-  TimeSubcriptionEvolution: [TimeSubcriptionEvolution!]!
+  TimeSubcriptionEvolution(slug: String): [TimeSubcriptionEvolution!]!
 }
 
 type Segment {

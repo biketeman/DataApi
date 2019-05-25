@@ -34,7 +34,7 @@
       <div class="bottom">
           <h3>{{percentageNoneRenewed}}%</h3>
           <p>des anciens abonnés qui n'ont pas renouvelé leur abonement</p>
-      <Button @click.native="gotoAnalyse(title)" class="button-out" color="purple" message="Voir plus >"/>
+      <Button @click.native="gotoAnalyse(slug)" class="button-out" color="purple" message="Voir plus >"/>
       </div>
     </div>
   </div>
@@ -57,7 +57,8 @@ export default {
 		card1: String,
 		card2: String,
 		cardImageText1: String,
-		cardImageText2: String
+        cardImageText2: String,
+        slug: String
 	},
 	methods: {
 		gotoAnalyse (profilename) {

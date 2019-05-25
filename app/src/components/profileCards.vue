@@ -13,6 +13,7 @@
         :percentageNoneRenewed="profile_data.percentageNoneRenewed"
         :percentageInTotal="profile_data.percentageInTotal"
         :percentageCardOwner="profile_data.percentageCardOwner"
+        :slug="profile_data.slug"
       />
   </div>
 </template>
@@ -44,6 +45,7 @@ export default {
             percentageCardOwner
             percentageNoneRenewed
             image
+            slug
         }
         }
       `,

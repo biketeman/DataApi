@@ -20,8 +20,7 @@ const moment = require('moment')
 const Query = queryType({
 	definition(t) {
 
-		//this query takes a slug as args and search in the table ClusterData for all relative information on it's cluster and on the other tables to retrive informations 
-		//such as percentages
+		//this query can take a slug as arg to retrive all data for a certain profile or retrives data for all profile is it's not given an arg
 		t.list.field("getProfileAndData", {
 			type: profileAndData,
 			args: {
@@ -72,7 +71,8 @@ const Query = queryType({
 						cardImageText2: cluster_data[0].cardImageText2,
 						percentageInTotal: percentageInTotal,
 						percentageCardOwner: percentageCardOwner,
-						percentageNoneRenewed : percentageNoneRenewed
+						percentageNoneRenewed : percentageNoneRenewed,
+						slug: cluster_data[0].slug
 					}]
 
 				} else {
@@ -114,6 +114,8 @@ const Query = queryType({
 						let card2 = element.card2
 						let cardImageText2 = element.cardImageText2
 						let cardImageText1 = element.cardImageText1
+						let slug = element.slug
+
 	
 						result.push({
 							title: title,
@@ -125,7 +127,8 @@ const Query = queryType({
 							cardImageText2: cardImageText2,
 							percentageInTotal: percentageInTotal,
 							percentageCardOwner: percentageCardOwner,
-							percentageNoneRenewed : percentageNoneRenewed
+							percentageNoneRenewed : percentageNoneRenewed,
+							slug: slug
 						})
 					}
 					
@@ -138,6 +141,7 @@ const Query = queryType({
 			
 		});
 
+		//this query retrives the evolution of travelers for one year for every subscription card type
 		t.list.field("aboEvolution", {
 			type: aboEvolution,
 			description: 'gives the evolution of subscription on one year for every card',
@@ -174,7 +178,48 @@ const Query = queryType({
 				return compared
 			}
 		});
+
+		//gives the percentage of subscription card owners among the whole base and among all the card owners
+		t.list.field("subscriptionCards", {
+			type: subscriptionCards,
+			description: 'gives the percentage of subscription card owners among the whole base and among all the card owners',
+			args: {
+				cr_type_cr: stringArg({
+				  nullable: true,
+				})
+			},
+			resolve: async (parent, args) => {
+		
+				const totalCardOwner = await db('carte_comm').count('*')
+				const total = await db('client').count('*')
+				const percentageCard = await db.raw(`
+				SELECT cr_type_cr, count(distinct carte_comm) 
+				from carte_comm
+				FULL JOIN client on carte_comm.cle_client = client.cle_client
+				WHERE cr_type_cr IS NOT NULL
+				GROUP BY cr_type_cr
+				`)
+				
+				let result = []
+
+				percentageCard.rows.forEach((element, i) => {
+					result.push({
+						title: element.cr_type_cr,
+						percentageInTotal : (element.count / total[0].count * 100).toFixed(1),
+						percentageInTotalcardOwner : (element.count/ totalCardOwner[0].count * 100).toFixed(1)
+					})
+				})
+				return result
+			}	
+		});
+
+		//this query retrives the subscription evolution throughout the time  
 		t.list.field("TimeSubcriptionEvolution", {
+			args: {
+				slug: stringArg({
+					nullable: true
+				})
+			},
 			type: TimeSubcriptionEvolution,
 			description: 'gives the evolution over the time for subscriptions',
 			resolve: async (parent, args) => {
@@ -208,41 +253,18 @@ const Query = queryType({
 
 				return result
 			}
-		});	
-		t.list.field("subscriptionCards", {
-			type: subscriptionCards,
-			description: 'gives the percentage of subscription card owners among the whole base and among all the card owners',
-			args: {
-				cr_type_cr: stringArg({
-				  nullable: true,
-				})
-			},
-			resolve: async (parent, args) => {
-		
-				const totalCardOwner = await db('carte_comm').count('*')
-				const total = await db('client').count('*')
-				const percentageCard = await db.raw(`
-				SELECT cr_type_cr, count(distinct carte_comm) 
-				from carte_comm
-				FULL JOIN client on carte_comm.cle_client = client.cle_client
-				WHERE cr_type_cr IS NOT NULL
-				GROUP BY cr_type_cr
-				`)
-				
-				let result = []
-
-				percentageCard.rows.forEach((element, i) => {
-					result.push({
-						title: element.cr_type_cr,
-						percentageInTotal : (element.count / total[0].count * 100).toFixed(1),
-						percentageInTotalcardOwner : (element.count/ totalCardOwner[0].count * 100).toFixed(1)
-					})
-				})
-				return result
-			}	
 		});
+
+
+
+		//this query retrives the amount of travelers per number of travel example (1 travel : 2500 travelers)
 		t.list.field("AmountOfTravelsPerNumberOfTravel", {
 			type: AmountOfTravelsPerNumberOfTravel,
+			args: {
+				slug: stringArg({
+					nullable: true
+				})
+			},
 			resolve: async (parent, args) => {
 
 				const AmountNonSubscribers = await db.raw(`

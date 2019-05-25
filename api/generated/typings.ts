@@ -122,6 +122,7 @@ export interface NexusGenRootTypes {
     percentageCardOwner?: number | null; // Float
     percentageInTotal?: number | null; // Float
     percentageNoneRenewed?: number | null; // Float
+    slug?: string | null; // String
     title?: string | null; // String
   }
   subscriptionCards: { // root type
@@ -252,6 +253,7 @@ export interface NexusGenFieldTypes {
     percentageCardOwner: number | null; // Float
     percentageInTotal: number | null; // Float
     percentageNoneRenewed: number | null; // Float
+    slug: string | null; // String
     title: string | null; // String
   }
   subscriptionCards: { // field return type
@@ -270,11 +272,17 @@ export interface NexusGenArgTypes {
       subscriptionDateRequest?: string | null; // String
       subscriptionDateRequestCompare?: string | null; // String
     }
+    AmountOfTravelsPerNumberOfTravel: { // args
+      slug?: string | null; // String
+    }
     getProfileAndData: { // args
       slug?: string | null; // String
     }
     subscriptionCards: { // args
       cr_type_cr?: string | null; // String
+    }
+    TimeSubcriptionEvolution: { // args
+      slug?: string | null; // String
     }
   }
 }

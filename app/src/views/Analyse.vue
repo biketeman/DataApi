@@ -4,21 +4,18 @@
     <div class="container-content">
       <div class="home-headline">
         <h2>Vue générale sur la souscription à la carte jeune pour ce type de voyageur</h2>
-        <div class="settings">
-          <Button color="white" message="Année passée"/>
-        </div>
       </div>
-      <div v-if="data" class="global-overview">
+      <div class="global-overview">
         <analyse-card-reccomanded
-          cardImageText1="carte jeune"
-          cardImageText2="carte abo frequence"
-          :cardImage1="require('@/assets/icons/carte_jeune.svg')"
-          :cardImage2="require('@/assets/icons/abo_frequence.svg')"
+          :cardImageText1="data.getProfileAndData[0].cardImageText1"
+          :cardImageText2="data.getProfileAndData[0].cardImageText2"
+          :card1="data.getProfileAndData[0].card1"
+          :card2="data.getProfileAndData[0].card2"
         />
-        <analyse-card title="part dans le nombre total de voyageurs" :percentage="data.getProfileAndData.percentageInTotal"/>
+        <analyse-card title="part dans le nombre total de voyageurs" :percentage="data.getProfileAndData[0].percentageInTotal"/>
         <analyse-card
           title="part de cette catégorie ayant un abonement ou une carte"
-          :percentage="53"
+          :percentage="data.getProfileAndData[0].percentageCardOwner"
         />
       </div>
       <h2 class="slight-margin">Date de souscription à la carte({{profilename}})</h2>
@@ -49,7 +46,6 @@
 
 <script>
 import Structure from '@/components/Structure.vue'
-import Button from '@/components/reusable/button.vue'
 import analyseCard from '@/components/reusable/analyseCardPercentage.vue'
 import analyseCardReccomanded from '@/components/reusable/analyseCardReccomanded.vue'
 import BarChartEvolution from '@/components/charts/BarChart.js'
@@ -60,14 +56,14 @@ export default {
 	components: {
 		Structure,
 		analyseCard,
-		Button,
 		analyseCardReccomanded,
 		BarChartEvolution
 	},
+
 	apollo: {
 		data: {
 			query: gql`
-        query {
+        query ($profilename: String!){
           TimeSubcriptionEvolution {
             date
             count
@@ -76,21 +72,26 @@ export default {
               count
               AmountNonSubscribers
               AmountSubscribers
-            }
-        getProfileAndData (slug: "jeune"){
-            title
-            card1
-            card2
-            cardImageText1
-            cardImageText2
-            description
-            percentageInTotal
-            percentageCardOwner
-            percentageNoneRenewed
-            image
+          }
+            getProfileAndData (slug: $profilename){
+                title
+                card1
+                card2
+                cardImageText1
+                cardImageText2
+                description
+                percentageInTotal
+                percentageCardOwner
+                percentageNoneRenewed
+                image
         }
         }
       `,
+		variables () {
+			return {
+				profilename: this.profilename
+			}
+		},
 			update (data) {
 				return data
 			},
@@ -230,6 +231,10 @@ export default {
 				}
 			}
 		}
+	},
+	mounted () {
+        console.log(this.profilename)
+
 	}
 
 }
