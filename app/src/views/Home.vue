@@ -82,54 +82,6 @@ export default {
             cr_type_cr
             percentage
           }
-          getProfileAndDataJeune {
-            percentageInTotal
-            percentageCardOwner
-            percentageNoneRenewed
-            description
-            title
-            image
-            card1
-            card2
-            cardImageText1
-            cardImageText2
-          }
-          getProfileAndDataSenior {
-            percentageInTotal
-            percentageCardOwner
-            percentageNoneRenewed
-            description
-            title
-            image
-            card1
-            card2
-            cardImageText1
-            cardImageText2
-          }
-          getProfileAndDataWeekEnd {
-            percentageInTotal
-            percentageCardOwner
-            percentageNoneRenewed
-            description
-            title
-            image
-            card1
-            card2
-            cardImageText1
-            cardImageText2
-          }
-          getProfileAndDataPro {
-            percentageInTotal
-            percentageCardOwner
-            percentageNoneRenewed
-            description
-            title
-            image
-            card1
-            card2
-            cardImageText1
-            cardImageText2
-          }
         }
       `,
 			update (data) {

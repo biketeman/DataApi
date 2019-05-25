@@ -1,7 +1,7 @@
 <template>
   <div class="profile-cards-container flex" v-if="data">
     <profileCard
-        v-for="(profile_data, index) in data.getAllprofile"
+        v-for="(profile_data, index) in data.getProfileAndData"
         :key="index"
         :image="require('@/assets/icons/'+ profile_data.image + '.svg')"
         :card1="profile_data.card1"
@@ -33,66 +33,18 @@ export default {
 		data: {
 			query: gql`
         query {
-          	getAllprofile{
-                title
-                card1
-                card2
-                cardImageText1
-                cardImageText2
-                description
-                percentageInTotal
-                percentageCardOwner
-                percentageNoneRenewed
-                image
-            }
-          getProfileAndDataJeune {
-            percentageInTotal
-            percentageCardOwner
-            percentageNoneRenewed
-            description
+            getProfileAndData{
             title
-            image
             card1
             card2
             cardImageText1
             cardImageText2
-          }
-          getProfileAndDataSenior {
+            description
             percentageInTotal
             percentageCardOwner
             percentageNoneRenewed
-            description
-            title
             image
-            card1
-            card2
-            cardImageText1
-            cardImageText2
-          }
-          getProfileAndDataWeekEnd {
-            percentageInTotal
-            percentageCardOwner
-            percentageNoneRenewed
-            description
-            title
-            image
-            card1
-            card2
-            cardImageText1
-            cardImageText2
-          }
-          getProfileAndDataPro {
-            percentageInTotal
-            percentageCardOwner
-            percentageNoneRenewed
-            description
-            title
-            image
-            card1
-            card2
-            cardImageText1
-            cardImageText2
-          }
+        }
         }
       `,
 			update (data) {

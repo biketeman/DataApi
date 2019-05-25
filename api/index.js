@@ -20,79 +20,125 @@ const moment = require('moment')
 const Query = queryType({
 	definition(t) {
 
-		t.field("getProfileAndData", {
+		//this query takes a slug as args and search in the table ClusterData for all relative information on it's cluster and on the other tables to retrive informations 
+		//such as percentages
+		t.list.field("getProfileAndData", {
 			type: profileAndData,
 			args: {
 				slug: stringArg({
-					nullable: false
+					nullable: true
 				})
 			},
-			
 			resolve: async (parent, args) => {
+
+				let query_param
+				let percentageTarget
+				let cluster_data
+
+				// global query for all clusters even single ones
 				const totalNumberUsers = await db('client').count('*')
 
-				if (args.slug === "jeune") {
-					parameter_name = 'isjeune'
-				} else if (args.slug === "senior") {
-					parameter_name = 'issenior'
-				} else if (args.slug === "pro") {
-					parameter_name = 'ispro'
-				} else if (args.slug === "weekend") {
-					parameter_name = 'isweekend'
-				} else{ 
-					console.log('error in structure')
+				if ( args.slug != null ) {
+					// we only have one data to return
+					let query_param = "is"+args.slug+" = true"
+
+					percentageTarget = await db('client').count('*').whereRaw(query_param)
+					cluster_data = await db('cluster_data').select('*').where("slug", "=", args.slug)
+
+					let cardOwner = await db.raw(`SELECT count(distinct client.cle_client)
+						from client 
+						left JOIN carte_comm on client.cle_client = carte_comm.cle_client
+						left join abo_frequence on abo_frequence.cle_client = client.cle_client 
+						left join abo_tgvmax on abo_tgvmax.cle_client = client.cle_client
+						where (carte_comm.cr_type_cr is NOT NULL OR abo_frequence.cle_client IS NOT NULL OR abo_tgvmax.cle_client IS NOT NULL) AND `+query_param)
+						let NoneRenewed = await db.raw(`SELECT count(distinct client.cle_client) FROM client
+						LEFT JOIN carte_comm ON carte_comm.cle_client = client.cle_client
+						LEFT JOIN abo_frequence ON abo_frequence.cle_client = client.cle_client
+						WHERE (carte_comm.cr_type_ren = 'RENOUV ISO' or carte_comm.cr_type_ren = 'RENOUV TRANSFERT' 
+						OR abo_frequence.fq_type_ren = 'RENOUV ISO' or abo_frequence.fq_type_ren = 'RENOUV TRANSFERT')
+						AND `+query_param)
+
+					const percentageInTotal = (percentageTarget[0].count / totalNumberUsers[0].count *100).toFixed(1)
+					const percentageCardOwner = (cardOwner.rows[0].count / percentageTarget[0].count *100).toFixed(1)
+					const percentageNoneRenewed = (NoneRenewed.rows[0].count / percentageTarget[0].count *100).toFixed(1)
+
+					return [{
+						title: cluster_data[0].title,
+						image: cluster_data[0].image,
+						description: cluster_data[0].description,
+						card1: cluster_data[0].card1,
+						card2: cluster_data[0].card2,
+						cardImageText1: cluster_data[0].cardImageText1,
+						cardImageText2: cluster_data[0].cardImageText2,
+						percentageInTotal: percentageInTotal,
+						percentageCardOwner: percentageCardOwner,
+						percentageNoneRenewed : percentageNoneRenewed
+					}]
+
+				} else {
+					// we return all clusters data
+
+					cluster_data = await db('cluster_data').select('*')
+					let result = []
+
+					// looping for all clusters
+					for (let i in cluster_data) {
+
+						let element = cluster_data[i]
+
+						query_param = "is"+element.slug+" = true"
+
+						let cardOwner = await db.raw(`SELECT count(distinct client.cle_client)
+						from client 
+						left JOIN carte_comm on client.cle_client = carte_comm.cle_client
+						left join abo_frequence on abo_frequence.cle_client = client.cle_client 
+						left join abo_tgvmax on abo_tgvmax.cle_client = client.cle_client
+						where (carte_comm.cr_type_cr is NOT NULL OR abo_frequence.cle_client IS NOT NULL OR abo_tgvmax.cle_client IS NOT NULL) AND `+query_param)
+						let NoneRenewed = await db.raw(`SELECT count(distinct client.cle_client) FROM client
+						LEFT JOIN carte_comm ON carte_comm.cle_client = client.cle_client
+						LEFT JOIN abo_frequence ON abo_frequence.cle_client = client.cle_client
+						WHERE (carte_comm.cr_type_ren = 'RENOUV ISO' or carte_comm.cr_type_ren = 'RENOUV TRANSFERT' 
+						OR abo_frequence.fq_type_ren = 'RENOUV ISO' or abo_frequence.fq_type_ren = 'RENOUV TRANSFERT')
+						AND `+query_param)
+
+						percentageTarget = await db('client').count('*').whereRaw(query_param)
+						console.log(cardOwner.rows[0].count, percentageTarget[0].count )
+
+						
+						let percentageInTotal = ((percentageTarget[0].count / totalNumberUsers[0].count) *100).toFixed(1)
+						let percentageCardOwner = ((cardOwner.rows[0].count / percentageTarget[0].count) *100).toFixed(1)
+						let percentageNoneRenewed = ((NoneRenewed.rows[0].count / percentageTarget[0].count) *100).toFixed(1)
+
+						let title = element.title
+						let image = element.image
+						let description = element.description
+						let card1 = element.card1
+						let card2 = element.card2
+						let cardImageText2 = element.cardImageText2
+						let cardImageText1 = element.cardImageText1
+	
+						result.push({
+							title: title,
+							image: image,
+							description: description,
+							card1: card1,
+							card2: card2,
+							cardImageText1: cardImageText1,
+							cardImageText2: cardImageText2,
+							percentageInTotal: percentageInTotal,
+							percentageCardOwner: percentageCardOwner,
+							percentageNoneRenewed : percentageNoneRenewed
+						})
+					}
+					
+					return result
+
 				}
-
-				let percentageTarget = await db('client').count('*').where(parameter_name, true)
-				
-				const cluster_data = await db('cluster_data').select('*').where('slug', '=', args.slug)
-
-				console.log(cluster_data)
-				let title = cluster_data[0].title
-				let image = cluster_data[0].image
-				let description = cluster_data[0].description
-				let card1 = cluster_data[0].card1
-				let card2 = cluster_data[0].card2
-				let cardImageText2 = cluster_data[0].cardImageText2
-				let cardImageText1 = cluster_data[0].cardImageText1
-
-
-				let cardOwner = await db.raw(`SELECT count(*)
-				from client 
-				left JOIN carte_comm on client.cle_client = carte_comm.cle_client
-				left join abo_frequence on abo_frequence.cle_client = client.cle_client 
-				left join abo_tgvmax on abo_tgvmax.cle_client = client.cle_client
-				where (carte_comm.cr_type_cr is NOT NULL OR abo_frequence.cle_client IS NOT NULL OR abo_tgvmax.cle_client IS NOT NULL) AND `+parameter_name+` = true`)
-
-				let NoneRenewed = await db.raw(`SELECT count(*) FROM client
-				LEFT JOIN carte_comm ON carte_comm.cle_client = client.cle_client
-				LEFT JOIN abo_frequence ON abo_frequence.cle_client = client.cle_client
-				WHERE (carte_comm.cr_type_ren = 'RENOUV ISO' or carte_comm.cr_type_ren = 'RENOUV TRANSFERT' 
-				OR abo_frequence.fq_type_ren = 'RENOUV ISO' or abo_frequence.fq_type_ren = 'RENOUV TRANSFERT')
-				AND client.`+parameter_name+` = true
-				`)
-
-				const percentageInTotal = (percentageTarget[0].count / totalNumberUsers[0].count *100).toFixed(1)
-				const percentageCardOwner = (cardOwner.rows[0].count / percentageTarget[0].count *100).toFixed(1)
-				const percentageNoneRenewed = (NoneRenewed.rows[0].count / percentageTarget[0].count *100).toFixed(1)
-
-
-				let result = {
-					title: title,
-					image: image,
-					percentageInTotal: percentageInTotal,
-					percentageCardOwner: percentageCardOwner,
-					percentageNoneRenewed : percentageNoneRenewed,
-					description: description,
-					card1: card1,
-					card2: card2,
-					cardImageText1: cardImageText1,
-					cardImageText2: cardImageText2
-				}
-				return result
 			}
+			
+			//this query retrives all the informations for all profiles
+			
 		});
-		
 		t.list.field("getAllprofile", {
 			type: profileAndData,
 			
@@ -100,7 +146,6 @@ const Query = queryType({
 
 				const allProfiles = await db.select('*').from('cluster_data')
 
-				console.log(allProfiles)
 				let result = []
 
 				allProfiles.forEach((element, i) => {
@@ -120,199 +165,10 @@ const Query = queryType({
 				})
 
 				return result
+
 			}
-		});
 
-
-
-		t.field("getProfileAndDataJeune", {
-			type: profileAndData,
-			resolve: async (parent, args) => {
-				const totalNumberUsers = await db('client').count('*')
-				let percentageTarget = await db('client').count('*').where('isjeune', true)
-				let title = 'Jeune'
-				let image = 'profile_jeune'
-				let description = '18- 25 ans'
-				let card1 = "carte_jeune"
-				let card2 = "abo_frequence"
-				let cardImageText2 = "carte jeune"
-				let cardImageText1 = "Abo fréquence"
-
-
-				let cardOwner = await db.raw(`SELECT count(*)
-				from client 
-				left JOIN carte_comm on client.cle_client = carte_comm.cle_client
-				left join abo_frequence on abo_frequence.cle_client = client.cle_client 
-				left join abo_tgvmax on abo_tgvmax.cle_client = client.cle_client
-				where (carte_comm.cr_type_cr is NOT NULL OR abo_frequence.cle_client IS NOT NULL OR abo_tgvmax.cle_client IS NOT NULL) AND isjeune = true`)
-
-				let NoneRenewed = await db.raw(`SELECT count(*) FROM client
-				LEFT JOIN carte_comm ON carte_comm.cle_client = client.cle_client
-				LEFT JOIN abo_frequence ON abo_frequence.cle_client = client.cle_client
-				WHERE (carte_comm.cr_type_ren = 'RENOUV ISO' or carte_comm.cr_type_ren = 'RENOUV TRANSFERT' 
-				OR abo_frequence.fq_type_ren = 'RENOUV ISO' or abo_frequence.fq_type_ren = 'RENOUV TRANSFERT')
-				AND client.isjeune = true
-				`)
-
-				const percentageInTotal = (percentageTarget[0].count / totalNumberUsers[0].count *100).toFixed(1)
-				const percentageCardOwner = (cardOwner.rows[0].count / percentageTarget[0].count *100).toFixed(1)
-				const percentageNoneRenewed = (NoneRenewed.rows[0].count / percentageTarget[0].count *100).toFixed(1)
-
-
-				let result = {
-					title: title,
-					image: image,
-					percentageInTotal: percentageInTotal,
-					percentageCardOwner: percentageCardOwner,
-					percentageNoneRenewed : percentageNoneRenewed,
-					description: description,
-					card1: card1,
-					card2: card2,
-					cardImageText1: cardImageText1,
-					cardImageText2: cardImageText2
-				}
-				return result
-			}
-		});
-		t.field("getProfileAndDataSenior", {
-			type: profileAndData,
-			resolve: async (parent, args) => {
-
-				const totalNumberUsers = await db('client').count('*')
-				let percentageTarget = await db('client').count('*').where('issenior', true)
-				let title = 'Séniors'
-				let image = 'profile_senior'
-				let description = '+65 ans'
-				let card1 = "carte_senior"
-				let card2 = "abo_frequence"
-				let cardImageText2 = "carte Sénior"
-				let cardImageText1 = "Abo.fréquence"
-
-				let cardOwner = await db.raw(`SELECT count(distinct client.cle_client)
-				from client 
-				left JOIN carte_comm on client.cle_client = carte_comm.cle_client
-				left join abo_frequence on abo_frequence.cle_client = client.cle_client 
-				left join abo_tgvmax on abo_tgvmax.cle_client = client.cle_client
-				where (carte_comm.cr_type_cr is NOT NULL OR abo_frequence.cle_client IS NOT NULL OR abo_tgvmax.cle_client IS NOT NULL) AND issenior = true`)
-
-				let NoneRenewed = await db.raw(`SELECT count(distinct client.cle_client) FROM client
-				LEFT JOIN carte_comm ON carte_comm.cle_client = client.cle_client
-				LEFT JOIN abo_frequence ON abo_frequence.cle_client = client.cle_client
-				WHERE (carte_comm.cr_type_ren = 'RENOUV ISO' or carte_comm.cr_type_ren = 'RENOUV TRANSFERT' 
-				OR abo_frequence.fq_type_ren = 'RENOUV ISO' or abo_frequence.fq_type_ren = 'RENOUV TRANSFERT')
-				AND client.issenior = true
-				`)
-
-				const percentageInTotal = (percentageTarget[0].count / totalNumberUsers[0].count *100).toFixed(1)
-				const percentageCardOwner = (cardOwner.rows[0].count / percentageTarget[0].count *100).toFixed(1)
-				const percentageNoneRenewed = (NoneRenewed.rows[0].count / percentageTarget[0].count *100).toFixed(1)
-
-				let result = {
-					title: title,
-					image: image,
-					percentageInTotal: percentageInTotal,
-					percentageCardOwner: percentageCardOwner,
-					percentageNoneRenewed : percentageNoneRenewed,
-					description: description,
-					card1: card1,
-					card2: card2,
-					cardImageText1: cardImageText1,
-					cardImageText2: cardImageText2
-				}
-				return result
-			}
-		});
-		t.field("getProfileAndDataPro", {
-			type: profileAndData,
-			resolve: async (parent, args) => {
-
-				const totalNumberUsers = await db('client').count('*')
-				let percentageTarget = await db('client').count('*').where('ispro', true)
-				let title = 'Pro'
-				let image ='profile_pro'
-				let description = '2/AR Par an'
-				let card2 = "abo_frequence"
-				let card1 = "empty"
-				let cardImageText2 = "Abo.frequence"
-
-				let cardOwner = await db.raw(`SELECT count(distinct client.cle_client)
-				from client 
-				left JOIN carte_comm on client.cle_client = carte_comm.cle_client
-				left join abo_frequence on abo_frequence.cle_client = client.cle_client 
-				left join abo_tgvmax on abo_tgvmax.cle_client = client.cle_client
-				where (carte_comm.cr_type_cr is NOT NULL OR abo_frequence.cle_client IS NOT NULL OR abo_tgvmax.cle_client IS NOT NULL) AND ispro = true`)
-
-				let NoneRenewed = await db.raw(`SELECT count(distinct client.cle_client) FROM client
-				LEFT JOIN carte_comm ON carte_comm.cle_client = client.cle_client
-				LEFT JOIN abo_frequence ON abo_frequence.cle_client = client.cle_client
-				WHERE (carte_comm.cr_type_ren = 'RENOUV ISO' or carte_comm.cr_type_ren = 'RENOUV TRANSFERT' 
-				OR abo_frequence.fq_type_ren = 'RENOUV ISO' or abo_frequence.fq_type_ren = 'RENOUV TRANSFERT')
-				AND client.ispro = true
-				`)
-
-				const percentageInTotal = (percentageTarget[0].count / totalNumberUsers[0].count *100).toFixed(1)
-				const percentageCardOwner = (cardOwner.rows[0].count / percentageTarget[0].count *100).toFixed(1)
-				const percentageNoneRenewed = (NoneRenewed.rows[0].count / percentageTarget[0].count *100).toFixed(1)
-
-				let result = {
-					title: title,
-					image: image,
-					percentageInTotal: percentageInTotal,
-					percentageCardOwner: percentageCardOwner,
-					percentageNoneRenewed : percentageNoneRenewed,
-					description: description,
-					card1: card1,
-					card2: card2,
-					cardImageText2: cardImageText2
-				}
-				return result
-			}
-		});
-		t.field("getProfileAndDataWeekEnd", {
-			type: profileAndData,
-			resolve: async (parent, args) => {
-
-				const totalNumberUsers = await db('client').count('*')
-				let percentageTarget = await db('client').count('*').where('ispro', true)
-				let title = 'Week-End'
-				let image ='profile_week-end'
-				let description = 'Abo.Week End'
-				let card2 = "abo_week-end"
-				let card1 = "empty"
-				let cardImageText2 = "Week-END"
-
-				let cardOwner = await db.raw(`SELECT count(distinct client.cle_client)
-				from client 
-				left JOIN carte_comm on client.cle_client = carte_comm.cle_client
-				left join abo_frequence on abo_frequence.cle_client = client.cle_client 
-				left join abo_tgvmax on abo_tgvmax.cle_client = client.cle_client
-				where (carte_comm.cr_type_cr is NOT NULL OR abo_frequence.cle_client IS NOT NULL OR abo_tgvmax.cle_client IS NOT NULL) AND ispro = true`)
-
-				let NoneRenewed = await db.raw(`SELECT count(distinct client.cle_client) FROM client
-				LEFT JOIN carte_comm ON carte_comm.cle_client = client.cle_client
-				LEFT JOIN abo_frequence ON abo_frequence.cle_client = client.cle_client
-				WHERE (carte_comm.cr_type_ren = 'RENOUV ISO' or carte_comm.cr_type_ren = 'RENOUV TRANSFERT' 
-				OR abo_frequence.fq_type_ren = 'RENOUV ISO' or abo_frequence.fq_type_ren = 'RENOUV TRANSFERT')
-				AND client.ispro = true
-				`)
-
-				const percentageInTotal = (percentageTarget[0].count / totalNumberUsers[0].count *100).toFixed(1)
-				const percentageCardOwner = (cardOwner.rows[0].count / percentageTarget[0].count *100).toFixed(1)
-				const percentageNoneRenewed = (NoneRenewed.rows[0].count / percentageTarget[0].count *100).toFixed(1)
-
-				let result = {
-					title: title,
-					image: image,
-					percentageInTotal: percentageInTotal,
-					percentageCardOwner: percentageCardOwner,
-					percentageNoneRenewed : percentageNoneRenewed,
-					description: description,
-					card1: card1,
-					card2: card2,
-					cardImageText2: cardImageText2
-				}
-				return result
-			}
+			
 		});
 
 		t.list.field("aboEvolution", {

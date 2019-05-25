@@ -196,11 +196,7 @@ export interface NexusGenFieldTypes {
     aboEvolution: NexusGenRootTypes['aboEvolution'][]; // [aboEvolution!]!
     AmountOfTravelsPerNumberOfTravel: NexusGenRootTypes['AmountOfTravelsPerPerson'][]; // [AmountOfTravelsPerPerson!]!
     getAllprofile: NexusGenRootTypes['profileAndData'][]; // [profileAndData!]!
-    getProfileAndData: NexusGenRootTypes['profileAndData']; // profileAndData!
-    getProfileAndDataJeune: NexusGenRootTypes['profileAndData']; // profileAndData!
-    getProfileAndDataPro: NexusGenRootTypes['profileAndData']; // profileAndData!
-    getProfileAndDataSenior: NexusGenRootTypes['profileAndData']; // profileAndData!
-    getProfileAndDataWeekEnd: NexusGenRootTypes['profileAndData']; // profileAndData!
+    getProfileAndData: NexusGenRootTypes['profileAndData'][]; // [profileAndData!]!
     subscriptionCards: NexusGenRootTypes['subscriptionCards'][]; // [subscriptionCards!]!
     TimeSubcriptionEvolution: NexusGenRootTypes['TimeSubcriptionEvolution'][]; // [TimeSubcriptionEvolution!]!
   }
@@ -276,7 +272,7 @@ export interface NexusGenArgTypes {
       subscriptionDateRequestCompare?: string | null; // String
     }
     getProfileAndData: { // args
-      slug: string; // String!
+      slug?: string | null; // String
     }
     subscriptionCards: { // args
       cr_type_cr?: string | null; // String
