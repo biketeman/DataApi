@@ -64,11 +64,11 @@ export default {
 		data: {
 			query: gql`
         query ($profilename: String!){
-          TimeSubcriptionEvolution {
+          TimeSubcriptionEvolution (slug: $profilename) {
             date
             count
           }
-          AmountOfTravelsPerNumberOfTravel{
+          AmountOfTravelsPerNumberOfTravel (slug: $profilename){
               count
               AmountNonSubscribers
               AmountSubscribers
@@ -175,12 +175,12 @@ export default {
 				labels: [],
 				datasets: [
 					{
-						label: 'Abonnés',
+						label: 'Non Abonnés',
 						backgroundColor: '#80ccff',
 						data: []
 					},
 					{
-						label: 'Non Abonnés',
+						label: 'Abonnés',
 						backgroundColor: '#0066ff',
 						data: []
 					}
@@ -233,8 +233,6 @@ export default {
 		}
 	},
 	mounted () {
-        console.log(this.profilename)
-
 	}
 
 }

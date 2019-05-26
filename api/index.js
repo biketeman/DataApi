@@ -224,13 +224,15 @@ const Query = queryType({
 			description: 'gives the evolution over the time for subscriptions',
 			resolve: async (parent, args) => {
 
+				query_param = "is"+args.slug+" = true"
+
 				const query= await db.raw(`
 				SELECT count(*), date_trunc('month', cr_dt_deb_val::date) AS monthly
 				FROM client
 				LEFT JOIN carte_comm on carte_comm.cle_client = client.cle_client
 				LEFT JOIN abo_frequence on abo_frequence.cle_client = client.cle_client
 				LEFT JOIN abo_tgvmax on abo_tgvmax.cle_client = client.cle_client
-				WHERE (carte_comm.cr_type_cr = 'Jeune'
+				WHERE (` +  query_param + `
 				AND cr_dt_deb_val > '2016-10-06'
 				AND cr_dt_deb_val < '2019-01-07')
 				OR (abo_frequence.fq_dt_cmd > '2016-10-06'
@@ -239,7 +241,8 @@ const Query = queryType({
 				AND abo_tgvmax.dt_souscription_max < '2019-01-07')
 				GROUP BY monthly
 				ORDER BY monthly
-				`)
+				` 
+				)
 				var result = []
 
 				query.rows.forEach((element, i) => {
@@ -255,8 +258,6 @@ const Query = queryType({
 			}
 		});
 
-
-
 		//this query retrives the amount of travelers per number of travel example (1 travel : 2500 travelers)
 		t.list.field("AmountOfTravelsPerNumberOfTravel", {
 			type: AmountOfTravelsPerNumberOfTravel,
@@ -267,6 +268,7 @@ const Query = queryType({
 			},
 			resolve: async (parent, args) => {
 
+				query_param = "is"+args.slug+" = true"
 				const AmountNonSubscribers = await db.raw(`
 						SELECT
 							count,
@@ -280,10 +282,12 @@ const Query = queryType({
 									LEFT JOIN carte_comm ON segment.cle_client = carte_comm.cle_client
 									LEFT JOIN abo_frequence ON abo_frequence.cle_client = segment.cle_client
 									LEFT JOIN abo_tgvmax ON abo_tgvmax.cle_client = segment.cle_client
-								WHERE
+									LEFT JOIN client ON client.cle_client = segment.cle_client
+								WHERE( 
 									carte_comm.cr_type_cr IS NULL
 									AND abo_frequence.cle_client IS NULL
-									AND abo_tgvmax.cle_client IS NULL
+									AND abo_tgvmax.cle_client IS NULL)
+								AND ` + query_param + `
 								GROUP BY
 									segment.cle_client
 								ORDER BY
@@ -306,10 +310,12 @@ const Query = queryType({
 								LEFT JOIN carte_comm ON segment.cle_client = carte_comm.cle_client
 								LEFT JOIN abo_frequence ON abo_frequence.cle_client = segment.cle_client
 								LEFT JOIN abo_tgvmax ON abo_tgvmax.cle_client = segment.cle_client
+								LEFT JOIN client ON client.cle_client = segment.cle_client
 							WHERE
 								(carte_comm.cr_type_cr IS NOT NULL
 								OR abo_frequence.cle_client IS NOT NULL
 								OR abo_tgvmax.cle_client IS NOT NULL)
+								AND ` + query_param + `
 							GROUP BY
 								segment.cle_client
 							ORDER BY
