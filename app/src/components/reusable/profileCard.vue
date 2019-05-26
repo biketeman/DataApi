@@ -57,8 +57,8 @@ export default {
 		card1: String,
 		card2: String,
 		cardImageText1: String,
-        cardImageText2: String,
-        slug: String
+		cardImageText2: String,
+		slug: String
 	},
 	methods: {
 		gotoAnalyse (profilename) {

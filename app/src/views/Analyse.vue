@@ -22,8 +22,11 @@
       <div class="time-evolution">
         <div v-if="data.TimeSubcriptionEvolution" class="left">
           <div class="graph">
-            <bar-chart-evolution :chart-data="datacollection" :options="this.options"></bar-chart-evolution>
+            <bar-chart-evolution id="chart1" :chart-data="datacollection" :options="this.options"></bar-chart-evolution>
           </div>
+        </div>
+        <div class="right centered">
+            <h4>Sélectionner les valeurs souhaité pour avoir les détails</h4>
         </div>
       </div>
       <div class="time-evolution">
@@ -31,6 +34,9 @@
           <div class="graph">
             <bar-chart-evolution :chart-data="datacollectionSecondGraph" :options="this.optionsSecondGraph"></bar-chart-evolution>
           </div>
+        </div>
+        <div class="right centered">
+            <h4>Sélectionner les valeurs souhaité pour avoir les détails</h4>
         </div>
       </div>
     </div>
@@ -87,11 +93,11 @@ export default {
         }
         }
       `,
-		variables () {
-			return {
-				profilename: this.profilename
-			}
-		},
+			variables () {
+				return {
+					profilename: this.profilename
+				}
+			},
 			update (data) {
 				return data
 			},
@@ -117,7 +123,8 @@ export default {
 	data () {
 		return {
 			profilename: this.$route.params.profilename,
-			isDataLoaded: false,
+            isDataLoaded: false,
+            summUsers: 0,
 			datacollection: {
 				labels: [],
 				datasets: [
@@ -128,8 +135,23 @@ export default {
 					}
 				]
 			},
-
 			options: {
+				onClick: function (evt, item, _this) {
+					let myBar = item
+					let bgColor = myBar[0]['_model'].backgroundColor
+					let index = myBar[0]['_index']
+                    let value = this.tooltip._data.datasets[0].data[index]
+
+
+					if (bgColor !== 'red') {
+                        myBar[0]['_model'].backgroundColor = 'red'
+                        this.summUsers += value
+					    console.log(this.summUsers)
+					} else {
+						myBar[0]['_model'].backgroundColor = '#80ccff'
+					}
+				},
+				events: ['click'],
 				maintainAspectRatio: false,
 				layout: {
 					padding: {
@@ -222,7 +244,7 @@ export default {
 							display: true,
 							scaleLabel: {
 								display: true,
-								labelString: 'Nombre de voyageurs ayant effectué X voyages ',
+								labelString: 'Nombre de voyageurs ',
 								fontColor: '#4710A3',
 								fontSize: 20
 							}
@@ -231,10 +253,7 @@ export default {
 				}
 			}
 		}
-	},
-	mounted () {
 	}
-
 }
 </script>
 
@@ -261,11 +280,6 @@ export default {
     }
   }
 }
-.global-overview {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 25px;
-}
 .slight-margin {
   margin-top: 50px;
   margin-bottom: 50px;
@@ -275,12 +289,28 @@ export default {
   background-color: $white;
   padding: 25px;
   margin-bottom: 50px;
+  display: flex;
   .left {
     width: 60%;
     border-right: $border;
+  }
+  .right{
+      text-align: center;
+      width: 40%;
+      display: flex;
+      h4{
+          color: $purple;
+          margin:auto;
+      }
   }
 }
 .graph {
   width: 100%;
 }
+.global-overview {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 25px;
+}
+
 </style>

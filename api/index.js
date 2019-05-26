@@ -267,71 +267,62 @@ const Query = queryType({
 				})
 			},
 			resolve: async (parent, args) => {
-
 				query_param = "is"+args.slug+" = true"
+				let numberMax = 10
+
 				const AmountNonSubscribers = await db.raw(`
+				SELECT count AS total,
+					COUNT(cle_client) AS amount_non_subscribers
+					FROM (
 						SELECT
-							count,
-							COUNT(cle_client) AS AmountNonSubscribers
-								FROM (
-								SELECT
-									segment.cle_client,
-									count(*)
-								FROM
-									segment
-									LEFT JOIN carte_comm ON segment.cle_client = carte_comm.cle_client
-									LEFT JOIN abo_frequence ON abo_frequence.cle_client = segment.cle_client
-									LEFT JOIN abo_tgvmax ON abo_tgvmax.cle_client = segment.cle_client
-									LEFT JOIN client ON client.cle_client = segment.cle_client
-								WHERE( 
-									carte_comm.cr_type_cr IS NULL
-									AND abo_frequence.cle_client IS NULL
-									AND abo_tgvmax.cle_client IS NULL)
-								AND ` + query_param + `
-								GROUP BY
-									segment.cle_client
-								ORDER BY
-									count DESC
-								) t
-							WHERE COUNT <= 10 
-							GROUP BY count
-						`
-						)
-						const AmountSubscribers = await db.raw(`
+							count(*),
+							segment.cle_client
+						FROM
+							segment
+							LEFT JOIN abo_frequence ON abo_frequence.cle_client = segment.cle_client
+							LEFT JOIN abo_tgvmax ON abo_tgvmax.cle_client = segment.cle_client
+							LEFT JOIN client ON client.cle_client = segment.cle_client
+							WHERE( 
+														abo_frequence.cle_client IS NULL
+														AND abo_tgvmax.cle_client IS NULL)
+														AND ` + query_param + `
+						GROUP BY
+							segment.cle_client) t
+					GROUP BY count
+					ORDER BY count
+					LIMIT ` + numberMax + `
+						`)
+				const AmountSubscribers = await db.raw(`
+				SELECT count AS total,
+					COUNT(cle_client) AS amount_subscribers
+					FROM (
 						SELECT
-						count,
-						COUNT(cle_client) AS AmountSubscribers
-							FROM (
-							SELECT
-								segment.cle_client,
-								count(*)
-							FROM
-								segment
-								LEFT JOIN carte_comm ON segment.cle_client = carte_comm.cle_client
-								LEFT JOIN abo_frequence ON abo_frequence.cle_client = segment.cle_client
-								LEFT JOIN abo_tgvmax ON abo_tgvmax.cle_client = segment.cle_client
-								LEFT JOIN client ON client.cle_client = segment.cle_client
-							WHERE
-								(carte_comm.cr_type_cr IS NOT NULL
-								OR abo_frequence.cle_client IS NOT NULL
-								OR abo_tgvmax.cle_client IS NOT NULL)
+							count(*),
+							segment.cle_client
+						FROM
+							segment
+							LEFT JOIN abo_frequence ON abo_frequence.cle_client = segment.cle_client
+							LEFT JOIN abo_tgvmax ON abo_tgvmax.cle_client = segment.cle_client
+							LEFT JOIN client ON client.cle_client = segment.cle_client
+							LEFT JOIN carte_comm on carte_comm.cle_client = segment.cle_client
+							WHERE( 
+								abo_frequence.cle_client IS NOT NULL
+								OR abo_tgvmax.cle_client IS NOT NULL
+								OR carte_comm.cle_client IS NOT NULL)
 								AND ` + query_param + `
-							GROUP BY
-								segment.cle_client
-							ORDER BY
-								count DESC
-							) t
-						WHERE COUNT <= 10 
-						GROUP BY count
-						`
-						)
+						GROUP BY
+							segment.cle_client) t
+					GROUP BY count
+					ORDER BY count
+					LIMIT ` + numberMax + `
+						`)
 				let result = []
 
 				AmountNonSubscribers.rows.forEach((element, i) => {
 					result.push({
-						count: element.count,
-						AmountNonSubscribers : element.amountnonsubscribers,
-						AmountSubscribers : AmountSubscribers.rows[i].amountsubscribers,
+						count: element.total,
+						AmountNonSubscribers : element.amount_non_subscribers,
+						AmountSubscribers : AmountSubscribers.rows[i].amount_subscribers,
 					})
 				})
 				return result
