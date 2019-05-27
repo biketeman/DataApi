@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- if data is loaded get the content -->
     <div v-if="isDataLoaded">
       <Structure/>
       <div class="container-content">
@@ -70,6 +71,7 @@ export default {
 	},
 	data () {
 		return {
+            // allows switch at click on the toggle
 			switchProfile: false,
 			isDataLoaded: false
 		}

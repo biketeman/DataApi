@@ -14,16 +14,6 @@ export default new Router({
 			component: Home
 		},
 		{
-			path: '/dashboard',
-			name: 'dashboard',
-			component: () => import('./views/Dashboard.vue')
-		},
-		{
-			path: '/line',
-			name: 'line',
-			component: () => import('./views/Dashboard.vue')
-		},
-		{
 			path: '/analyse/:profilename',
 			name: 'analyse',
 			component: () => import('./views/Analyse.vue')

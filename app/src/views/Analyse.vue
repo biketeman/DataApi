@@ -1,4 +1,5 @@
 <template>
+  <!-- if data is loaded get the content -->
   <div v-if="isDataLoaded">
     <Structure/>
     <div class="container-content">
@@ -25,7 +26,7 @@
       <div class="time-evolution">
         <div v-if="data.TimeSubcriptionEvolution" class="left">
           <div class="graph">
-            <bar-chart-evolution id="chart1" :chart-data="datacollection" :options="this.options"></bar-chart-evolution>
+            <bar-chart-evolution :chart-data="datacollection" :options="this.options"></bar-chart-evolution>
           </div>
         </div>
         <div class="right centered" v-if="isFirstGraphClicked">
@@ -68,6 +69,8 @@
       </div>
     </div>
   </div>
+
+  <!-- while data is loading get the loader -->
   <div v-else class="loader">
     <div class="LoaderBalls">
       <div class="LoaderBalls__item"></div>
@@ -153,15 +156,18 @@ export default {
 	},
 	data () {
 		return {
-			profilename: this.$route.params.profilename,
+            profilename: this.$route.params.profilename,
+
+            //Chart manipulation variables to display the graphs and the data
 			isDataLoaded: false,
 			summUsers: 0,
 			SummTotal: 0,
 			isFirstGraphClicked: true,
-
 			summUsersSecondGraph: 0,
 			SummTotalSecondGraph: 0,
-			isSecondGraphClicked: true,
+            isSecondGraphClicked: true,
+
+            //Options and chartData for graphs
 			datacollection: {
 				labels: [],
 				datasets: [
@@ -195,24 +201,27 @@ export default {
 		const _this = this
 		this.options = {
 			onClick: function (evt, item) {
-				let myBar = item
-				let bgColor = myBar[0]['_model'].backgroundColor
-				let index = myBar[0]['_index']
+
+                // chart manipulation on click event variables
+
+				let bgColor = item[0]['_model'].backgroundColor
+				let index = item[0]['_index']
 				let value = this.tooltip._data.datasets[0].data[index]
 				_this.isFirstGraphClicked = false
 
+                // Getting the sum of all chart values
 				if (_this.SummTotal === 0) {
 					for (var i = 0; i < this.tooltip._data.datasets[0].data.length; i++) {
 						_this.SummTotal += this.tooltip._data.datasets[0].data[i]
 					}
-					console.log(_this.SummTotal)
 				}
 
+                // Chnanging graph color and increasing or decreasing the sum of selected value
 				if (bgColor !== '#4710A3') {
-					myBar[0]['_model'].backgroundColor = '#4710A3'
+					item[0]['_model'].backgroundColor = '#4710A3'
 					_this.summUsers += value
 				} else {
-					myBar[0]['_model'].backgroundColor = '#80ccff'
+					item[0]['_model'].backgroundColor = '#80ccff'
 					_this.summUsers -= value
 				}
 			},
@@ -223,7 +232,8 @@ export default {
 			maintainAspectRatio: false,
 			layout: {
 				padding: {
-					right: 30
+                    right: 30,
+                    top: 50
 				}
 			},
 			scales: {
@@ -260,43 +270,34 @@ export default {
 				]
 			}
 		}
-		
+
 		this.optionsSecondGraph = {
 			onClick: function (evt, item) {
 
-				let myBar = item
-				let bgColor = myBar[0]['_model'].backgroundColor
-				let bgColor2 = myBar[1]['_model'].backgroundColor
-				let index = myBar[0]['_index']
+                // chart manipulation on click event variables
+
+				let index = item[0]['_index']
 				let value = this.tooltip._data.datasets[0].data[index]
+                _this.isSecondGraphClicked = false
 
-				console.log(myBar)
-				console.log(bgColor)
-				console.log(bgColor2)
-
-
-				_this.isSecondGraphClicked = false
-
+                // Getting the sum of all chart values
 				if (_this.SummTotalSecondGraph === 0) {
 					for (var i = 0; i < this.tooltip._data.datasets[0].data.length; i++) {
 						_this.SummTotalSecondGraph += this.tooltip._data.datasets[0].data[i]
 					}
-					console.log(_this.SummTotalSecondGraph)
-				}
+                }
 
-				if (bgColor !== '#4710A3') {
-
-					myBar[0]['_model'].backgroundColor = '#4710A3'
-					myBar[1]['_model'].backgroundColor = '#4710A3'
-					_this.summUsersSecondGraph += value
-
+                // Chnanging graph color and increasing or decreasing the sum of selected value
+				if (item[0]['_model'].backgroundColor !== '#4710A3') {
+					item[0]['_model'].backgroundColor = '#4710A3'
+                    _this.summUsersSecondGraph += value
 				} else {
-					myBar[0]['_model'].backgroundColor = '#80ccff'
-					_this.summUsersSecondGraph -= value
+					item[0]['_model'].backgroundColor = '#80ccff'
+                    _this.summUsersSecondGraph -= value
 				}
-
 			},
-			maintainAspectRatio: false,
+            maintainAspectRatio: false,
+			events: ['click'],
 			layout: {
 				padding: {
 					right: 30
@@ -313,7 +314,7 @@ export default {
 						display: true,
 						scaleLabel: {
 							display: true,
-							labelString: 'Nombres de voyages effectué',
+							labelString: 'Nombres de voyages effectué en 2018',
 							fontColor: '#4710A3',
 							fontSize: 20
 						}
@@ -395,7 +396,7 @@ export default {
 }
 .global-overview {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-top: 25px;
 }
 .right-clicked {

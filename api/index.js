@@ -14,7 +14,6 @@ const profileAndData = require(`./types/profileAndData.js`);
 const TimeSubcriptionEvolution = require(`./types/TimeSubcriptionEvolution.js`)
 const subscriptionCards = require(`./types/subscriptionCards.js`)
 const AmountOfTravelsPerNumberOfTravel = require(`./types/AmountOfTravelsPerNumberOfTravel.js`)
-
 const moment = require('moment')
 
 const Query = queryType({
@@ -283,9 +282,11 @@ const Query = queryType({
 							LEFT JOIN abo_tgvmax ON abo_tgvmax.cle_client = segment.cle_client
 							LEFT JOIN client ON client.cle_client = segment.cle_client
 							WHERE( 
-														abo_frequence.cle_client IS NULL
-														AND abo_tgvmax.cle_client IS NULL)
-														AND ` + query_param + `
+								abo_frequence.cle_client IS NULL
+								AND abo_tgvmax.cle_client IS NULL)
+								AND ` + query_param + `
+								AND segment.sg_dt_dep_voy >= '2018-01-01'
+								AND segment.sg_dt_dep_voy <= '2019-01-01'
 						GROUP BY
 							segment.cle_client) t
 					GROUP BY count
@@ -310,6 +311,8 @@ const Query = queryType({
 								OR abo_tgvmax.cle_client IS NOT NULL
 								OR carte_comm.cle_client IS NOT NULL)
 								AND ` + query_param + `
+								AND segment.sg_dt_dep_voy >= '2018-01-01'
+								AND segment.sg_dt_dep_voy <= '2019-01-01'
 						GROUP BY
 							segment.cle_client) t
 					GROUP BY count
