@@ -7,7 +7,7 @@
         <h4>{{description}}</h4>
       </div>
       <div class="bottom">
-        <h5>Abonement et cartes conseillées</h5>
+        <h5>Abonnement et cartes conseillées</h5>
         <div class="flex cards-images">
           <div v-if="card1 != 'empty'">
             <img class="small" v-bind:src="require('@/assets/icons/'+ card1  + '.svg')" alt="card-image">

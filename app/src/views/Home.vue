@@ -4,7 +4,7 @@
       <Structure/>
       <div class="container-content">
         <div class="home-headline">
-          <h2>Vue générale sur les abonements et les cartes</h2>
+          <h2>Vue générale sur les abonnements et les cartes</h2>
           <div class="settings">
             <img class="small-icon" src="../assets/icons/settings-work-tool.svg">
             <Button color="white" message="Anéee passée"/>
@@ -18,7 +18,7 @@
         <div class="settings container-switch" v-if="data">
           <div class="profil">
             <div class="flex">
-              <h2 class="margin">Segmentation par type de carte ou d'abonement</h2>
+              <h2 class="margin">Segmentation par type de carte ou d'abonnement</h2>
               <div class="centered">
                 <div class="switch-container centered">
                   <img

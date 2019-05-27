@@ -12,7 +12,10 @@
           :card1="data.getProfileAndData[0].card1"
           :card2="data.getProfileAndData[0].card2"
         />
-        <analyse-card title="part dans le nombre total de voyageurs" :percentage="data.getProfileAndData[0].percentageInTotal"/>
+        <analyse-card
+          title="part dans le nombre total de voyageurs"
+          :percentage="data.getProfileAndData[0].percentageInTotal"
+        />
         <analyse-card
           title="part de cette catégorie ayant un abonement ou une carte"
           :percentage="data.getProfileAndData[0].percentageCardOwner"
@@ -25,18 +28,42 @@
             <bar-chart-evolution id="chart1" :chart-data="datacollection" :options="this.options"></bar-chart-evolution>
           </div>
         </div>
-        <div class="right centered">
-            <h4>Sélectionner les valeurs souhaité pour avoir les détails</h4>
+        <div class="right centered" v-if="isFirstGraphClicked">
+          <h4>Sélectionner les valeurs souhaité pour avoir les détails</h4>
         </div>
-      </div>
-      <div class="time-evolution">
-        <div v-if="data.TimeSubcriptionEvolution" class="left">
-          <div class="graph">
-            <bar-chart-evolution :chart-data="datacollectionSecondGraph" :options="this.optionsSecondGraph"></bar-chart-evolution>
+        <div class="right-clicked" v-else>
+          <div class="top">
+            <h4>Nombre de personnes ciblés</h4>
+            <h3>{{summUsers}}</h3>
+          </div>
+          <div class="bottom">
+            <h4>Pourcentage par rapport au profil</h4>
+            <h3>{{ (summUsers/ SummTotal * 100).toFixed(1) }}%</h3>
           </div>
         </div>
-        <div class="right centered">
-            <h4>Sélectionner les valeurs souhaité pour avoir les détails</h4>
+      </div>
+
+      <div class="time-evolution">
+        <div v-if="data.AmountOfTravelsPerNumberOfTravel" class="left">
+          <div class="graph">
+            <bar-chart-evolution
+              :chart-data="datacollectionSecondGraph"
+              :options="this.optionsSecondGraph"
+            ></bar-chart-evolution>
+          </div>
+        </div>
+        <div class="right centered" v-if="isSecondGraphClicked">
+          <h4>Sélectionner les valeurs souhaité pour avoir les détails</h4>
+        </div>
+				<div class="right-clicked" v-else>
+          <div class="top">
+            <h4>Nombre de personnes ciblés</h4>
+            <h3>{{summUsersSecondGraph}}</h3>
+          </div>
+          <div class="bottom">
+            <h4>Pourcentage par rapport au profil</h4>
+            <h3>{{ (summUsersSecondGraph/ SummTotalSecondGraph * 100).toFixed(1) }}%</h3>
+          </div>
         </div>
       </div>
     </div>
@@ -69,28 +96,28 @@ export default {
 	apollo: {
 		data: {
 			query: gql`
-        query ($profilename: String!){
-          TimeSubcriptionEvolution (slug: $profilename) {
+        query($profilename: String!) {
+          TimeSubcriptionEvolution(slug: $profilename) {
             date
             count
           }
-          AmountOfTravelsPerNumberOfTravel (slug: $profilename){
-              count
-              AmountNonSubscribers
-              AmountSubscribers
+          AmountOfTravelsPerNumberOfTravel(slug: $profilename) {
+            count
+            AmountNonSubscribers
+            AmountSubscribers
           }
-            getProfileAndData (slug: $profilename){
-                title
-                card1
-                card2
-                cardImageText1
-                cardImageText2
-                description
-                percentageInTotal
-                percentageCardOwner
-                percentageNoneRenewed
-                image
-        }
+          getProfileAndData(slug: $profilename) {
+            title
+            card1
+            card2
+            cardImageText1
+            cardImageText2
+            description
+            percentageInTotal
+            percentageCardOwner
+            percentageNoneRenewed
+            image
+          }
         }
       `,
 			variables () {
@@ -109,8 +136,12 @@ export default {
 					})
 					data.AmountOfTravelsPerNumberOfTravel.forEach(item => {
 						this.datacollectionSecondGraph.labels.push(item.count)
-						this.datacollectionSecondGraph.datasets[0].data.push(item.AmountNonSubscribers)
-						this.datacollectionSecondGraph.datasets[1].data.push(item.AmountSubscribers)
+						this.datacollectionSecondGraph.datasets[0].data.push(
+							item.AmountNonSubscribers
+						)
+						this.datacollectionSecondGraph.datasets[1].data.push(
+							item.AmountSubscribers
+						)
 					})
 					this.isDataLoaded = true
 				}
@@ -123,8 +154,14 @@ export default {
 	data () {
 		return {
 			profilename: this.$route.params.profilename,
-            isDataLoaded: false,
-            summUsers: 0,
+			isDataLoaded: false,
+			summUsers: 0,
+			SummTotal: 0,
+			isFirstGraphClicked: true,
+
+			summUsersSecondGraph: 0,
+			SummTotalSecondGraph: 0,
+			isSecondGraphClicked: true,
 			datacollection: {
 				labels: [],
 				datasets: [
@@ -135,64 +172,7 @@ export default {
 					}
 				]
 			},
-			options: {
-				onClick: function (evt, item, _this) {
-					let myBar = item
-					let bgColor = myBar[0]['_model'].backgroundColor
-					let index = myBar[0]['_index']
-                    let value = this.tooltip._data.datasets[0].data[index]
-
-
-					if (bgColor !== 'red') {
-                        myBar[0]['_model'].backgroundColor = 'red'
-                        this.summUsers += value
-					    console.log(this.summUsers)
-					} else {
-						myBar[0]['_model'].backgroundColor = '#80ccff'
-					}
-				},
-				events: ['click'],
-				maintainAspectRatio: false,
-				layout: {
-					padding: {
-						right: 30
-					}
-				},
-				scales: {
-					xAxes: [
-						{
-							ticks: {
-								fontSize: 11,
-								beginAtZero: true
-							},
-							display: true,
-							scaleLabel: {
-								display: true,
-								labelString: 'Semaine',
-								fontColor: '#4710A3',
-								fontSize: 20
-							}
-						}
-					],
-					yAxes: [
-						{
-							ticks: {
-								fontColor: 'black',
-								fontSize: 12,
-								beginAtZero: true
-							},
-							display: true,
-							scaleLabel: {
-								display: true,
-								labelString: 'Nombre de souscription à la carte ',
-								fontColor: '#4710A3',
-								fontSize: 20
-							}
-						}
-					]
-				}
-			},
-
+			options: {},
 			datacollectionSecondGraph: {
 				labels: [],
 				datasets: [
@@ -208,49 +188,154 @@ export default {
 					}
 				]
 			},
+			optionsSecondGraph: {}
+		}
+	},
+	mounted () {
+		const _this = this
+		this.options = {
+			onClick: function (evt, item) {
+				let myBar = item
+				let bgColor = myBar[0]['_model'].backgroundColor
+				let index = myBar[0]['_index']
+				let value = this.tooltip._data.datasets[0].data[index]
+				_this.isFirstGraphClicked = false
 
-			optionsSecondGraph: {
-				maintainAspectRatio: false,
-				layout: {
-					padding: {
-						right: 30
+				if (_this.SummTotal === 0) {
+					for (var i = 0; i < this.tooltip._data.datasets[0].data.length; i++) {
+						_this.SummTotal += this.tooltip._data.datasets[0].data[i]
 					}
-				},
-				scales: {
-					xAxes: [
-						{
-							stacked: true,
-							ticks: {
-								fontSize: 11,
-								beginAtZero: true
-							},
-							display: true,
-							scaleLabel: {
-								display: true,
-								labelString: 'Nombres de voyages effectué',
-								fontColor: '#4710A3',
-								fontSize: 20
-							}
-						}
-					],
-					yAxes: [
-						{
-							stacked: true,
-							ticks: {
-								fontColor: 'black',
-								fontSize: 12,
-								beginAtZero: true
-							},
-							display: true,
-							scaleLabel: {
-								display: true,
-								labelString: 'Nombre de voyageurs ',
-								fontColor: '#4710A3',
-								fontSize: 20
-							}
-						}
-					]
+					console.log(_this.SummTotal)
 				}
+
+				if (bgColor !== '#4710A3') {
+					myBar[0]['_model'].backgroundColor = '#4710A3'
+					_this.summUsers += value
+				} else {
+					myBar[0]['_model'].backgroundColor = '#80ccff'
+					_this.summUsers -= value
+				}
+			},
+			events: ['click'],
+			legend: {
+				display: false
+			},
+			maintainAspectRatio: false,
+			layout: {
+				padding: {
+					right: 30
+				}
+			},
+			scales: {
+				xAxes: [
+					{
+						ticks: {
+							fontSize: 11,
+							beginAtZero: true
+						},
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Mois',
+							fontColor: '#4710A3',
+							fontSize: 20
+						}
+					}
+				],
+				yAxes: [
+					{
+						ticks: {
+							fontColor: 'black',
+							fontSize: 12,
+							beginAtZero: true
+						},
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Nombre de souscription à la carte ',
+							fontColor: '#4710A3',
+							fontSize: 20
+						}
+					}
+				]
+			}
+		}
+		
+		this.optionsSecondGraph = {
+			onClick: function (evt, item) {
+
+				let myBar = item
+				let bgColor = myBar[0]['_model'].backgroundColor
+				let bgColor2 = myBar[1]['_model'].backgroundColor
+				let index = myBar[0]['_index']
+				let value = this.tooltip._data.datasets[0].data[index]
+
+				console.log(myBar)
+				console.log(bgColor)
+				console.log(bgColor2)
+
+
+				_this.isSecondGraphClicked = false
+
+				if (_this.SummTotalSecondGraph === 0) {
+					for (var i = 0; i < this.tooltip._data.datasets[0].data.length; i++) {
+						_this.SummTotalSecondGraph += this.tooltip._data.datasets[0].data[i]
+					}
+					console.log(_this.SummTotalSecondGraph)
+				}
+
+				if (bgColor !== '#4710A3') {
+
+					myBar[0]['_model'].backgroundColor = '#4710A3'
+					myBar[1]['_model'].backgroundColor = '#4710A3'
+					_this.summUsersSecondGraph += value
+
+				} else {
+					myBar[0]['_model'].backgroundColor = '#80ccff'
+					_this.summUsersSecondGraph -= value
+				}
+
+			},
+			maintainAspectRatio: false,
+			layout: {
+				padding: {
+					right: 30
+				}
+			},
+			scales: {
+				xAxes: [
+					{
+						stacked: true,
+						ticks: {
+							fontSize: 11,
+							beginAtZero: true
+						},
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Nombres de voyages effectué',
+							fontColor: '#4710A3',
+							fontSize: 20
+						}
+					}
+				],
+				yAxes: [
+					{
+						stacked: true,
+						ticks: {
+							fontColor: 'black',
+							fontSize: 12,
+							beginAtZero: true
+						},
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Nombre de voyageurs ',
+							fontColor: '#4710A3',
+							fontSize: 20
+						}
+					}
+				]
 			}
 		}
 	}
@@ -294,23 +379,57 @@ export default {
     width: 60%;
     border-right: $border;
   }
-  .right{
-      text-align: center;
-      width: 40%;
-      display: flex;
-      h4{
-          color: $purple;
-          margin:auto;
-      }
+  .right {
+    text-align: center;
+    width: 40%;
+    display: flex;
+    h4 {
+      color: $purple;
+      margin: auto;
+    }
   }
 }
 .graph {
-  width: 100%;
+	width: 100%;
+	cursor: pointer;
 }
 .global-overview {
   display: flex;
   justify-content: space-around;
   margin-top: 25px;
 }
-
+.right-clicked {
+  width: 40%;
+  text-align: center;
+  padding: 0px 20px;
+  .top {
+    margin-top: auto;
+    margin-bottom: auto;
+    border-bottom: $border;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 50%;
+    h3 {
+      font-size: 30px;
+    }
+    h4 {
+      font-size: 18px;
+      color: $purple;
+    }
+  }
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 50%;
+    h3 {
+      font-size: 30px;
+    }
+    h4 {
+      font-size: 18px;
+      color: $purple;
+    }
+  }
+}
 </style>
