@@ -116,13 +116,13 @@ export default {
 				if (data) {
 					let monthCount = 0
 					data.TimeSubcriptionEvolution.forEach(item => {
-							if(monthCount > 11){
-								this.datacollection.labels.push(item.date)
-								this.datacollection.datasets[0].data.push(item.count)
-							}else {
-								this.datacollection.datasets[1].data.push(item.count)
-							}
-							monthCount++
+						if (monthCount > 11) {
+							this.datacollection.labels.push(item.date)
+							this.datacollection.datasets[0].data.push(item.count)
+						} else {
+							this.datacollection.datasets[1].data.push(item.count)
+						}
+						monthCount++
 					})
 					data.AmountOfTravelsPerNumberOfTravel.forEach(item => {
 						this.datacollectionSecondGraph.labels.push(item.count)
@@ -161,13 +161,13 @@ export default {
 						label: '2018',
 						backgroundColor: 'rgba(128,204,255, 0.2)',
 						borderColor: 'rgba(128,204,255, 0.6)',
-						data: [],
+						data: []
 					},
 					{
 						label: '2019',
 						backgroundColor: 'rgba(0,102,255, 0.2)',
 						borderColor: 'rgba(0,102,255, 0.6)',
-						data: [],
+						data: []
 					}
 				]
 			},
@@ -219,9 +219,9 @@ export default {
 			maintainAspectRatio: false,
 			layout: {
 				padding: {
-					right: 30,
+					right: 30
 				}
-			},
+			}
 		}
 
 		this.optionsSecondGraph = {
@@ -235,9 +235,7 @@ export default {
 				// Getting the sum of all chart values
 				if (_this.SummTotalSecondGraph === 0) {
 					for (var i = 0; i < this.tooltip._data.datasets[0].data.length; i++) {
-						_this.SummTotalSecondGraph += this.tooltip._data.datasets[0].data[
-							i
-						]
+						_this.SummTotalSecondGraph += this.tooltip._data.datasets[0].data[i]
 					}
 				}
 

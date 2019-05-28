@@ -44,14 +44,14 @@ export default {
 	props: ['image', 'title', 'percentageInTotal', 'percentageInTotalcardOwner'],
 	methods: {
 		gotoAnalyse (cardname) {
-      window.localStorage.setItem('percentageInTotal', this.percentageInTotal)
-      window.localStorage.setItem('percentageInTotalcardOwner', this.percentageInTotalcardOwner)
+			window.localStorage.setItem('percentageInTotal', this.percentageInTotal)
+			window.localStorage.setItem('percentageInTotalcardOwner', this.percentageInTotalcardOwner)
 			this.$router.push({
 				name: 'cards',
 				params: {
 					cardname: cardname
-        }
-      })
+				}
+			})
 		}
 	}
 }
