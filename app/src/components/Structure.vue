@@ -1,7 +1,9 @@
 <template>
     <div class="structure">
         <div id="top-bar" class="flex">
-			<img class="logo-ouisncf" :src="require('@/assets/icons/oui-sncf.svg')" alt="logo">
+			<router-link to="/">
+            <img class="logo-ouisncf" :src="require('@/assets/icons/oui-sncf.svg')" alt="logo">
+            </router-link>
 			<div class="flex icons-logo-container">
 				<img class="icon" :src="require('@/assets/icons/notification.svg')" alt="logo">
 				<img class="icon" :src="require('@/assets/icons/settings-work-tool.svg')" alt="logo">
