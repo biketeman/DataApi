@@ -6,7 +6,11 @@ https://github.com/biketeman/DataApi
 This project uses Node.JS GraphQL and vue.JS 
 
 It's a dashboard connecting to a customer database that has for main purpose to put forward
-the breakpoints on people subscribing.
+the breakpoints on people subscription.
+
+To launch the API => cd api => npm run dev 
+
+To launch the front => cd app => npm run serve 
 
 to make it work on your own DB you need to change it a bit.
 Create 4 columns on table client named 'ispro' 'isweekend' 'isjeune' 'issenior' and set them to false
@@ -45,13 +49,3 @@ from segment
 group by segment.cle_client
 having count(*) >= 24
 order by count desc) as subquery
-
-
-
-
-
-
-
-To launch the API => cd api => npm run dev 
-
-To launch the front => cd app => npm run serve 

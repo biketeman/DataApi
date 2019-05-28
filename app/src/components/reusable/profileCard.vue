@@ -61,6 +61,9 @@ export default {
 		slug: String
 	},
 	methods: {
+
+		// link that gives params to next component
+
 		gotoAnalyse (profilename) {
 			this.$router.push({
 				name: 'analyse',

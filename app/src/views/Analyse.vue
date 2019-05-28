@@ -40,6 +40,7 @@
           <div class="bottom">
             <h4>Pourcentage par rapport au profil</h4>
             <h3>{{ (summUsers/ SummTotal * 100).toFixed(1) }}%</h3>
+            <Button class="button-offer" color="purple" message="faire une offre commerciale"/>
           </div>
         </div>
       </div>
@@ -56,7 +57,7 @@
         <div class="right centered" v-if="isSecondGraphClicked">
           <h4>Sélectionner les valeurs souhaité pour avoir les détails</h4>
         </div>
-				<div class="right-clicked" v-else>
+		<div class="right-clicked" v-else>
           <div class="top">
             <h4>Nombre de personnes ciblés</h4>
             <h3>{{summUsersSecondGraph}}</h3>
@@ -64,6 +65,7 @@
           <div class="bottom">
             <h4>Pourcentage par rapport au profil</h4>
             <h3>{{ (summUsersSecondGraph/ SummTotalSecondGraph * 100).toFixed(1) }}%</h3>
+            <Button class="button-offer" color="purple" message="faire une offre commerciale"/>
           </div>
         </div>
       </div>
@@ -85,6 +87,8 @@ import Structure from '@/components/Structure.vue'
 import analyseCard from '@/components/reusable/analyseCardPercentage.vue'
 import analyseCardReccomanded from '@/components/reusable/analyseCardReccomanded.vue'
 import BarChartEvolution from '@/components/charts/BarChart.js'
+import Button from '@/components/reusable/button.vue'
+
 import gql from 'graphql-tag'
 
 export default {
@@ -93,7 +97,8 @@ export default {
 		Structure,
 		analyseCard,
 		analyseCardReccomanded,
-		BarChartEvolution
+		BarChartEvolution,
+		Button
 	},
 
 	apollo: {
@@ -422,6 +427,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     height: 50%;
+    position: relative;
     h3 {
       font-size: 30px;
     }
@@ -430,5 +436,11 @@ export default {
       color: $purple;
     }
   }
+}
+.button-offer{
+    position: absolute;
+    right: -80px;
+    bottom: -20px;
+    cursor: pointer;
 }
 </style>

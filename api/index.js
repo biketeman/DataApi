@@ -191,6 +191,8 @@ const Query = queryType({
 				
 				const totalCardOwner = await db('carte_comm').count('*')
 				const total = await db('client').count('*')
+
+				// getting the amount of subscriber for every card type
 				const percentageCard = await db.raw(`
 				SELECT cr_type_cr, count(distinct carte_comm) 
 				from carte_comm
@@ -297,9 +299,8 @@ const Query = queryType({
 					query_param = "carte_comm.cr_type_cr = '" + args.card + "' "
 				}
 				let numberMax = 10
-				
-				console.log(query_param)
-
+			
+				// get the amount of subscriber that fits the params
 				const AmountNonSubscribers = await db.raw(`
 				SELECT count AS total,
 					COUNT(cle_client) AS amount_non_subscribers
@@ -325,6 +326,8 @@ const Query = queryType({
 					ORDER BY count
 					LIMIT ` + numberMax + `
 						`)
+
+				// get the amount of non subscriber that fits the params
 				const AmountSubscribers = await db.raw(`
 				SELECT count AS total,
 					COUNT(cle_client) AS amount_subscribers
@@ -352,7 +355,8 @@ const Query = queryType({
 					LIMIT ` + numberMax + `
 						`)
 				let result = []
-
+				
+				//pushing them into the result before returning them
 				AmountNonSubscribers.rows.forEach((element, i) => {
 					result.push({
 						count: element.total,
