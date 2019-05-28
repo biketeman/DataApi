@@ -235,7 +235,7 @@ const Query = queryType({
 			resolve: async (parent, args) => {
 
 				// changing parametrs considering if the query is used for the profiles or cards
-				if(args.slug){
+				if (args.slug) {
 					query_param = "is"+ args.slug+" = true"
 					second_part = ` OR (abo_frequence.fq_dt_cmd >  '`+ args.date_debut + `' 
 					AND abo_frequence.fq_dt_cmd <  '`+ args.date_fin + `' )
@@ -284,11 +284,21 @@ const Query = queryType({
 			args: {
 				slug: stringArg({
 					nullable: true
+				}),
+				card: stringArg({
+					nullable: true
 				})
 			},
 			resolve: async (parent, args) => {
-				query_param = "is"+args.slug+" = true"
+
+				if(args.slug){
+					query_param = "is"+args.slug+" = true"
+				}else{
+					query_param = "carte_comm.cr_type_cr = '" + args.card + "' "
+				}
 				let numberMax = 10
+				
+				console.log(query_param)
 
 				const AmountNonSubscribers = await db.raw(`
 				SELECT count AS total,
@@ -302,6 +312,7 @@ const Query = queryType({
 							LEFT JOIN abo_frequence ON abo_frequence.cle_client = segment.cle_client
 							LEFT JOIN abo_tgvmax ON abo_tgvmax.cle_client = segment.cle_client
 							LEFT JOIN client ON client.cle_client = segment.cle_client
+							LEFT JOIN carte_comm on carte_comm.cle_client = segment.cle_client
 							WHERE( 
 								abo_frequence.cle_client IS NULL
 								AND abo_tgvmax.cle_client IS NULL)
@@ -331,7 +342,7 @@ const Query = queryType({
 								abo_frequence.cle_client IS NOT NULL
 								OR abo_tgvmax.cle_client IS NOT NULL
 								OR carte_comm.cle_client IS NOT NULL)
-								AND ` + query_param + `
+								AND ` + query_param + ` 
 								AND segment.sg_dt_dep_voy >= '2018-01-01'
 								AND segment.sg_dt_dep_voy <= '2019-01-01'
 						GROUP BY

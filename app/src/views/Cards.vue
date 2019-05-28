@@ -22,7 +22,7 @@
       <div class="time-evolution" v-if="data">
         <div v-if="data" class="left">
           <div class="graph">
-            <radar-chart-evolution :chart-data="datacollection" :options="this.options"></radar-chart-evolution>
+            <radar-chart-evolution v-if="data" :chart-data="datacollection" :options="this.options"></radar-chart-evolution>
           </div>
         </div>
         <div class="right centered" v-if="isFirstGraphClicked">
@@ -39,8 +39,7 @@
           </div>
         </div>
       </div>
-      <!--
-      <div class="time-evolution">
+      <div class="time-evolution" v-if="data">
         <div v-if="data.AmountOfTravelsPerNumberOfTravel" class="left">
           <div class="graph">
             <bar-chart-evolution
@@ -63,7 +62,6 @@
           </div>
         </div>
       </div>
-      -->
     </div>
   </div>
 
@@ -100,12 +98,10 @@ export default {
             date
             count
 					}
-					subscriptionCards{
-						cr_type_cr 
-						percentageInTotal 
-						percentageInTotalcardOwner
-					}
-
+          AmountOfTravelsPerNumberOfTravel(card: $cardname) {
+            count
+            AmountSubscribers
+          }
         }
       `,
 			variables () {
@@ -128,16 +124,13 @@ export default {
 							}
 							monthCount++
 					})
-					// data.AmountOfTravelsPerNumberOfTravel.forEach(item => {
-					// 	this.datacollectionSecondGraph.labels.push(item.count)
-					// 	this.datacollectionSecondGraph.datasets[0].data.push(
-					// 		item.AmountNonSubscribers
-					// 	)
-					// 	this.datacollectionSecondGraph.datasets[1].data.push(
-					// 		item.AmountSubscribers
-					// 	)
-					// })
-					// this.isDataLoaded = true
+					data.AmountOfTravelsPerNumberOfTravel.forEach(item => {
+						this.datacollectionSecondGraph.labels.push(item.count)
+						this.datacollectionSecondGraph.datasets[0].data.push(
+							item.AmountSubscribers
+						)
+					})
+					this.isDataLoaded = true
 				}
 			},
 			error (err) {
@@ -183,13 +176,8 @@ export default {
 				labels: [],
 				datasets: [
 					{
-						label: 'Non Abonnés',
-						backgroundColor: '#80ccff',
-						data: []
-					},
-					{
 						label: 'Abonnés',
-						backgroundColor: '#0066ff',
+						backgroundColor: '#80ccff',
 						data: []
 					}
 				]

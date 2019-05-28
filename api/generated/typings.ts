@@ -273,6 +273,7 @@ export interface NexusGenArgTypes {
       subscriptionDateRequestCompare?: string | null; // String
     }
     AmountOfTravelsPerNumberOfTravel: { // args
+      card?: string | null; // String
       slug?: string | null; // String
     }
     getProfileAndData: { // args

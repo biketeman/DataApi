@@ -8,7 +8,6 @@
           <h2>Vue générale sur les abonnements et les cartes</h2>
           <div class="settings">
             <img class="small-icon" src="../assets/icons/settings-work-tool.svg">
-            <Button color="white" message="Anéee passée"/>
           </div>
         </div>
         <ul class="cards-container" v-if="data">
