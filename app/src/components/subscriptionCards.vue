@@ -3,6 +3,7 @@
     <ul class="left-container">
       <li v-for="(item, index) in data.subscriptionCards" :key="index">
         <subscription-card
+          v-if="data"
           :title="item.title"
           :image="require('@/assets/icons/carte_jeune.svg')"
           :percentageInTotal="item.percentageInTotal"
@@ -29,11 +30,11 @@ export default {
 		data: {
 			query: gql`
         query {
-          subscriptionCards {
-            percentageInTotal
-            percentageInTotalcardOwner
-            title
-          }
+            subscriptionCards {
+              percentageInTotal
+              percentageInTotalcardOwner
+              title
+            }
         }
       `,
 			update (data) {

@@ -183,7 +183,7 @@ type Query {
   subscriptionCards(cr_type_cr: String): [subscriptionCards!]!
 
   """gives the evolution over the time for subscriptions"""
-  TimeSubcriptionEvolution(slug: String): [TimeSubcriptionEvolution!]!
+  TimeSubcriptionEvolution(card: String, date_debut: String = "2016-10-06", date_fin: String = "2019-01-07", slug: String): [TimeSubcriptionEvolution!]!
 }
 
 type Segment {

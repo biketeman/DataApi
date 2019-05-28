@@ -12,14 +12,7 @@
 export default {
 	components: {
 	},
-	props: {
-		percentage: Number,
-		title: String
-	},
-	data () {
-		return {
-		}
-	}
+	props: ['percentage', 'title']
 }
 </script>
 

@@ -4,29 +4,25 @@
     <Structure/>
     <div class="container-content">
       <div class="home-headline">
-        <h2>Vue générale sur la souscription à la carte jeune pour ce type de voyageur</h2>
+        <h2
+          v-if="data"
+        >Vue générale sur la souscription à la carte jeune pour ce type de voyageur</h2>
       </div>
-      <div class="global-overview">
-        <analyse-card-reccomanded
-          :cardImageText1="data.getProfileAndData[0].cardImageText1"
-          :cardImageText2="data.getProfileAndData[0].cardImageText2"
-          :card1="data.getProfileAndData[0].card1"
-          :card2="data.getProfileAndData[0].card2"
-        />
+      <div v-if="data" class="global-overview">
         <analyse-card
           title="part dans le nombre total de voyageurs"
-          :percentage="data.getProfileAndData[0].percentageInTotal"
+          :percentage="CardpercentageInTotal"
         />
         <analyse-card
-          title="part de cette catégorie ayant un abonement ou une carte"
-          :percentage="data.getProfileAndData[0].percentageCardOwner"
+          title="pourcentage de cette carte dans les détenteurs de carte comm"
+          :percentage="CardpercentageInTotalcardOwner"
         />
       </div>
-      <h2 class="slight-margin">Date de souscription à la carte({{profilename}})</h2>
-      <div class="time-evolution">
-        <div v-if="data.TimeSubcriptionEvolution" class="left">
+      <h2 class="slight-margin">Date de souscription à la carte ({{cardname}})</h2>
+      <div class="time-evolution" v-if="data">
+        <div v-if="data" class="left">
           <div class="graph">
-            <bar-chart-evolution :chart-data="datacollection" :options="this.options"></bar-chart-evolution>
+            <radar-chart-evolution :chart-data="datacollection" :options="this.options"></radar-chart-evolution>
           </div>
         </div>
         <div class="right centered" v-if="isFirstGraphClicked">
@@ -34,7 +30,7 @@
         </div>
         <div class="right-clicked" v-else>
           <div class="top">
-            <h4>Nombre de personnes cibléees</h4>
+            <h4>Nombre de personnes ciblées</h4>
             <h3>{{summUsers}}</h3>
           </div>
           <div class="bottom">
@@ -43,7 +39,7 @@
           </div>
         </div>
       </div>
-
+      <!--
       <div class="time-evolution">
         <div v-if="data.AmountOfTravelsPerNumberOfTravel" class="left">
           <div class="graph">
@@ -58,7 +54,7 @@
         </div>
 				<div class="right-clicked" v-else>
           <div class="top">
-            <h4>Nombre de personnes ciblés</h4>
+            <h4>Nombre de personnes ciblées</h4>
             <h3>{{summUsersSecondGraph}}</h3>
           </div>
           <div class="bottom">
@@ -67,6 +63,7 @@
           </div>
         </div>
       </div>
+      -->
     </div>
   </div>
 
@@ -83,49 +80,37 @@
 <script>
 import Structure from '@/components/Structure.vue'
 import analyseCard from '@/components/reusable/analyseCardPercentage.vue'
-import analyseCardReccomanded from '@/components/reusable/analyseCardReccomanded.vue'
 import BarChartEvolution from '@/components/charts/BarChart.js'
+import RadarChartEvolution from '@/components/charts/Radar.js'
 import gql from 'graphql-tag'
 
 export default {
-	name: 'dashboard',
+	name: 'cards',
 	components: {
 		Structure,
 		analyseCard,
-		analyseCardReccomanded,
-		BarChartEvolution
+		BarChartEvolution,
+		RadarChartEvolution
 	},
-
 	apollo: {
 		data: {
 			query: gql`
-        query($profilename: String!) {
-          TimeSubcriptionEvolution(slug: $profilename) {
+        query($cardname: String!) {
+          TimeSubcriptionEvolution(card: $cardname, date_debut: "2017-01-01", date_fin: "2019-01-01") {
             date
             count
-          }
-          AmountOfTravelsPerNumberOfTravel(slug: $profilename) {
-            count
-            AmountNonSubscribers
-            AmountSubscribers
-          }
-          getProfileAndData(slug: $profilename) {
-            title
-            card1
-            card2
-            cardImageText1
-            cardImageText2
-            description
-            percentageInTotal
-            percentageCardOwner
-            percentageNoneRenewed
-            image
-          }
+					}
+					subscriptionCards{
+						cr_type_cr 
+						percentageInTotal 
+						percentageInTotalcardOwner
+					}
+
         }
       `,
 			variables () {
 				return {
-					profilename: this.profilename
+					cardname: this.cardname
 				}
 			},
 			update (data) {
@@ -133,20 +118,26 @@ export default {
 			},
 			result ({ loading, data }) {
 				if (data) {
+					let monthCount = 0
 					data.TimeSubcriptionEvolution.forEach(item => {
-						this.datacollection.labels.push(item.date)
-						this.datacollection.datasets[0].data.push(item.count)
+							if(monthCount > 11){
+								this.datacollection.labels.push(item.date)
+								this.datacollection.datasets[0].data.push(item.count)
+							}else {
+								this.datacollection.datasets[1].data.push(item.count)
+							}
+							monthCount++
 					})
-					data.AmountOfTravelsPerNumberOfTravel.forEach(item => {
-						this.datacollectionSecondGraph.labels.push(item.count)
-						this.datacollectionSecondGraph.datasets[0].data.push(
-							item.AmountNonSubscribers
-						)
-						this.datacollectionSecondGraph.datasets[1].data.push(
-							item.AmountSubscribers
-						)
-					})
-					this.isDataLoaded = true
+					// data.AmountOfTravelsPerNumberOfTravel.forEach(item => {
+					// 	this.datacollectionSecondGraph.labels.push(item.count)
+					// 	this.datacollectionSecondGraph.datasets[0].data.push(
+					// 		item.AmountNonSubscribers
+					// 	)
+					// 	this.datacollectionSecondGraph.datasets[1].data.push(
+					// 		item.AmountSubscribers
+					// 	)
+					// })
+					// this.isDataLoaded = true
 				}
 			},
 			error (err) {
@@ -156,10 +147,12 @@ export default {
 	},
 	data () {
 		return {
-			profilename: this.$route.params.profilename,
+			cardname: this.$route.params.cardname,
+			CardpercentageInTotalcardOwner: window.localStorage.getItem('percentageInTotalcardOwner'),
+			CardpercentageInTotal: window.localStorage.getItem('percentageInTotal'),
 
 			// Chart manipulation variables to display the graphs and the data
-			isDataLoaded: false,
+			isDataLoaded: true,
 			summUsers: 0,
 			SummTotal: 0,
 			isFirstGraphClicked: true,
@@ -172,9 +165,16 @@ export default {
 				labels: [],
 				datasets: [
 					{
-						label: 'Abonnés',
-						backgroundColor: '#80ccff',
-						data: []
+						label: '2018',
+						backgroundColor: 'rgba(128,204,255, 0.2)',
+						borderColor: 'rgba(128,204,255, 0.6)',
+						data: [],
+					},
+					{
+						label: '2019',
+						backgroundColor: 'rgba(0,102,255, 0.2)',
+						borderColor: 'rgba(0,102,255, 0.6)',
+						data: [],
 					}
 				]
 			},
@@ -226,48 +226,14 @@ export default {
 			},
 			events: ['click'],
 			legend: {
-				display: false
+				display: true
 			},
 			maintainAspectRatio: false,
 			layout: {
 				padding: {
 					right: 30,
-					top: 50
 				}
 			},
-			scales: {
-				xAxes: [
-					{
-						ticks: {
-							fontSize: 11,
-							beginAtZero: true
-						},
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Mois',
-							fontColor: '#4710A3',
-							fontSize: 20
-						}
-					}
-				],
-				yAxes: [
-					{
-						ticks: {
-							fontColor: 'black',
-							fontSize: 12,
-							beginAtZero: true
-						},
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Nombre de souscription à la carte ',
-							fontColor: '#4710A3',
-							fontSize: 20
-						}
-					}
-				]
-			}
 		}
 
 		this.optionsSecondGraph = {
@@ -281,7 +247,9 @@ export default {
 				// Getting the sum of all chart values
 				if (_this.SummTotalSecondGraph === 0) {
 					for (var i = 0; i < this.tooltip._data.datasets[0].data.length; i++) {
-						_this.SummTotalSecondGraph += this.tooltip._data.datasets[0].data[i]
+						_this.SummTotalSecondGraph += this.tooltip._data.datasets[0].data[
+							i
+						]
 					}
 				}
 
@@ -389,12 +357,12 @@ export default {
   }
 }
 .graph {
-	width: 100%;
-	cursor: pointer;
+  width: 100%;
+  cursor: pointer;
 }
 .global-overview {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-top: 25px;
 }
 .right-clicked {

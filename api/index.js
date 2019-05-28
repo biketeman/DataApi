@@ -188,7 +188,7 @@ const Query = queryType({
 				})
 			},
 			resolve: async (parent, args) => {
-		
+				
 				const totalCardOwner = await db('carte_comm').count('*')
 				const total = await db('client').count('*')
 				const percentageCard = await db.raw(`
@@ -217,13 +217,36 @@ const Query = queryType({
 			args: {
 				slug: stringArg({
 					nullable: true
+				}),
+				card: stringArg({
+					nullable: true
+				}),
+				date_debut : stringArg({
+					nullable: true,
+					default: '2016-10-06'
+				}),
+				date_fin : stringArg({
+					nullable: true,
+					default: '2019-01-07'
 				})
 			},
 			type: TimeSubcriptionEvolution,
 			description: 'gives the evolution over the time for subscriptions',
 			resolve: async (parent, args) => {
 
-				query_param = "is"+args.slug+" = true"
+				// changing parametrs considering if the query is used for the profiles or cards
+				if(args.slug){
+					query_param = "is"+ args.slug+" = true"
+					second_part = ` OR (abo_frequence.fq_dt_cmd >  '`+ args.date_debut + `' 
+					AND abo_frequence.fq_dt_cmd <  '`+ args.date_fin + `' )
+					OR (abo_tgvmax.dt_souscription_max >  '`+ args.date_debut + `' 
+					AND abo_tgvmax.dt_souscription_max <  '`+ args.date_fin + `' )`
+					format = 'MMMM YYYY'
+				} else {
+					query_param = "cr_type_cr = '" +args.card + "' "
+					second_part = ' '
+					format = 'MMMM'
+				}
 
 				const query= await db.raw(`
 				SELECT count(*), date_trunc('month', cr_dt_deb_val::date) AS monthly
@@ -232,23 +255,21 @@ const Query = queryType({
 				LEFT JOIN abo_frequence on abo_frequence.cle_client = client.cle_client
 				LEFT JOIN abo_tgvmax on abo_tgvmax.cle_client = client.cle_client
 				WHERE (` +  query_param + `
-				AND cr_dt_deb_val > '2016-10-06'
-				AND cr_dt_deb_val < '2019-01-07')
-				OR (abo_frequence.fq_dt_cmd > '2016-10-06'
-				AND abo_frequence.fq_dt_cmd < '2019-01-07')
-				OR (abo_tgvmax.dt_souscription_max > '2016-10-06'
-				AND abo_tgvmax.dt_souscription_max < '2019-01-07')
+				AND cr_dt_deb_val > '`+ args.date_debut + ` '
+				AND cr_dt_deb_val <  '`+ args.date_fin + `' ) 
+				`+ second_part + ` 
 				GROUP BY monthly
 				ORDER BY monthly
 				` 
 				)
 				var result = []
 
+				//pushing the result
 				query.rows.forEach((element, i) => {
 					if(element.monthly != null) {
 						result.push({
 							count: element.count,
-							date: moment(element.monthly).lang('fr').format('MMMM YYYY')
+							date: moment(element.monthly).lang('fr').format(format)
 						})
 					}
 				})

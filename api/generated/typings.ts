@@ -282,6 +282,9 @@ export interface NexusGenArgTypes {
       cr_type_cr?: string | null; // String
     }
     TimeSubcriptionEvolution: { // args
+      card?: string | null; // String
+      date_debut?: string | null; // String
+      date_fin?: string | null; // String
       slug?: string | null; // String
     }
   }

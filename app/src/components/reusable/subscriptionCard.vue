@@ -41,20 +41,17 @@ export default {
 	components: {
 		Button
 	},
-	props: {
-		image: String,
-		title: String,
-		percentageInTotal: Number,
-		percentageInTotalcardOwner: Number
-	},
+	props: ['image', 'title', 'percentageInTotal', 'percentageInTotalcardOwner'],
 	methods: {
 		gotoAnalyse (cardname) {
+      window.localStorage.setItem('percentageInTotal', this.percentageInTotal)
+      window.localStorage.setItem('percentageInTotalcardOwner', this.percentageInTotalcardOwner)
 			this.$router.push({
 				name: 'cards',
 				params: {
 					cardname: cardname
-				}
-			})
+        }
+      })
 		}
 	}
 }

@@ -21,7 +21,11 @@ export default new Router({
 		{
 			path: '/cards/:cardname',
 			name: 'cards',
-			component: () => import('./views/Analyse.vue')
+			component: () => import('./views/Cards.vue'),
+			props: {
+				CardpercentageInTotal: 0,
+				CardpercentageInTotalcardOwner: 0
+			}
 		}
 	]
 })

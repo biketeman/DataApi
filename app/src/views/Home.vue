@@ -71,7 +71,7 @@ export default {
 	},
 	data () {
 		return {
-            // allows switch at click on the toggle
+			// allows switch at click on the toggle
 			switchProfile: false,
 			isDataLoaded: false
 		}
