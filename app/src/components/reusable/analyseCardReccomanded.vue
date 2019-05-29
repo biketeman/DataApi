@@ -1,6 +1,6 @@
 <template>
     <div class="analyse-card">
-        <h4>Abonements et cartes conseillées</h4>
+        <h4>Abonnements et cartes conseillées</h4>
         <div class="flex container-both-cards">
             <div v-if="card1 != 'empty'">
                 <img class="small" v-bind:src="require('@/assets/icons/'+ card1  + '.svg')" alt="card-image">

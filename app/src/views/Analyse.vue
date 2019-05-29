@@ -14,11 +14,11 @@
           :card2="data.getProfileAndData[0].card2"
         />
         <analyse-card
-          title="part dans le nombre total de voyageurs"
+          title="Part dans le nombre total de voyageurs"
           :percentage="data.getProfileAndData[0].percentageInTotal"
         />
         <analyse-card
-          title="part de cette catégorie ayant un abonement ou une carte"
+          title="Part de cette catégorie ayant un abonnement ou une carte"
           :percentage="data.getProfileAndData[0].percentageCardOwner"
         />
       </div>
@@ -400,7 +400,7 @@ export default {
 .global-overview {
   display: flex;
   justify-content: space-between;
-  margin-top: 25px;
+  margin-top: 50px;
 }
 .right-clicked {
   width: 40%;

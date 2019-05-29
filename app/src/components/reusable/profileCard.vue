@@ -28,7 +28,7 @@
         </div>
         <div class>
           <h3>{{percentageCardOwner}}%</h3>
-          <p>part dans cette catégorie ayant un abonement ou une carte</p>
+          <p>part dans cette catégorie ayant un abonnement ou une carte</p>
         </div>
       </div>
       <div class="bottom">

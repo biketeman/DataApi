@@ -10,11 +10,11 @@
       </div>
       <div v-if="data" class="global-overview">
         <analyse-card
-          title="part dans le nombre total de voyageurs"
+          title="Part dans le nombre total de voyageurs"
           :percentage="CardpercentageInTotal"
         />
         <analyse-card
-          title="pourcentage de cette carte dans les détenteurs de carte comm"
+          title="Pourcentage de cette carte dans les détenteurs de carte comm"
           :percentage="CardpercentageInTotalcardOwner"
         />
       </div>
@@ -149,7 +149,7 @@ export default {
 			CardpercentageInTotal: window.localStorage.getItem('percentageInTotal'),
 
 			// Chart manipulation variables to display the graphs and the data
-			isDataLoaded: true,
+			isDataLoaded: false,
 			summUsers: 0,
 			SummTotal: 0,
 			isFirstGraphClicked: true,
@@ -162,13 +162,13 @@ export default {
 				labels: [],
 				datasets: [
 					{
-						label: '2018',
+						label: '2017',
 						backgroundColor: 'rgba(128,204,255, 0.2)',
 						borderColor: 'rgba(128,204,255, 0.6)',
 						data: []
 					},
 					{
-						label: '2019',
+						label: '2018',
 						backgroundColor: 'rgba(0,102,255, 0.2)',
 						borderColor: 'rgba(0,102,255, 0.6)',
 						data: []
@@ -356,7 +356,7 @@ export default {
 .global-overview {
   display: flex;
   justify-content: space-around;
-  margin-top: 25px;
+  margin-top: 50px;
 }
 .right-clicked {
   width: 40%;

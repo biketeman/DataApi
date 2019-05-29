@@ -25,7 +25,7 @@ export default {
 }
 h4{
     color: $purple;
-    font-size: 18px;
+    font-size: 14px;
 }
 h3{
     color: black;
